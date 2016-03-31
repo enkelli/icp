@@ -1,0 +1,30 @@
+ICP - 1. SCHUZKA
+
+--- GENERAL ---
+1) Vse Camel-Case
+2) { na novy radek } :-)
+3) Class files velke pismeno na zacatku
+
+--- CLASSES ---
+1) Table - udela MATEJ
+--> Aktualni stav herni desky
+--> Metody pro vlozeni noveho kamene + kontrola (je/neni mozno vlozit)
+--> Zmena herni desky po vlozeni kamene
+--> Metody pro CLI vypis
+--> Obecna velikost, v konstruktoru dostanu sudy pocet radku, sloupcu, aspon 4x4
+--> Vypocet aktualniho skore? Heuristicky
+
+2) Game
+--> Mozek hry
+--> Uchovani historie - design pattern COMMAND
+--> Doresit
+
+3) Player
+--> Jmeno, barva, picoviny
+--> Vim, jake pouzivam ALGO
+--> dej mi dalsi souradnici
+
+4) Algo
+--> Abstract class (pouze deklaruje metody rozhrani)
+--> Implementovat minimalne 2 trivialni deti
+
