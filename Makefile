@@ -11,4 +11,4 @@ Table.o: Table.cpp Table.h
 	$(CXX) $(CFLAGS) -c Table.cpp
 
 clean:
-	rm *o $(PROJ)
+	rm -f *.o $(PROJ)
