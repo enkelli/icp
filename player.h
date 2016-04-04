@@ -20,7 +20,6 @@
  */
 class Player
 {
-    public:
-        Player() = default; 
-
+  public:
+    Player() = default; 
 }

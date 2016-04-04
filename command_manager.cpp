@@ -29,9 +29,9 @@ CommandManager::CommandManager() = default;
  */
 void executeCmd(std::shared_ptr<Command> &command)
 {
-    redoStack = CmdStack();
-    command->execute();
-    undoStack.push(command);
+  redoStack = CmdStack();
+  command->execute();
+  undoStack.push(command);
 }
 
 /*
@@ -39,12 +39,12 @@ void executeCmd(std::shared_ptr<Command> &command)
  */
 void undo()
 {
-    if (!undoStack.empty())
-    {
-        undoStack.top()->undo();
-        redoStack.push(undoStack.top());
-        undoStack.pop();        
-    }
+  if (!undoStack.empty())
+  {
+    undoStack.top()->undo();
+    redoStack.push(undoStack.top());
+    undoStack.pop();        
+  }
 }
 
 /*
@@ -52,10 +52,10 @@ void undo()
  */
 void redo()
 {
-    if (!redoStack.empty())
-    {
-        redoStack.top()->redo();
-        undoStack.push(redoStack.top());
-        redoStack.pop();
-    }
+  if (!redoStack.empty())
+  {
+    redoStack.top()->redo();
+    undoStack.push(redoStack.top());
+    redoStack.pop();
+  }
 }

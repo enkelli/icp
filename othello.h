@@ -14,6 +14,7 @@
  */
 
 #include "table.h"
+
 /*
  * @brief A representation of Othello brain.
  */

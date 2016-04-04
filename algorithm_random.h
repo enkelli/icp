@@ -20,6 +20,6 @@
  */
 class AlgorithmRandom: public Algorithm
 {
-    public:
-        virtual Table::Coords step(const Table &table) const override;
+  public:
+    virtual Table::Coords step(const Table &table) const override;
 };

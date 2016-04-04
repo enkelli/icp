@@ -22,15 +22,15 @@
  */
 class CommandManager
 {
-    public:
-        CommandManager();
+  public:
+    CommandManager();
 
-        void executeCmd(std::shared_ptr<Command> &command);
-        void undo();
-        void redo();
+    void executeCmd(std::shared_ptr<Command> &command);
+    void undo();
+    void redo();
 
-    private:
-        using CmdStack = std::stack<std::shared_ptr<Command>>;
-        CmdStack undoStack;
-        CmdStack redoStack;
+  private:
+    using CmdStack = std::stack<std::shared_ptr<Command>>;
+    CmdStack undoStack;
+    CmdStack redoStack;
 };

@@ -20,18 +20,18 @@
  */
 class TableMoveCommand: public Command
 {
-    public:
-        TableMoveCommand(table, player, move);
-        //store table and player, perform move
+  public:
+    TableMoveCommand(table, player, move);
+    //store table and player, perform move
 
-        virtual void execute() override;
-        virtual void undo() override;
-        virtual void redo override;
+    virtual void execute() override;
+    virtual void undo() override;
+    virtual void redo override;
 
-    private:
-        player player;
-        tableObject *table; //no need to whole table object, just board..??
-        Coords move;
+  private:
+    player player;
+    tableObject *table; //no need to whole table object, just board..??
+    Coords move;
 
-        tableMap map;
+    tableMap map;
 };

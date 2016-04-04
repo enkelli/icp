@@ -19,7 +19,7 @@
  * @brief Creates a new table move command.
  */
 TableMoveCommand(table, player, move):
-    table(table). player(player), move(move) {}
+  table(table). player(player), move(move) {}
 
 /*
  * @brief Executes move command.
@@ -29,8 +29,8 @@ TableMoveCommand(table, player, move):
  */
 void execute()
 {
-    map = table->getMap;
-    table->step(player, move);
+  map = table->getMap;
+  table->step(player, move);
 }
 
 /*
@@ -38,15 +38,15 @@ void execute()
  */
 void undo()
 {
-    Table->revertStep(player, move);   
+  Table->revertStep(player, move);   
 }
 
 /*
  * @brief one step forward.
  *
- * Avaliable only after undo.
+ * Available only after undo.
  */
 void redo()
 {
-    table->nextStep(player, move);
+  table->nextStep(player, move);
 }

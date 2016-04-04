@@ -17,7 +17,7 @@
 
 int main()
 {
-    Othello othello;
-    othello.play();
+  Othello othello;
+  othello.play();
 }
 

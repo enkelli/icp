@@ -20,5 +20,5 @@
  */
 Table::Coords AlgorithmRandom::step(const Table &table) const
 {
-    // get table coords, try some random numbers in that range
+  // get table coords, try some random numbers in that range
 }

@@ -20,6 +20,6 @@
  */
 class Algorithm
 {
-    public:
-        virtual Table::Coords step(const Table &table) const = 0;
+  public:
+    virtual Table::Coords step(const Table &table) const = 0;
 };
