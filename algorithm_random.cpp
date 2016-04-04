@@ -6,7 +6,7 @@
  * @brief Implementation of Super Artificial Intelligence.
  */
  
-#include "Algorithm_random.h"
+#include "algorithm_random.h"
 
 /*
  * @brief Implementation of Super Artificial Intelligence.

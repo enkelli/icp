@@ -11,7 +11,7 @@
  *
  */
 
-#include "Table.h"
+#include "table.h"
 
 class Othello
 {

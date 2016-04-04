@@ -16,7 +16,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include "Table.h"
+#include "table.h"
 
 Table::Table():
     Table(defaultRows, defaultCols) {}

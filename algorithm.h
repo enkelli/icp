@@ -6,7 +6,7 @@
  * @brief Abstract class for algorithm implementing Othell player.
  */
  
-#include "Table.h"
+#include "table.h"
 
 /*
  * @brief Abstract class for algorithm implementing Othell player.

@@ -6,7 +6,7 @@
  * @brief Class representing Othello player.
  */
  
-#include "Table.h"
+#include "table.h"
 
 /*
  * @brief Class representing Othello player.

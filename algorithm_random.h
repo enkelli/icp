@@ -6,7 +6,7 @@
  * @brief Super Artificial Intelligence.
  */
  
-#include "Algorithm.h"
+#include "algorithm.h"
 
 /*
  * @brief Computer algorithm playing Othello game.

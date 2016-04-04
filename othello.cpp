@@ -16,7 +16,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include "Othello.h"
+#include "othello.h"
 
 Othello::Othello() = default;
 

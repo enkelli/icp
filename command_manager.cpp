@@ -8,7 +8,7 @@
  
 #include <stack.h>
 
-#include "Command_manager.h"
+#include "command_manager.h"
 
 /*
  * @brief Creates new CommandManager.

@@ -11,7 +11,7 @@
  *
  */
 
-#include "Othello.h"
+#include "othello.h"
 
 int main()
 {

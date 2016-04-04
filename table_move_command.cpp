@@ -6,7 +6,7 @@
  * @brief Implementation of command design patter for undo-redo actions in Othello game.
  */
  
-#include "TableMoveCommand.h"
+#include "table_move_command.h"
 
 TableMoveCommand(table, player, move):
     table(table). player(player), move(move) {}
