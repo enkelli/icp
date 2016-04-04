@@ -19,7 +19,7 @@
 #include "Table.h"
 
 Table::Table():
-    Table(8, 8) {}
+    Table(defaultRows, defaultCols) {}
 
 Table::Table(int initRows, int initCols)
 {
@@ -140,8 +140,6 @@ bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone o
 
 void Table::print() const
 {
-  std::cout << "\e[43m";
-
   // Print column headers
   std::cout << "   |";
 

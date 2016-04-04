@@ -22,6 +22,7 @@ Othello::Othello() = default;
 
 void Othello::play()
 {
+  /*
   int x, y;
   std::cout << "Enter number of rows, nigger!" << std::endl;
   std::cin >> x;
@@ -30,6 +31,8 @@ void Othello::play()
   std::cout << std::endl;
 
   Table table(x, y);
+  */
+  Table table;
 
   while(1)
   {

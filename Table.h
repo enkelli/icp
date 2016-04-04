@@ -17,8 +17,10 @@
 class Table
 {
   public:
-    const int minRows = 4;
-    const int minCols = 4;
+    static const int minRows = 4;
+    static const int minCols = 4;
+    static const int defaultRows = 8;
+    static const int defaultCols = 8;
 
     enum Stone
     {

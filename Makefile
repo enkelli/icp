@@ -11,7 +11,7 @@ OBJ_FILES=main.o Othello.o Table.o
 $(PROJ_CLI): $(OBJ_FILES)
 	$(CXX) $^ -o $(PROJ_CLI)
 
-$(OBJ_FILES): main.cpp Othello.cpp Table.cpp
+$(OBJ_FILES): main.cpp Othello.cpp Othello.h Table.cpp Table.h
 	$(CXX) $(CFLAGS) -c main.cpp Othello.cpp Table.cpp
 
 clean:
