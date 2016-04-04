@@ -161,10 +161,10 @@ void Table::print() const
         case STONE_FREE:
           res = " ";
           break;
-        case STONE_BLACK:
+        case STONE_WHITE:
           res = "☻";
           break;
-        case STONE_WHITE:
+        case STONE_BLACK:
           res = "☺";
           break;
       }
