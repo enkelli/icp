@@ -26,7 +26,8 @@ class Table
       STONE_BLACK,
       STONE_WHITE
     };
-    
+   
+    Table(); 
     Table(int initRows, int initC1ols);
 
     void putStone(int row, int col, Stone stone);

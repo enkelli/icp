@@ -1,14 +1,18 @@
-PROJ=othello-cli
+PROJ=othello
+PROJ_CLI=$(PROJ)-cli
+PROJ_GUI=$(PROJ)-gui
 CXX=g++
 CFLAGS=-std=c++11 -Wall -Wextra -pedantic -g
 
-all: $(PROJ)
+all: $(PROJ_CLI)
 
-$(PROJ): Table.o
-	$(CXX) Table.o -o $(PROJ)
+OBJ_FILES=Main.o Othello.o Table.o
 
-Table.o: Table.cpp Table.h
-	$(CXX) $(CFLAGS) -c Table.cpp
+$(PROJ_CLI): $(OBJ_FILES)
+	$(CXX) $^ -o $(PROJ_CLI)
+
+$(OBJ_FILES): Main.cpp Othello.cpp Table.cpp
+	$(CXX) $(CFLAGS) -c Main.cpp Othello.cpp Table.cpp
 
 clean:
-	rm -f *.o $(PROJ)
+	rm -f *.o $(PROJ)-cli $(PROJ)-gui
