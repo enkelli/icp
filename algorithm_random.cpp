@@ -1,18 +1,24 @@
 /*
- * @file algorithm_random.cpp
+ * Course ICP @ FIT VUT Brno, 2016
+ * ICP 2016 Project - Othello
+ *
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief Implementation of Super Artificial Intelligence.
+ * @brief Implementation of algorithm random.
+ * @file algorithm_random.cpp
+ *
+ * Unless otherwise stated, all code is licensed under a
+ * GNU General Public License v2.0
+ *
  */
- 
+
 #include "algorithm_random.h"
 
 /*
  * @brief Implementation of Super Artificial Intelligence.
  */
-Table::Coords step(const Table &table) const
+Table::Coords AlgorithmRandom::step(const Table &table) const
 {
     // get table coords, try some random numbers in that range
-
 }
