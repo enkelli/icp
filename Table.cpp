@@ -140,6 +140,8 @@ bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone o
 
 void Table::print() const
 {
+  std::cout << "\e[43m";
+
   // Print column headers
   std::cout << "   |";
 
@@ -161,10 +163,10 @@ void Table::print() const
         case STONE_FREE:
           res = " ";
           break;
-        case STONE_WHITE:
+        case STONE_BLACK:
           res = "☻";
           break;
-        case STONE_BLACK:
+        case STONE_WHITE:
           res = "☺";
           break;
       }

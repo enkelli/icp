@@ -12,7 +12,7 @@ $(PROJ_CLI): $(OBJ_FILES)
 	$(CXX) $^ -o $(PROJ_CLI)
 
 $(OBJ_FILES): main.cpp Othello.cpp Table.cpp
-	$(CXX) $(CFLAGS) -c Main.cpp Othello.cpp Table.cpp
+	$(CXX) $(CFLAGS) -c main.cpp Othello.cpp Table.cpp
 
 clean:
 	rm -f *.o $(PROJ)-cli $(PROJ)-gui
