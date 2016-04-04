@@ -25,7 +25,7 @@ doxygen:
 	@echo "Write some doc please, your code is such an non-readable shit."
 
 clean:
-	rm -f *.o $(PROJ)-cli $(PROJ)-gui
+	rm -f *.o *.h.gch $(PROJ)-cli $(PROJ)-gui
 
 run:
 	./$(PROJ_CLI)
