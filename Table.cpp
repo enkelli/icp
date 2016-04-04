@@ -41,7 +41,7 @@ Table::Table(int initRows, int initCols)
   table[getVecIndex(firstCtrRow + 1, firstCtrCol + 1)] = STONE_WHITE;
 }
 
-int Table::getVecIndex(int row, int col)
+int Table::getVecIndex(int row, int col) const
 {
   return row * cols + col;
 }
@@ -135,7 +135,7 @@ bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone o
     return false;
 }
 
-void Table::print()
+void Table::print() const
 {
   // Print column headers
   std::cout << "   |";

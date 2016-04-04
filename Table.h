@@ -28,8 +28,9 @@ class Table
     };
     
     Table(int initRows, int initC1ols);
+
     void putStone(int row, int col, Stone stone);
-    void print();
+    void print() const;
  
   private:
     
@@ -40,7 +41,7 @@ class Table
 
     std::vector<Stone> table;
 
-    int getVecIndex(int row, int col);
+    int getVecIndex(int row, int col) const;
     bool turnStonesByVector(int x, int y, int startRow, int startCol, Stone ownStone);
 
 };
