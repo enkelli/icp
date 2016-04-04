@@ -21,49 +21,58 @@
 Othello::Othello() = default;
 
 void Othello::play()
-{
-  /*
-  int x, y;
-  std::cout << "Enter number of rows, nigger!" << std::endl;
-  std::cin >> x;
-  std::cout << "Enter number of cols, nigger!" << std::endl;
-  std::cin >> y;
-  std::cout << std::endl;
+{                     
+  unsigned size = getInitSize();
+              
+  Table table(size, size);
+  std::vector<std::string> players{"☻", "☺"};
+  int player_index = 0;
 
-  Table table(x, y);
-  */
-  Table table;
-
-  while(1)
-  {
+  while(1)        
+  {               
     table.print();
 
-    std::string color;
     char c;
     int row;
     int col;
 
-    std::cout << std::endl << "Place what? (b/w): ";
-    std::cin >> color;
-    std::cout << "Row: ";
-    std::cin >> row;
-    std::cout << "Col: ";
-    std::cin >> c;
+    std::cout << std::endl << "On turn: " << players[player_index & 1] << std::endl;
+    std::cout << "Enter col and row: ";
+    std::cin >> c >> row;
 
     row--;
     col = static_cast<int>(c) - static_cast<int>('a');
 
     try
     {
-      color == "b" ?
-          table.putStone(row, col, Table::STONE_BLACK) :
-          table.putStone(row, col, Table::STONE_WHITE);
+      (player_index++ & 1) ?
+        table.putStone(row, col, Table::STONE_WHITE) :
+        table.putStone(row, col, Table::STONE_BLACK);
     }
     catch(const std::invalid_argument& e)
     {
       std::cout << e.what();
+      player_index--;
     }
 
     std::cout << "\n\n";
   }
+}
+  
+unsigned Othello::getInitSize() const
+{
+  unsigned size;
+  while(true)
+  {
+    std::cout << "Enter size of board - 6, 8, 10 or 12!" << std::endl;
+    std::cin >> size;
+    std::cout << std::endl;
+
+    if (size == 6 || size == 8 || size == 10 || size == 12)
+    {
+      break;
+    }
+    std::cout << "Wrong size! 6, 8, 10 or 12" << std::endl;
+  }
+  return size;
 }

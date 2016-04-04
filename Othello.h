@@ -15,8 +15,12 @@
 
 class Othello
 {
-    public:
-        Othello();
+  public:
+    Othello();
 
-        void play();
+    void play();
+
+  private:
+    unsigned getInitSize() const;
+
 };
