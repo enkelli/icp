@@ -6,12 +6,12 @@ CFLAGS=-std=c++11 -Wall -Wextra -pedantic -g
 
 all: $(PROJ_CLI)
 
-OBJ_FILES=Main.o Othello.o Table.o
+OBJ_FILES=main.o Othello.o Table.o
 
 $(PROJ_CLI): $(OBJ_FILES)
 	$(CXX) $^ -o $(PROJ_CLI)
 
-$(OBJ_FILES): Main.cpp Othello.cpp Table.cpp
+$(OBJ_FILES): main.cpp Othello.cpp Table.cpp
 	$(CXX) $(CFLAGS) -c Main.cpp Othello.cpp Table.cpp
 
 clean:
