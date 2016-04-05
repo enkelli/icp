@@ -79,7 +79,7 @@ void Othello::play()
       }
       catch(const OthelloError& e)
       {
-        std::cout << e.what();
+        std::cout << e.what() << std::endl;
         player_index--;
       }
       
