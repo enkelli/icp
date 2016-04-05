@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef COMMAND_H
+#define COMMAND_H
+
 /*
  * @brief Abstract class for Command design patter for undo-redo actions in Othello game.
  */
@@ -23,3 +26,5 @@ class Command
     virtual void undo() = 0;
     virtual void redo = 0;
 };
+
+#endif

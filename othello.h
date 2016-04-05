@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef OTHELLO_H
+#define OTHELLO_H
+
 #include <string>
 #include <vector>
 
@@ -30,3 +33,5 @@ class Othello
     void printCliHelp() const;
     unsigned getInitSize() const;
 };
+
+#endif

@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "table.h"
 
 /*
@@ -22,4 +25,6 @@ class Player
 {
   public:
     Player() = default; 
-}
+};
+
+#endif

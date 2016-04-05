@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
+
 /**
 * @brief Base class for all C-types errors.
 */
@@ -21,3 +24,5 @@ class OthelloError: public std::runtime_error
 	public:
 		using std::runtime_error::runtime_error;
 };
+
+#endif

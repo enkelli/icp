@@ -13,6 +13,9 @@
  *
  */
  
+#ifndef ALGORITHM_H
+#define ALGORITHM_H
+
 #include "table.h"
 
 /*
@@ -23,3 +26,5 @@ class Algorithm
   public:
     virtual Table::Coords step(const Table &table) const = 0;
 };
+
+#endif

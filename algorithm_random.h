@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef ALGORITHM_RANDOM_H
+#define ALGORITHM_RANDOM_H
+
 #include "algorithm.h"
 
 /*
@@ -23,3 +26,5 @@ class AlgorithmRandom: public Algorithm
   public:
     virtual Table::Coords step(const Table &table) const override;
 };
+
+#endif

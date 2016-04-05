@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef COMMAND_MANAGER_H
+#define COMMAND_MANAGER_H
+
 #include <stack.h>
 
 #include "command.h"
@@ -34,3 +37,5 @@ class CommandManager
     CmdStack undoStack;
     CmdStack redoStack;
 };
+
+#endif

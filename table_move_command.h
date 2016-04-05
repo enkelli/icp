@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef TABLE_MOVE_COMMAND_H
+#define TABLE_MOVE_COMMAND_H
+
 #include "command.h"
 
 /*
@@ -35,3 +38,5 @@ class TableMoveCommand: public Command
 
     tableMap map;
 };
+
+#endif
