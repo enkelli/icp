@@ -26,7 +26,7 @@
 const std::string Table::CLI_BLACK_STONE = "☻";
 
 /*
- * @brief Set CLI representation of black stone.
+ * @brief Set CLI representation of white stone.
  */
 const std::string Table::CLI_WHITE_STONE = "☺";
 

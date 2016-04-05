@@ -13,7 +13,8 @@
  *
  */
 
-#include "table.h"
+#include <string>
+#include <vector>
 
 /*
  * @brief A representation of Othello brain.
@@ -26,6 +27,6 @@ class Othello
     void play();
 
   private:
+    void printCliHelp() const;
     unsigned getInitSize() const;
-
 };

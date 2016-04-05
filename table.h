@@ -22,7 +22,9 @@
 class Table
 {
   public:
+    /// Representation of the black stone on the table.
     static const std::string CLI_BLACK_STONE;
+    /// Representation of the white stone on the table.
     static const std::string CLI_WHITE_STONE;
 
     enum class Stone
