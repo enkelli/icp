@@ -17,6 +17,7 @@
 #include <iostream>
 #include <string>
 
+#include "exception.h"
 #include "othello.h"
 #include "table.h"
 
@@ -76,7 +77,7 @@ void Othello::play()
           table.putStone(row, col, Table::Stone::WHITE) :
           table.putStone(row, col, Table::Stone::BLACK);
       }
-      catch(const std::invalid_argument& e)
+      catch(const OthelloError& e)
       {
         std::cout << e.what();
         player_index--;

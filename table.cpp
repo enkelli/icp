@@ -13,11 +13,11 @@
  *
  */
 
-#include <string>
-#include <stdexcept>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <string>
 
+#include "exception.h"
 #include "table.h"
 
 /*
@@ -43,7 +43,7 @@ Table::Table(int initRows, int initCols)
 {
   // Number of rows and cols must meet required minimum and must be even
   if(initRows < minRows || initCols < minCols || (initRows & 1) || (initCols & 1))
-    throw std::invalid_argument("Initial row/col count is too small or odd");
+    throw OthelloError("Initial row/col count is too small or odd");
 
   rows = initRows;
   cols = initCols;
@@ -71,11 +71,11 @@ void Table::putStone(int row, int col, Stone stone)
 {
   // Check if row and col are valid
   if(row < 0 || row >= rows || col < 0 || col >= cols)
-    throw std::invalid_argument("Coordinates out of range");
+    throw OthelloError("Coordinates out of range");
 
   // Check if the requested spot is free
   if(table[getVecIndex(row, col)] != Stone::FREE)
-    throw std::invalid_argument("There already is a stone at the supplied position");
+    throw OthelloError("There already is a stone at the supplied position");
 
   bool placeStone = false;
 
@@ -117,7 +117,7 @@ void Table::putStone(int row, int col, Stone stone)
   if(placeStone)
     table[getVecIndex(row, col)] = stone;
   else
-    throw std::invalid_argument("Cannot place stone at given coordinates");
+    throw OthelloError("Cannot place stone at given coordinates");
 }
 
 bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone ownStone)
