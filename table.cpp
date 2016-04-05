@@ -21,6 +21,16 @@
 #include "table.h"
 
 /*
+ * @brief Set CLI representation of black stone.
+ */
+const std::string Table::CLI_BLACK_STONE = "☻";
+
+/*
+ * @brief Set CLI representation of black stone.
+ */
+const std::string Table::CLI_WHITE_STONE = "☺";
+
+/*
  * @brief Creates new table with default size.
  */
 Table::Table():
@@ -170,10 +180,10 @@ void Table::print() const
           res = " ";
           break;
         case STONE_BLACK:
-          res = "☻";
+          res = CLI_BLACK_STONE;
           break;
         case STONE_WHITE:
-          res = "☺";
+          res = CLI_WHITE_STONE;
           break;
       }
 
