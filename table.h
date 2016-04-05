@@ -22,11 +22,6 @@
 class Table
 {
   public:
-    static const int minRows = 4;
-    static const int minCols = 4;
-    static const int defaultRows = 8;
-    static const int defaultCols = 8;
-
     static const std::string CLI_BLACK_STONE;
     static const std::string CLI_WHITE_STONE;
 
@@ -59,4 +54,13 @@ class Table
     int whiteStones;
 
     std::vector<Stone> table;
+    
+    /// @name Table constants.
+    /// @{
+    static const int minRows = 4;
+    static const int minCols = 4;
+    static const int defaultRows = 8;
+    static const int defaultCols = 8;
+    /// @}
+
 };
