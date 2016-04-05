@@ -36,7 +36,7 @@ class Table
 
   public:    
     Table(); 
-    Table(int initRows, int initC1ols);
+    Table(int initRows, int initCols);
 
     void putStone(int row, int col, Stone stone);
     void print() const;
