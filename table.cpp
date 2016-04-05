@@ -50,16 +50,16 @@ Table::Table(int initRows, int initCols)
   table.resize(rows * cols);
 
   for(int i = 0; i < (rows * cols); i++)
-    table[i] = STONE_FREE;
+    table[i] = Stone::FREE;
 
   // Place initial stones on table
   int firstCtrRow = (rows >> 1) - 1;
   int firstCtrCol = (cols >> 1) - 1;
 
-  table[getVecIndex(firstCtrRow, firstCtrCol)] = STONE_WHITE;
-  table[getVecIndex(firstCtrRow, firstCtrCol + 1)] = STONE_BLACK;
-  table[getVecIndex(firstCtrRow + 1, firstCtrCol)] = STONE_BLACK;
-  table[getVecIndex(firstCtrRow + 1, firstCtrCol + 1)] = STONE_WHITE;
+  table[getVecIndex(firstCtrRow, firstCtrCol)] = Stone::WHITE;
+  table[getVecIndex(firstCtrRow, firstCtrCol + 1)] = Stone::BLACK;
+  table[getVecIndex(firstCtrRow + 1, firstCtrCol)] = Stone::BLACK;
+  table[getVecIndex(firstCtrRow + 1, firstCtrCol + 1)] = Stone::WHITE;
 }
 
 int Table::getVecIndex(int row, int col) const
@@ -74,7 +74,7 @@ void Table::putStone(int row, int col, Stone stone)
     throw std::invalid_argument("Coordinates out of range");
 
   // Check if the requested spot is free
-  if(table[getVecIndex(row, col)] != STONE_FREE)
+  if(table[getVecIndex(row, col)] != Stone::FREE)
     throw std::invalid_argument("There already is a stone at the supplied position");
 
   bool placeStone = false;
@@ -137,7 +137,7 @@ bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone o
       foundOwn = true;
       break;
     }
-    else if(stoneAtPos == STONE_FREE)
+    else if(stoneAtPos == Stone::FREE)
       break;
 
     stepsMade++;
@@ -176,13 +176,13 @@ void Table::print() const
       std::string res;
       switch(table[getVecIndex(i, j)])
       {
-        case STONE_FREE:
+        case Stone::FREE:
           res = " ";
           break;
-        case STONE_BLACK:
+        case Stone::BLACK:
           res = CLI_BLACK_STONE;
           break;
-        case STONE_WHITE:
+        case Stone::WHITE:
           res = CLI_WHITE_STONE;
           break;
       }

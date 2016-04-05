@@ -48,8 +48,8 @@ void Othello::play()
     try
     {
       (player_index++ & 1) ?
-        table.putStone(row, col, Table::STONE_WHITE) :
-        table.putStone(row, col, Table::STONE_BLACK);
+        table.putStone(row, col, Table::Stone::WHITE) :
+        table.putStone(row, col, Table::Stone::BLACK);
     }
     catch(const std::invalid_argument& e)
     {

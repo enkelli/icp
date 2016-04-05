@@ -25,11 +25,11 @@ class Table
     static const std::string CLI_BLACK_STONE;
     static const std::string CLI_WHITE_STONE;
 
-    enum Stone
+    enum class Stone
     {
-      STONE_FREE,
-      STONE_BLACK,
-      STONE_WHITE
+      FREE,
+      BLACK,
+      WHITE
     };
 
   public:    
