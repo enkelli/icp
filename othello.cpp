@@ -15,6 +15,7 @@
 
 #include <cctype>
 #include <iostream>
+#include <limits>
 #include <string>
 
 #include "exception.h"
@@ -113,6 +114,14 @@ unsigned Othello::getInitSize() const
     std::cout << ">>";
     std::cin >> size;
     std::cout << std::endl;
+
+    if (std::cin.fail())
+    {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      std::cout << "Oh, I don't understand your language, try arabic numerals." << std::endl;
+      continue;
+    }
 
     if (size == 6 || size == 8 || size == 10 || size == 12)
     {
