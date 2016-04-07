@@ -62,7 +62,6 @@ class Table
     int whiteStones;
 
     std::vector<Stone> table;
-    std::vector<
     
     /// @name Table constants.
     /// @{

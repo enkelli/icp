@@ -16,6 +16,8 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
+#include <stdexcept>
+
 /**
 * @brief Base class for all C-types errors.
 */
