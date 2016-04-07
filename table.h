@@ -30,6 +30,9 @@ class Table
     /// Representation of the white stone on the table.
     static const std::string CLI_WHITE_STONE;
 
+    /// Definition of coordinates
+    using Coords = std::pair<int, int>;
+
     enum class Stone
     {
       FREE,
@@ -59,6 +62,7 @@ class Table
     int whiteStones;
 
     std::vector<Stone> table;
+    std::vector<
     
     /// @name Table constants.
     /// @{
