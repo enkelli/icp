@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -18,7 +18,7 @@
 
 #include "command.h"
 
-/*
+/**
  * @brief A representation of table move command.
  */
 class TableMoveCommand: public Command

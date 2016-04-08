@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -15,7 +15,7 @@
 
 #include "algorithm_random.h"
 
-/*
+/**
  * @brief Implementation of Super Artificial Intelligence.
  */
 Table::Coords AlgorithmRandom::step(const Table &table) const

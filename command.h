@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -16,7 +16,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-/*
+/**
  * @brief Abstract class for Command design patter for undo-redo actions in Othello game.
  */
 class Command

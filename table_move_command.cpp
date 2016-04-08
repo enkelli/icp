@@ -1,4 +1,4 @@
- /*
+/**+
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -15,13 +15,13 @@
 
 #include "table_move_command.h"
 
-/*
+/**
  * @brief Creates a new table move command.
  */
 TableMoveCommand(table, player, move):
   table(table). player(player), move(move) {}
 
-/*
+/**
  * @brief Executes move command.
  *
  * It should be sure that command succeeds - stone can be placed on position,
@@ -33,7 +33,7 @@ void execute()
   table->step(player, move);
 }
 
-/*
+/**
  * @brief One step back in game.
  */
 void undo()
@@ -41,7 +41,7 @@ void undo()
   Table->revertStep(player, move);   
 }
 
-/*
+/**
  * @brief one step forward.
  *
  * Available only after undo.

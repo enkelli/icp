@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -20,23 +20,23 @@
 #include "exception.h"
 #include "table.h"
 
-/*
+/**
  * @brief Set CLI representation of black stone.
  */
 const std::string Table::CLI_BLACK_STONE = "☻";
 
-/*
+/**
  * @brief Set CLI representation of white stone.
  */
 const std::string Table::CLI_WHITE_STONE = "☺";
 
-/*
+/**
  * @brief Creates new table with default size.
  */
 Table::Table():
     Table(defaultRows, defaultCols) {}
 
-/*
+/**
  * @brief Creates new table.
  */
 Table::Table(int initRows, int initCols)

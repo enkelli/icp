@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -18,7 +18,7 @@
 
 #include "table.h"
 
-/*
+/**
  * @brief A representation of Othello player.
  */
 class Player

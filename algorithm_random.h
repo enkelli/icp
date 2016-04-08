@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -18,7 +18,7 @@
 
 #include "algorithm.h"
 
-/*
+/**
  * @brief Computer algorithm playing Othello game.
  */
 class AlgorithmRandom: public Algorithm

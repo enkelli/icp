@@ -1,4 +1,4 @@
-/*
+/**
  * Course ICP @ FIT VUT Brno, 2016
  * ICP 2016 Project - Othello
  *
@@ -17,12 +17,12 @@
 
 #include "command_manager.h"
 
-/*
+/**
  * @brief Creates new CommandManager.
  */
 CommandManager::CommandManager() = default;
 
-/*
+/**
  * @brief Executes new command.
  *
  * Executing new command deletes @c redo history.
@@ -34,7 +34,7 @@ void executeCmd(std::shared_ptr<Command> &command)
   undoStack.push(command);
 }
 
-/*
+/**
  * @brief Returns to previous state.
  */
 void undo()
@@ -47,7 +47,7 @@ void undo()
   }
 }
 
-/*
+/**
  * @brief Forward one step in history.
  */
 void redo()
