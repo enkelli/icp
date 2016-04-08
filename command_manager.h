@@ -20,7 +20,7 @@
 
 #include "command.h"
 
-/*
+/**
  * @brief Command manager for undo-redo actions in Othello game.
  */
 class CommandManager
