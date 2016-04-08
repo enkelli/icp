@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 
-/*
+/**
  * @brief A representation of Othello brain.
  */
 class Othello
