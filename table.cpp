@@ -5,7 +5,7 @@
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief Implementation of Othello table.
+ * @brief Implementation of Othello board.
  * @file table.cpp
  *
  * Unless otherwise stated, all code is licensed under a
@@ -31,13 +31,13 @@ const std::string Table::CLI_BLACK_STONE = "☻";
 const std::string Table::CLI_WHITE_STONE = "☺";
 
 /**
- * @brief Creates new table with default size.
+ * @brief Creates new board with default size.
  */
 Table::Table():
-    Table(defaultRows, defaultCols) {}
+  Table(defaultRows, defaultCols) {}
 
 /**
- * @brief Creates new table.
+ * @brief Creates new board.
  */
 Table::Table(int initRows, int initCols)
 {
@@ -47,90 +47,143 @@ Table::Table(int initRows, int initCols)
 
   rows = initRows;
   cols = initCols;
-  table.resize(rows * cols);
+  board.resize(rows * cols);
 
-  for(int i = 0; i < (rows * cols); i++)
-    table[i] = Stone::FREE;
+  for(Stone& s : board)
+    s = Stone::FREE;
 
-  // Place initial stones on table
+  // Place initial stones on board
   int firstCtrRow = (rows >> 1) - 1;
   int firstCtrCol = (cols >> 1) - 1;
+  
+  std::vector<Coords> ctrWhite { std::make_pair(firstCtrRow, firstCtrCol), std::make_pair(firstCtrRow + 1, firstCtrCol + 1) };
+  std::vector<Coords> ctrBlack { std::make_pair(firstCtrRow + 1, firstCtrCol), std::make_pair(firstCtrRow, firstCtrCol + 1) };
 
-  table[getVecIndex(firstCtrRow, firstCtrCol)] = Stone::WHITE;
-  table[getVecIndex(firstCtrRow, firstCtrCol + 1)] = Stone::BLACK;
-  table[getVecIndex(firstCtrRow + 1, firstCtrCol)] = Stone::BLACK;
-  table[getVecIndex(firstCtrRow + 1, firstCtrCol + 1)] = Stone::WHITE;
+  for(const Coords& c : ctrWhite)
+    board[getVecIndex(c)] = Stone::WHITE;
+
+  for(const Coords& c : ctrBlack)
+    board[getVecIndex(c)] = Stone::BLACK;
+
+  blackStones = 2;
+  whiteStones = 2;
+
+  // Invalidate cache values
+  cachedCoords = std::make_pair(-1, -1);
+  cachedStone = Stone::FREE;
 }
 
-int Table::getVecIndex(int row, int col) const
+int Table::getVecIndex(const Coords& coords) const
 {
-  return row * cols + col;
+  return coords.first * cols + coords.second;
 }
 
-void Table::putStone(int row, int col, Stone stone)
+/**
+ * @brief Determines if given stone can be placed at given coordinates
+ */
+bool Table::canPut(const Coords& coords, Stone stone)
 {
   // Check if row and col are valid
-  if(row < 0 || row >= rows || col < 0 || col >= cols)
-    throw OthelloError("Coordinates out of range");
+  if(coords.first < 0 || coords.first >= rows || coords.second < 0 || coords.second >= cols)
+    return false;
 
   // Check if the requested spot is free
-  if(table[getVecIndex(row, col)] != Stone::FREE)
-    throw OthelloError("There already is a stone at the supplied position");
+  if(board[getVecIndex(coords)] != Stone::FREE)
+    return false;
 
-  bool placeStone = false;
+  // Only refill the cache vector if we are dealing with different coordinates or a different stone color
+  if(coords != cachedCoords || stone != cachedStone)
+  {
+    fillCacheVector(coords, stone);
 
-  // Try turning stones in all 8 directions
+    // Set cache configuration to current values
+    cachedCoords = coords;
+    cachedStone = stone;
+  }
 
-  // East
-  if(turnStonesByVector(1, 0, row, col, stone))
-    placeStone = true;
-
-  // West
-  if(turnStonesByVector(-1, 0, row, col, stone))
-    placeStone = true;
-
-  // South
-  if(turnStonesByVector(0, 1, row, col, stone))
-    placeStone = true;
-
-  // North
-  if(turnStonesByVector(0, -1, row, col, stone))
-    placeStone = true;
-
-  // South-East
-  if(turnStonesByVector(1, 1, row, col, stone))
-    placeStone = true;
-
-  // South-West
-  if(turnStonesByVector(1, -1, row, col, stone))
-    placeStone = true;
-
-  // Nort-East
-  if(turnStonesByVector(-1, 1, row, col, stone))
-    placeStone = true;
-
-  // North-West
-  if(turnStonesByVector(-1, -1, row, col, stone))
-    placeStone = true;
-
-  // If we have managed to turn at least one direction, turn current stone as well
-  if(placeStone)
-    table[getVecIndex(row, col)] = stone;
+  // If there are no stones we can flip it means that the stone cannot be placed on this position
+  if(stoneFlipCache.empty())
+    return false;
   else
-    throw OthelloError("Cannot place stone at given coordinates");
+    return true;
 }
 
-bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone ownStone)
+/**
+ * @brief Will attempt to place stone at given coordinates.
+ *
+ * @exception Will throw OthelloError if stone cannot be placed
+ */
+void Table::putStone(const Coords& coords, Stone stone)
+{
+  if(!canPut(coords, stone))
+    throw OthelloError("Cannot place stone at supplied location");
+
+  // Modify stone counters
+  int flipVecSize = stoneFlipCache.size();
+
+  if(stone == Stone::BLACK)
+  {
+    blackStones += flipVecSize + 1;
+    whiteStones -= flipVecSize;
+  }
+  else
+  {
+    whiteStones += flipVecSize + 1;
+    blackStones -= flipVecSize;
+  }
+
+  // Flip all stones in flip cache
+  for(const Coords& c : stoneFlipCache)
+    board[getVecIndex(c)] = stone;
+
+  // Flip current stone too
+  board[getVecIndex(coords)] = stone;
+}
+
+void Table::fillCacheVector(const Coords& coords, Stone stone)
+{
+  // Clear out current cache vector
+  stoneFlipCache.clear();
+
+  // Try turning stones in all 8 directions
+  // East
+  turnStonesByVector(1, 0, coords, stone);
+
+  // West
+  turnStonesByVector(-1, 0, coords, stone);
+
+  // South
+  turnStonesByVector(0, 1, coords, stone);
+
+  // North
+  turnStonesByVector(0, -1, coords, stone);
+
+  // South-East
+  turnStonesByVector(1, 1, coords, stone);
+
+  // South-West
+  turnStonesByVector(1, -1, coords, stone);
+
+  // Nort-East
+  turnStonesByVector(-1, 1, coords, stone);
+
+  // North-West
+  turnStonesByVector(-1, -1, coords, stone);
+}
+
+void Table::turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone)
 {
   int r;
   int c;
   int stepsMade = 0;
   bool foundOwn = false;
 
-  // Search the table in the direction specified by the direction vector
-  for(r = startRow + x, c = startCol + y; r >= 0 && r < rows && c >= 0 && c < cols; r += x, c += y)
+  // Search the board in the direction specified by the direction vector
+  for(r = startCoords.first + x, c = startCoords.second + y; r >= 0 && r < rows && c >= 0 && c < cols; r += x, c += y)
   {
-    Stone stoneAtPos = table[getVecIndex(r, c)];
+    Coords current = std::make_pair(r, c);
+
+    Stone stoneAtPos = board[getVecIndex(current)];
 
     if(stoneAtPos == ownStone)
     {
@@ -143,19 +196,18 @@ bool Table::turnStonesByVector(int x, int y, int startRow, int startCol, Stone o
     stepsMade++;
   }
 
-  // Turn enemy stones if we managed to connect a friendly stone
+  // Fill cache vector with stones to turn if we made a successful connection
   if(foundOwn && stepsMade > 0)
   {
     int stepCount;
-    for(r = startRow + x, c = startCol + y, stepCount = 0; stepCount < stepsMade; r += x, c += y, stepCount++)
-      table[getVecIndex(r, c)] = ownStone;
-
-    return true;
+    for(r = startCoords.first + x, c = startCoords.second + y, stepCount = 0; stepCount < stepsMade; r += x, c += y, stepCount++)
+      stoneFlipCache.push_back(std::make_pair(r, c));
   }
-  else
-    return false;
 }
 
+/**
+ * @brief Print current table to stdout
+ */
 void Table::print() const
 {
   // Print column headers
@@ -166,15 +218,16 @@ void Table::print() const
 
   std::cout << std::endl;
 
-  // Print the entire table
+  // Print the entire board
   for(int i = 0; i < rows; i++)
   {
     std::cout << std::setw(2) << i + 1 << " |";
 
     for(int j = 0; j < cols; j++)
     {
+      Coords current = std::make_pair(i, j);
       std::string res;
-      switch(table[getVecIndex(i, j)])
+      switch(board[getVecIndex(current)])
       {
         case Stone::FREE:
           res = " ";
@@ -189,6 +242,12 @@ void Table::print() const
 
       std::cout << " " <<  res << " |";
     }
+
+    // Print scores if we are in the middle of the board
+    if(i == (rows >> 1) - 1)
+      std::cout << "\tScore(White): " << whiteStones;
+    if(i == (rows >> 1))
+      std::cout << "\tScore(Black): " << blackStones; 
 
     std::cout << std::endl;
   }

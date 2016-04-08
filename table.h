@@ -44,12 +44,14 @@ class Table
     Table(); 
     Table(int initRows, int initCols);
 
-    void putStone(int row, int col, Stone stone);
+    bool canPut(const Coords& coords, Stone stone);
+    void putStone(const Coords& coords, Stone stone);
     void print() const;
 
   private: 
-    int getVecIndex(int row, int col) const;
-    bool turnStonesByVector(int x, int y, int startRow, int startCol, Stone ownStone);
+    int getVecIndex(const Coords& coords) const;
+    void fillCacheVector(const Coords& coords, Stone stone);
+    void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone);
 
   private:
     /// Rows count.
@@ -61,7 +63,11 @@ class Table
     /// Count of white stones on the table.
     int whiteStones;
 
-    std::vector<Stone> table;
+    std::vector<Stone> board;
+
+    std::vector<Coords> stoneFlipCache;
+    Coords cachedCoords;
+    Stone cachedStone;
     
     /// @name Table constants.
     /// @{

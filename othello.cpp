@@ -72,11 +72,13 @@ void Othello::play()
       row--;
       col = static_cast<int>(c) - static_cast<int>('a');
 
+      Table::Coords coords = std::make_pair(row, col);
+
       try
       {
         (player_index++ & 1) ?
-          table.putStone(row, col, Table::Stone::WHITE) :
-          table.putStone(row, col, Table::Stone::BLACK);
+          table.putStone(coords, Table::Stone::WHITE) :
+          table.putStone(coords, Table::Stone::BLACK);
       }
       catch(const OthelloError& e)
       {
