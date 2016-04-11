@@ -5,7 +5,7 @@
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief Implementation of Othello board.
+ * @brief Implementation of Othello board.tableMatrix.
  * @file table.cpp
  *
  * Unless otherwise stated, all code is licensed under a
@@ -31,13 +31,13 @@ const std::string Table::CLI_BLACK_STONE = "☻";
 const std::string Table::CLI_WHITE_STONE = "☺";
 
 /**
- * @brief Creates new board with default size.
+ * @brief Creates new board.tableMatrix with default size.
  */
 Table::Table():
   Table(defaultRows, defaultCols) {}
 
 /**
- * @brief Creates new board.
+ * @brief Creates new board.tableMatrix.
  */
 Table::Table(int initRows, int initCols)
 {
@@ -47,12 +47,12 @@ Table::Table(int initRows, int initCols)
 
   rows = initRows;
   cols = initCols;
-  board.resize(rows * cols);
+  board.tableMatrix.resize(rows * cols);
 
-  for(Stone& s : board)
+  for(Stone& s : board.tableMatrix)
     s = Stone::FREE;
 
-  // Place initial stones on board
+  // Place initial stones on board.tableMatrix
   int firstCtrRow = (rows >> 1) - 1;
   int firstCtrCol = (cols >> 1) - 1;
   
@@ -60,17 +60,16 @@ Table::Table(int initRows, int initCols)
   std::vector<Coords> ctrBlack { std::make_pair(firstCtrRow + 1, firstCtrCol), std::make_pair(firstCtrRow, firstCtrCol + 1) };
 
   for(const Coords& c : ctrWhite)
-    board[getVecIndex(c)] = Stone::WHITE;
+    board.tableMatrix[getVecIndex(c)] = Stone::WHITE;
 
   for(const Coords& c : ctrBlack)
-    board[getVecIndex(c)] = Stone::BLACK;
+    board.tableMatrix[getVecIndex(c)] = Stone::BLACK;
 
-  blackStones = 2;
-  whiteStones = 2;
+  board.blackStones = 2;
+  board.whiteStones = 2;
 
   // Invalidate cache values
-  cachedCoords = std::make_pair(-1, -1);
-  cachedStone = Stone::FREE;
+  clearCache();
 }
 
 int Table::getVecIndex(const Coords& coords) const
@@ -88,7 +87,7 @@ bool Table::canPut(const Coords& coords, Stone stone)
     return false;
 
   // Check if the requested spot is free
-  if(board[getVecIndex(coords)] != Stone::FREE)
+  if(board.tableMatrix[getVecIndex(coords)] != Stone::FREE)
     return false;
 
   // Only refill the cache vector if we are dealing with different coordinates or a different stone color
@@ -109,6 +108,16 @@ bool Table::canPut(const Coords& coords, Stone stone)
 }
 
 /**
+ * @brief Invalidate values in cache
+ */
+void Table::clearCache()
+{
+  stoneFlipCache.clear();
+  cachedCoords = std::make_pair(-1, -1);
+  cachedStone = Stone::FREE;
+}
+
+/**
  * @brief Will attempt to place stone at given coordinates.
  *
  * @exception Will throw OthelloError if stone cannot be placed
@@ -123,21 +132,21 @@ void Table::putStone(const Coords& coords, Stone stone)
 
   if(stone == Stone::BLACK)
   {
-    blackStones += flipVecSize + 1;
-    whiteStones -= flipVecSize;
+    board.blackStones += flipVecSize + 1;
+    board.whiteStones -= flipVecSize;
   }
   else
   {
-    whiteStones += flipVecSize + 1;
-    blackStones -= flipVecSize;
+    board.whiteStones += flipVecSize + 1;
+    board.blackStones -= flipVecSize;
   }
 
   // Flip all stones in flip cache
   for(const Coords& c : stoneFlipCache)
-    board[getVecIndex(c)] = stone;
+    board.tableMatrix[getVecIndex(c)] = stone;
 
   // Flip current stone too
-  board[getVecIndex(coords)] = stone;
+  board.tableMatrix[getVecIndex(coords)] = stone;
 }
 
 Table::Board &Table::getBoard()
@@ -147,28 +156,28 @@ Table::Board &Table::getBoard()
  
 void Table::setBoard(Board &board)
 {
+  clearCache();
   this->board = board;
-  recountScores();
 }
 
 void Table::recountScores()
 {
-  blackStones = 0;
-  whiteStones = 0;
+  board.blackStones = 0;
+  board.whiteStones = 0;
 
-  for(const Stone& s : board)
+  for(const Stone& s : board.tableMatrix)
   {
     if(s == Stone::BLACK)
-      blackStones++;
+      board.blackStones++;
     else if(s == Stone::WHITE)
-      whiteStones++;
+      board.whiteStones++;
   }
 }
 
 void Table::fillCacheVector(const Coords& coords, Stone stone)
 {
   // Clear out current cache vector
-  stoneFlipCache.clear();
+  clearCache();
 
   // Try turning stones in all 8 directions
   // East
@@ -203,12 +212,12 @@ void Table::turnStonesByVector(int x, int y, const Coords& startCoords, Stone ow
   int stepsMade = 0;
   bool foundOwn = false;
 
-  // Search the board in the direction specified by the direction vector
+  // Search the board.tableMatrix in the direction specified by the direction vector
   for(r = startCoords.first + x, c = startCoords.second + y; r >= 0 && r < rows && c >= 0 && c < cols; r += x, c += y)
   {
     Coords current = std::make_pair(r, c);
 
-    Stone stoneAtPos = board[getVecIndex(current)];
+    Stone stoneAtPos = board.tableMatrix[getVecIndex(current)];
 
     if(stoneAtPos == ownStone)
     {
@@ -243,7 +252,7 @@ void Table::print() const
 
   std::cout << std::endl;
 
-  // Print the entire board
+  // Print the entire board.tableMatrix
   for(int i = 0; i < rows; i++)
   {
     std::cout << std::setw(2) << i + 1 << " |";
@@ -252,7 +261,7 @@ void Table::print() const
     {
       Coords current = std::make_pair(i, j);
       std::string res;
-      switch(board[getVecIndex(current)])
+      switch(board.tableMatrix[getVecIndex(current)])
       {
         case Stone::FREE:
           res = " ";
@@ -268,11 +277,11 @@ void Table::print() const
       std::cout << " " <<  res << " |";
     }
 
-    // Print scores if we are in the middle of the board
+    // Print scores if we are in the middle of the board.tableMatrix
     if(i == (rows >> 1) - 1)
-      std::cout << "\tScore(White): " << whiteStones;
+      std::cout << "\tScore(White): " << board.whiteStones;
     if(i == (rows >> 1))
-      std::cout << "\tScore(Black): " << blackStones; 
+      std::cout << "\tScore(Black): " << board.blackStones; 
 
     std::cout << std::endl;
   }

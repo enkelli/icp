@@ -36,46 +36,42 @@ class Table
       BLACK,
       WHITE
     };
-    
-    /// Definition of board
-    using Board = std::vector<Stone>; 
-    /// Definition of coordinates
+   
+    /// Definition of coordinates.
     using Coords = std::pair<int, int>;
-
-  public:    
-    Table(); 
-    Table(int initRows, int initCols);
-
-    bool canPut(const Coords& coords, Stone stone);
-    void putStone(const Coords& coords, Stone stone);
-
-    Board &getBoard();
-    void setBoard(Board &board);
-    void recountScores();
-
-    void print() const;
 
   private: 
     int getVecIndex(const Coords& coords) const;
     void fillCacheVector(const Coords& coords, Stone stone);
     void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone);
+    void clearCache();
+    void recountScores();
 
   private:
     /// Rows count.
     int rows;
     /// Columns count.
     int cols;
-    /// Count of black stones on the table.
-    int blackStones;
-    /// Count of white stones on the table.
-    int whiteStones;
+    
+    struct _board
+    {
+      /// Count of black stones on the table.
+      int blackStones;
+      /// Count of white stones on the table.
+      int whiteStones;
+      /// Count total moves made.
+      int moveCount;
 
-    Board board;
+      /// Matrix representing table state.
+      std::vector<Stone> tableMatrix;
+    };
+
+    struct _board board;
 
     std::vector<Coords> stoneFlipCache;
     Coords cachedCoords;
     Stone cachedStone;
-    
+
     /// @name Table constants.
     /// @{
     static const int minRows = 4;
@@ -84,6 +80,20 @@ class Table
     static const int defaultCols = 8;
     /// @}
 
+  public:
+    using Board = struct _board;
+
+  public:
+    Table(); 
+    Table(int initRows, int initCols);
+
+    bool canPut(const Coords& coords, Stone stone);
+    void putStone(const Coords& coords, Stone stone);
+
+    Board &getBoard();
+    void setBoard(Board &board);
+
+    void print() const;
 };
 
 #endif
