@@ -51,6 +51,7 @@ class Table
 
     Board &getBoard();
     void setBoard(Board &board);
+    void recountScores();
 
     void print() const;
 

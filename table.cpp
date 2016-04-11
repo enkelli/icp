@@ -148,9 +148,22 @@ Table::Board &Table::getBoard()
 void Table::setBoard(Board &board)
 {
   this->board = board;
-  //TODO re-count score
+  recountScores();
 }
 
+void Table::recountScores()
+{
+  blackStones = 0;
+  whiteStones = 0;
+
+  for(const Stone& s : board)
+  {
+    if(s == Stone::BLACK)
+      blackStones++;
+    else if(s == Stone::WHITE)
+      whiteStones++;
+  }
+}
 
 void Table::fillCacheVector(const Coords& coords, Stone stone)
 {
