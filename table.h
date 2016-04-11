@@ -48,13 +48,13 @@ class Table
     void recountScores();
 
   private:
-    /// Rows count.
-    int rows;
-    /// Columns count.
-    int cols;
     
     struct _board
     {
+      /// Rows count.
+      int rows;
+      /// Columns count.
+      int cols;
       /// Count of black stones on the table.
       int blackStones;
       /// Count of white stones on the table.
@@ -92,7 +92,7 @@ class Table
 
     Board &getBoard();
     void setBoard(Board &board);
-    
+
     int getMoveCount() const;
 
     void print() const;

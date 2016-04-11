@@ -45,16 +45,16 @@ Table::Table(int initRows, int initCols)
   if(initRows < minRows || initCols < minCols || (initRows & 1) || (initCols & 1))
     throw OthelloError("Initial row/col count is too small or odd");
 
-  rows = initRows;
-  cols = initCols;
-  board.tableMatrix.resize(rows * cols);
+  board.rows = initRows;
+  board.cols = initCols;
+  board.tableMatrix.resize(board.rows * board.cols);
 
   for(Stone& s : board.tableMatrix)
     s = Stone::FREE;
 
   // Place initial stones on board.tableMatrix
-  int firstCtrRow = (rows >> 1) - 1;
-  int firstCtrCol = (cols >> 1) - 1;
+  int firstCtrRow = (board.rows >> 1) - 1;
+  int firstCtrCol = (board.cols >> 1) - 1;
   
   std::vector<Coords> ctrWhite { std::make_pair(firstCtrRow, firstCtrCol), std::make_pair(firstCtrRow + 1, firstCtrCol + 1) };
   std::vector<Coords> ctrBlack { std::make_pair(firstCtrRow + 1, firstCtrCol), std::make_pair(firstCtrRow, firstCtrCol + 1) };
@@ -74,7 +74,7 @@ Table::Table(int initRows, int initCols)
 
 int Table::getVecIndex(const Coords& coords) const
 {
-  return coords.first * cols + coords.second;
+  return coords.first * board.cols + coords.second;
 }
 
 /**
@@ -83,7 +83,7 @@ int Table::getVecIndex(const Coords& coords) const
 bool Table::canPutStone(const Coords& coords, Stone stone)
 {
   // Check if row and col are valid
-  if(coords.first < 0 || coords.first >= rows || coords.second < 0 || coords.second >= cols)
+  if(coords.first < 0 || coords.first >= board.rows || coords.second < 0 || coords.second >= board.cols)
     return false;
 
   // Check if the requested spot is free
@@ -224,7 +224,7 @@ void Table::turnStonesByVector(int x, int y, const Coords& startCoords, Stone ow
   bool foundOwn = false;
 
   // Search the board.tableMatrix in the direction specified by the direction vector
-  for(r = startCoords.first + x, c = startCoords.second + y; r >= 0 && r < rows && c >= 0 && c < cols; r += x, c += y)
+  for(r = startCoords.first + x, c = startCoords.second + y; r >= 0 && r < board.rows && c >= 0 && c < board.cols; r += x, c += y)
   {
     Coords current = std::make_pair(r, c);
 
@@ -258,17 +258,17 @@ void Table::print() const
   // Print column headers
   std::cout << "   |";
 
-  for(int i = 0; i < cols; i++)
+  for(int i = 0; i < board.cols; i++)
     std::cout << " " << static_cast<char>('a' + i) << " |";
 
   std::cout << std::endl;
 
   // Print the entire board.tableMatrix
-  for(int i = 0; i < rows; i++)
+  for(int i = 0; i < board.rows; i++)
   {
     std::cout << std::setw(2) << i + 1 << " |";
 
-    for(int j = 0; j < cols; j++)
+    for(int j = 0; j < board.cols; j++)
     {
       Coords current = std::make_pair(i, j);
       std::string res;
@@ -289,9 +289,9 @@ void Table::print() const
     }
 
     // Print scores if we are in the middle of the board.tableMatrix
-    if(i == (rows >> 1) - 1)
+    if(i == (board.rows >> 1) - 1)
       std::cout << "\tScore(White): " << board.whiteStones;
-    if(i == (rows >> 1))
+    if(i == (board.rows >> 1))
       std::cout << "\tScore(Black): " << board.blackStones; 
 
     std::cout << std::endl;
