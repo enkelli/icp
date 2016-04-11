@@ -80,7 +80,7 @@ int Table::getVecIndex(const Coords& coords) const
 /**
  * @brief Determines if given stone can be placed at given coordinates.
  */
-bool Table::canPutStone(const Coords& coords, Stone stone)
+bool Table::canPutStone(const Coords& coords, Stone stone) const
 {
   // Check if row and col are valid
   if(coords.first < 0 || coords.first >= board.rows || coords.second < 0 || coords.second >= board.cols)
@@ -118,7 +118,7 @@ int Table::getMoveCount() const
 /**
  * @brief Invalidates values in cache.
  */
-void Table::clearCache()
+void Table::clearCache() const
 {
   stoneFlipCache.clear();
   cachedCoords = std::make_pair(-1, -1);
@@ -158,6 +158,9 @@ void Table::putStone(const Coords& coords, Stone stone)
 
   // Increment move count
   board.moveCount++;
+
+  // Tell where we are putting stone
+  std::cout << "Placing stone at position: " << static_cast<char>(coords.second + 'a') << coords.first + 1 << std::endl;
 }
 
 const Table::Board &Table::getBoard() const
@@ -185,7 +188,7 @@ void Table::recountScores()
   }
 }
 
-void Table::fillCacheVector(const Coords& coords, Stone stone)
+void Table::fillCacheVector(const Coords& coords, Stone stone) const
 {
   // Clear out current cache vector
   clearCache();
@@ -216,7 +219,7 @@ void Table::fillCacheVector(const Coords& coords, Stone stone)
   turnStonesByVector(-1, -1, coords, stone);
 }
 
-void Table::turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone)
+void Table::turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone) const
 {
   int r;
   int c;
@@ -290,9 +293,9 @@ void Table::print() const
 
     // Print scores if we are in the middle of the board.tableMatrix
     if(i == (board.rows >> 1) - 1)
-      std::cout << "\tScore(White): " << board.whiteStones;
+      std::cout << "\tScore(" << CLI_WHITE_STONE << "): " << board.whiteStones;
     if(i == (board.rows >> 1))
-      std::cout << "\tScore(Black): " << board.blackStones; 
+      std::cout << "\tScore(" << CLI_BLACK_STONE << "): " << board.blackStones; 
 
     std::cout << std::endl;
   }

@@ -16,6 +16,8 @@
 #ifndef ALGORITHM_H
 #define ALGORITHM_H
 
+#include <memory>
+
 #include "table.h"
 
 /**
@@ -25,7 +27,7 @@ class Algorithm
 {
   public:
     virtual ~Algorithm() = default;
-    virtual Table::Coords nextMove(const Table *table) const = 0;
+    virtual Table::Coords nextMove(const std::shared_ptr<Table> table) const = 0;
 };
 
 #endif

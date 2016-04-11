@@ -41,9 +41,9 @@ class Table
     using Coords = std::pair<int, int>;
 
   private: 
-    void fillCacheVector(const Coords& coords, Stone stone);
-    void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone);
-    void clearCache();
+    void fillCacheVector(const Coords& coords, Stone stone) const;
+    void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone) const;
+    void clearCache() const;
     void recountScores();
 
   private:
@@ -67,9 +67,9 @@ class Table
 
     struct _board board;
 
-    std::vector<Coords> stoneFlipCache;
-    Coords cachedCoords;
-    Stone cachedStone;
+    mutable std::vector<Coords> stoneFlipCache;
+    mutable Coords cachedCoords;
+    mutable Stone cachedStone;
 
     /// @name Table constants.
     /// @{
@@ -86,7 +86,7 @@ class Table
     Table(); 
     Table(int initRows, int initCols);
 
-    bool canPutStone(const Coords& coords, Stone stone);
+    bool canPutStone(const Coords& coords, Stone stone) const;
     void putStone(const Coords& coords, Stone stone);
 
     const Board &getBoard() const;

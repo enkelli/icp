@@ -35,7 +35,7 @@ void Othello::play()
   printCliHelp();
 
   unsigned size = getInitSize();
-              
+
   auto table = std::make_shared<Table>(size, size);
   CommandManager cmdManager;
 
@@ -48,8 +48,19 @@ void Othello::play()
   while(1)        
   {               
     std::cout << std::endl << "On turn: " << players[table->getMoveCount() & 1]  << " " << std::endl;
-    std::cout << ">>";
 
+    Algorithm* algo = new AI_Monkey();
+
+    if (table->getMoveCount() & 1)
+    {
+      auto moveCmd = std::make_shared<TableMoveCommand>(table, algo->nextMove(table), Table::Stone::WHITE);
+      cmdManager.executeCmd(moveCmd);
+      table->print();
+      std::cout << std::endl;
+      continue;
+    }
+
+    std::cout << ">>";
     std::cin >> input;
 
     if (input == "H" || input == "help")
@@ -83,34 +94,23 @@ void Othello::play()
       col = static_cast<int>(c) - static_cast<int>('a');
 
       Table::Coords coords = std::make_pair(row, col);
-      Algorithm& algo = AI_Monkey();
-
-      if (table->getMoveCount() & 1)
+      if (table->canPutStone(coords, Table::Stone::BLACK))
       {
-        auto moveCmd = std::make_shared<TableMoveCommand>(table, algo.nextMove(table), Table::Stone::WHITE);
+        auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::BLACK);
         cmdManager.executeCmd(moveCmd);
       }
       else
       {
-        if (table->canPutStone(coords, Table::Stone::BLACK))
-        {
-          auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::BLACK);
-          cmdManager.executeCmd(moveCmd);
-        }
-        else
-        {
-          std::cout << "Cannot place stone at supplied location." << std::endl;
-        }
-
+        std::cout << "Cannot place stone at supplied location." << std::endl;
       }
 
-      table->print();
-      std::cout << std::endl; 
     }
     else
     {
       std::cout << "\nHey man, are you fucking kidding me? RTFM!! (enter {H|help})" << std::endl;
     }
+    table->print();
+    std::cout << std::endl; 
   }
 }
 

@@ -24,7 +24,7 @@
 class AI_Monkey : public Algorithm
 {
   public:
-    virtual Table::Coords nextMove(const Table *table) const override;
+    virtual Table::Coords nextMove(const std::shared_ptr<Table> table) const override;
 };
 
 #endif
