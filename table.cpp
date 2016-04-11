@@ -5,7 +5,7 @@
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief Implementation of Othello board.tableMatrix.
+ * @brief Implementation of Othello board.
  * @file table.cpp
  *
  * Unless otherwise stated, all code is licensed under a
@@ -21,12 +21,12 @@
 #include "table.h"
 
 /**
- * @brief Set CLI representation of black stone.
+ * @brief Sets CLI representation of black stone.
  */
 const std::string Table::CLI_BLACK_STONE = "☻";
 
 /**
- * @brief Set CLI representation of white stone.
+ * @brief Sets CLI representation of white stone.
  */
 const std::string Table::CLI_WHITE_STONE = "☺";
 
@@ -78,7 +78,7 @@ int Table::getVecIndex(const Coords& coords) const
 }
 
 /**
- * @brief Determines if given stone can be placed at given coordinates
+ * @brief Determines if given stone can be placed at given coordinates.
  */
 bool Table::canPutStone(const Coords& coords, Stone stone)
 {
@@ -108,7 +108,7 @@ bool Table::canPutStone(const Coords& coords, Stone stone)
 }
 
 /**
- * @brief Returns number of moves made
+ * @brief Returns number of moves made.
  */
 int Table::getMoveCount() const
 {
@@ -116,7 +116,7 @@ int Table::getMoveCount() const
 }
 
 /**
- * @brief Invalidate values in cache
+ * @brief Invalidates values in cache.
  */
 void Table::clearCache()
 {
@@ -128,7 +128,7 @@ void Table::clearCache()
 /**
  * @brief Will attempt to place stone at given coordinates.
  *
- * @exception Will throw OthelloError if stone cannot be placed
+ * @exception Will throw OthelloError if stone cannot be placed.
  */
 void Table::putStone(const Coords& coords, Stone stone)
 {
@@ -251,7 +251,7 @@ void Table::turnStonesByVector(int x, int y, const Coords& startCoords, Stone ow
 }
 
 /**
- * @brief Print current table to stdout
+ * @brief Prints current table to stdout.
  */
 void Table::print() const
 {

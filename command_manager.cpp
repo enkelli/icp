@@ -33,7 +33,7 @@ void CommandManager::executeCmd(std::shared_ptr<Command> command)
 }
 
 /**
- * @brief Returns to previous state.
+ * @brief Returns game board to previous state.
  */
 void CommandManager::undo()
 {
@@ -46,7 +46,7 @@ void CommandManager::undo()
 }
 
 /**
- * @brief Forward one step in history.
+ * @brief Forward game board one step in history.
  */
 void CommandManager::redo()
 {
