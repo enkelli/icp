@@ -19,7 +19,7 @@ all: $(PROJ_CLI)
 $(PROJ_CLI): $(OBJ_FILES)
 	$(CXX) $(CFLAGS) $^ -o $(PROJ_CLI)
 
-%.o: %.cpp
+%.o: %.cpp %.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 doxygen:
