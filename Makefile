@@ -22,6 +22,9 @@ $(PROJ_CLI): $(OBJ_FILES)
 %.o: %.cpp %.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
+main.o: main.cpp
+	$(CXX) $(CFLAGS) -c main.cpp
+
 doxygen:
 	@echo "Write some doc please, your code is such an non-readable shit."
 
