@@ -140,6 +140,18 @@ void Table::putStone(const Coords& coords, Stone stone)
   board[getVecIndex(coords)] = stone;
 }
 
+Table::Board &Table::getBoard()
+{
+  return board;
+}
+ 
+void Table::setBoard(Board &board)
+{
+  this->board = board;
+  //TODO re-count score
+}
+
+
 void Table::fillCacheVector(const Coords& coords, Stone stone)
 {
   // Clear out current cache vector

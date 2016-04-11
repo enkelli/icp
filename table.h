@@ -30,15 +30,17 @@ class Table
     /// Representation of the white stone on the table.
     static const std::string CLI_WHITE_STONE;
 
-    /// Definition of coordinates
-    using Coords = std::pair<int, int>;
-
     enum class Stone
     {
       FREE,
       BLACK,
       WHITE
     };
+    
+    /// Definition of board
+    using Board = std::vector<Stone>; 
+    /// Definition of coordinates
+    using Coords = std::pair<int, int>;
 
   public:    
     Table(); 
@@ -46,6 +48,10 @@ class Table
 
     bool canPut(const Coords& coords, Stone stone);
     void putStone(const Coords& coords, Stone stone);
+
+    Board &getBoard();
+    void setBoard(Board &board);
+
     void print() const;
 
   private: 
@@ -63,7 +69,7 @@ class Table
     /// Count of white stones on the table.
     int whiteStones;
 
-    std::vector<Stone> board;
+    Board board;
 
     std::vector<Coords> stoneFlipCache;
     Coords cachedCoords;
