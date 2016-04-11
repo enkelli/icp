@@ -24,6 +24,8 @@
 #include "othello.h"
 #include "table.h"
 #include "table_move_command.h"
+#include "algorithm.h"
+#include "algorithm_monkey.h"
 
 Othello::Othello() = default;
 
@@ -81,19 +83,12 @@ void Othello::play()
       col = static_cast<int>(c) - static_cast<int>('a');
 
       Table::Coords coords = std::make_pair(row, col);
+      Algorithm& algo = AI_Monkey();
 
       if (table->getMoveCount() & 1)
       {
-        if (table->canPutStone(coords, Table::Stone::WHITE))
-        {
-          auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::WHITE);
-          cmdManager.executeCmd(moveCmd);
-        }
-        else
-        {
-          std::cout << "Cannot place stone at supplied location." << std::endl;
-        }
-
+        auto moveCmd = std::make_shared<TableMoveCommand>(table, algo.nextMove(table), Table::Stone::WHITE);
+        cmdManager.executeCmd(moveCmd);
       }
       else
       {
@@ -108,7 +103,7 @@ void Othello::play()
         }
 
       }
-    
+
       table->print();
       std::cout << std::endl; 
     }
@@ -118,7 +113,7 @@ void Othello::play()
     }
   }
 }
-  
+
 void Othello::printCliHelp() const
 {
   std::cout << "Game controls:" << std::endl;

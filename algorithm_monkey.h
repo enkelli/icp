@@ -5,26 +5,26 @@
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief An abstract class for algorithm implementing Othello player
- * @file algorithm.h
+ * @brief A monkey algorithm
+ * @file algorithm_monkey.h
  *
  * Unless otherwise stated, all code is licensed under a
  * GNU General Public License v2.0
  *
  */
  
-#ifndef ALGORITHM_H
-#define ALGORITHM_H
+#ifndef ALGORITHM_MONKEY_H
+#define ALGORITHM_MONKEY_H
 
-#include "table.h"
+#include "algorithm.h"
 
 /**
  * @brief An abstract class for algorithm implementing Othello player.
  */
-class Algorithm
+class AI_Monkey : public Algorithm
 {
   public:
-    virtual Table::Coords step(const Table &table) const = 0;
+    virtual Table::Coords nextMove(const Table *table) const override;
 };
 
 #endif

@@ -41,7 +41,6 @@ class Table
     using Coords = std::pair<int, int>;
 
   private: 
-    int getVecIndex(const Coords& coords) const;
     void fillCacheVector(const Coords& coords, Stone stone);
     void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone);
     void clearCache();
@@ -94,6 +93,7 @@ class Table
     void setBoard(Board &board);
 
     int getMoveCount() const;
+    int getVecIndex(const Coords& coords) const;
 
     void print() const;
 };
