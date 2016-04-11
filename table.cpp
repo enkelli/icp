@@ -160,12 +160,12 @@ void Table::putStone(const Coords& coords, Stone stone)
   board.moveCount++;
 }
 
-Table::Board &Table::getBoard()
+const Table::Board &Table::getBoard() const
 {
   return board;
 }
  
-void Table::setBoard(Board &board)
+void Table::setBoard(const Board &board)
 {
   clearCache();
   this->board = board;

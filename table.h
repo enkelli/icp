@@ -90,8 +90,8 @@ class Table
     bool canPutStone(const Coords& coords, Stone stone);
     void putStone(const Coords& coords, Stone stone);
 
-    Board &getBoard();
-    void setBoard(Board &board);
+    const Board &getBoard() const;
+    void setBoard(const Board &board);
 
     int getMoveCount() const;
 

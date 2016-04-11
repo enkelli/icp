@@ -35,7 +35,7 @@ class TableMoveCommand: public Command
 
   private:
     std::shared_ptr<Table> table;
-    Table::Board board;
+    const Table::Board board;
     Table::Coords coords;
     Table::Stone stone;
 };
