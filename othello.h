@@ -19,6 +19,8 @@
 #include <string>
 #include <vector>
 
+#include "game.h"
+
 /**
  * @brief A representation of Othello brain.
  */
@@ -30,8 +32,18 @@ class Othello
     void play();
 
   private:
+    void startNewGame();
+    void closeCurrentGame();
     void printCliHelp() const;
     unsigned getInitSize() const;
+
+  private:
+    /// Pointer to active game.
+    unsigned currGame;
+
+    using Games = std::vector<Game>;
+    /// Storage for all opened games.
+    Games games;
 };
 
 #endif

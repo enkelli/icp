@@ -19,43 +19,38 @@
 #include <memory>
 #include <string>
 
+#include "algorithm.h"
+#include "algorithm_monkey.h"
 #include "command_manager.h"
 #include "exception.h"
+#include "game.h"
 #include "othello.h"
 #include "table.h"
 #include "table_move_command.h"
-#include "algorithm.h"
-#include "algorithm_monkey.h"
 
 Othello::Othello() = default;
 
 void Othello::play()
 {                     
-  std::cout << "Welcome to the Othello." << std::endl;
-  printCliHelp();
-
-  unsigned size = getInitSize();
-
-  auto table = std::make_shared<Table>(size, size);
-  CommandManager cmdManager;
+  startNewGame();
 
   const std::vector<std::string> players{Table::CLI_BLACK_STONE, Table::CLI_WHITE_STONE};
 
   std::string input;
 
-  table->print();
+  games[currGame].table->print();
 
   while(1)        
   {               
-    std::cout << std::endl << "On turn: " << players[table->getMoveCount() & 1]  << " " << std::endl;
+    std::cout << std::endl << "On turn: " << players[games[currGame].table->getMoveCount() & 1]  << " " << std::endl;
 
     Algorithm* algo = new AI_Monkey();
 
-    if (table->getMoveCount() & 1)
+    if (games[currGame].table->getMoveCount() & 1)
     {
-      auto moveCmd = std::make_shared<TableMoveCommand>(table, algo->nextMove(table), Table::Stone::WHITE);
-      cmdManager.executeCmd(moveCmd);
-      table->print();
+      auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, algo->nextMove(games[currGame].table), Table::Stone::WHITE);
+      games[currGame].cmdManager.executeCmd(moveCmd);
+      games[currGame].table->print();
       std::cout << std::endl;
       continue;
     }
@@ -70,20 +65,30 @@ void Othello::play()
     }
     else if (input == "u" || input == "undo")
     {
-      cmdManager.undo();
-      table->print();
+      games[currGame].cmdManager.undo();
+      games[currGame].table->print();
       std::cout << std::endl; 
     }
     else if (input == "r" || input == "redo")
     {
-      cmdManager.redo();
-      table->print();
+      games[currGame].cmdManager.redo();
+      games[currGame].table->print();
       std::cout << std::endl; 
     }
     else if (input == "x" || input == "exit")
     {
-      std::cout << "Good bye!" << std::endl;
-      return;
+      closeCurrentGame();
+      if (games.empty())
+      {
+        std::cout << "Good bye!" << std::endl;
+        return;
+      }
+      std::cout << "\tClosing game " << currGame + 2 << std::endl << std::endl;
+    }
+    else if (input == "n" || input == "new")
+    {
+      std::cout << "Starting next game. Opened games: " << games.size() << std::endl;
+      startNewGame();
     }
     else if (input.size() > 1 && isalpha(input[0]) && isdigit(input[1]))
     {
@@ -94,10 +99,10 @@ void Othello::play()
       col = static_cast<int>(c) - static_cast<int>('a');
 
       Table::Coords coords = std::make_pair(row, col);
-      if (table->canPutStone(coords, Table::Stone::BLACK))
+      if (games[currGame].table->canPutStone(coords, Table::Stone::BLACK))
       {
-        auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::BLACK);
-        cmdManager.executeCmd(moveCmd);
+        auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, Table::Stone::BLACK);
+        games[currGame].cmdManager.executeCmd(moveCmd);
       }
       else
       {
@@ -109,9 +114,28 @@ void Othello::play()
     {
       std::cout << "\nHey man, are you fucking kidding me? RTFM!! (enter {H|help})" << std::endl;
     }
-    table->print();
+    games[currGame].table->print();
     std::cout << std::endl; 
   }
+}
+
+void Othello::startNewGame()
+{
+  std::cout << "Welcome to the Othello." << std::endl;
+  printCliHelp();
+
+  unsigned size = getInitSize();
+
+  auto table = std::make_shared<Table>(size, size);
+  CommandManager cmdM;
+  games.emplace_back(table, cmdM, false);
+  currGame = games.size() - 1;
+}
+
+void Othello::closeCurrentGame()
+{
+  games.erase(games.begin() + currGame);
+  currGame--;
 }
 
 void Othello::printCliHelp() const

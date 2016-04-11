@@ -47,6 +47,7 @@ Table::Table(int initRows, int initCols)
 
   board.rows = initRows;
   board.cols = initCols;
+  board.moveCount = 0;
   board.tableMatrix.resize(board.rows * board.cols);
 
   for(Stone& s : board.tableMatrix)
