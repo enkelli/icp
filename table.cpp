@@ -80,7 +80,7 @@ int Table::getVecIndex(const Coords& coords) const
 /**
  * @brief Determines if given stone can be placed at given coordinates
  */
-bool Table::canPut(const Coords& coords, Stone stone)
+bool Table::canPutStone(const Coords& coords, Stone stone)
 {
   // Check if row and col are valid
   if(coords.first < 0 || coords.first >= rows || coords.second < 0 || coords.second >= cols)
@@ -108,6 +108,14 @@ bool Table::canPut(const Coords& coords, Stone stone)
 }
 
 /**
+ * @brief Returns number of moves made
+ */
+int Table::getMoveCount() const
+{
+  return board.moveCount;
+}
+
+/**
  * @brief Invalidate values in cache
  */
 void Table::clearCache()
@@ -124,7 +132,7 @@ void Table::clearCache()
  */
 void Table::putStone(const Coords& coords, Stone stone)
 {
-  if(!canPut(coords, stone))
+  if(!canPutStone(coords, stone))
     throw OthelloError("Cannot place stone at supplied location");
 
   // Modify stone counters
@@ -147,6 +155,9 @@ void Table::putStone(const Coords& coords, Stone stone)
 
   // Flip current stone too
   board.tableMatrix[getVecIndex(coords)] = stone;
+
+  // Increment move count
+  board.moveCount++;
 }
 
 Table::Board &Table::getBoard()

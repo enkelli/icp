@@ -37,7 +37,6 @@ void Othello::play()
   auto table = std::make_shared<Table>(size, size);
   CommandManager cmdManager;
 
-  int player_index = 0;
   const std::vector<std::string> players{Table::CLI_BLACK_STONE, Table::CLI_WHITE_STONE};
 
   std::string input;
@@ -46,7 +45,7 @@ void Othello::play()
 
   while(1)        
   {               
-    std::cout << std::endl << "On turn: " << players[player_index & 1]  << " " << std::endl;
+    std::cout << std::endl << "On turn: " << players[table->getMoveCount() & 1]  << " " << std::endl;
     std::cout << ">>";
 
     std::cin >> input;
@@ -83,11 +82,10 @@ void Othello::play()
 
       Table::Coords coords = std::make_pair(row, col);
 
-      if (player_index & 1)
+      if (table->getMoveCount() & 1)
       {
-        if (table->canPut(coords, Table::Stone::WHITE))
+        if (table->canPutStone(coords, Table::Stone::WHITE))
         {
-          player_index++;
           auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::WHITE);
           cmdManager.executeCmd(moveCmd);
         }
@@ -99,9 +97,8 @@ void Othello::play()
       }
       else
       {
-        if (table->canPut(coords, Table::Stone::BLACK))
+        if (table->canPutStone(coords, Table::Stone::BLACK))
         {
-          player_index++;
           auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::BLACK);
           cmdManager.executeCmd(moveCmd);
         }

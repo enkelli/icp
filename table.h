@@ -87,11 +87,13 @@ class Table
     Table(); 
     Table(int initRows, int initCols);
 
-    bool canPut(const Coords& coords, Stone stone);
+    bool canPutStone(const Coords& coords, Stone stone);
     void putStone(const Coords& coords, Stone stone);
 
     Board &getBoard();
     void setBoard(Board &board);
+    
+    int getMoveCount() const;
 
     void print() const;
 };
