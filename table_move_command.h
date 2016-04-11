@@ -34,9 +34,13 @@ class TableMoveCommand: public Command
     virtual void redo() override;
 
   private:
+    /// Table that holds game.
     std::shared_ptr<Table> table;
-    Table::Board board;
+    /// Current state of the board - where what stones are.
+    const Table::Board board;
+    /// Coords of next move.
     Table::Coords coords;
+    /// Stone to put in next move.
     Table::Stone stone;
 };
 

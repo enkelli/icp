@@ -35,7 +35,9 @@ class CommandManager
 
   private:
     using CmdStack = std::stack<std::shared_ptr<Command>>;
+    /// Stack for previous move commands.
     CmdStack undoStack;
+    /// Stack for forward move commands.
     CmdStack redoStack;
 };
 
