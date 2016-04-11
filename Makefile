@@ -13,12 +13,12 @@ CFLAGS=-std=c++11 -Wall -Wextra -pedantic -g
 
 all: $(PROJ_CLI)
 
-OBJ_FILES=main.o othello.o table.o
+OBJ_FILES=main.o othello.o table.o command_manager.o
 
 $(PROJ_CLI): $(OBJ_FILES)
 	$(CXX) $^ -o $(PROJ_CLI)
 
-$(OBJ_FILES): main.cpp othello.cpp othello.h table.cpp table.h
+$(OBJ_FILES): main.cpp othello.cpp othello.h table.cpp table.h command_manager.cpp command_manager.h
 	$(CXX) $(CFLAGS) -c $^
 
 doxygen:

@@ -13,8 +13,6 @@
  *
  */
 
-#include <stack.h>
-
 #include "command_manager.h"
 
 /**
@@ -27,7 +25,7 @@ CommandManager::CommandManager() = default;
  *
  * Executing new command deletes @c redo history.
  */
-void executeCmd(std::shared_ptr<Command> &command)
+void CommandManager::executeCmd(std::shared_ptr<Command> &command)
 {
   redoStack = CmdStack();
   command->execute();
@@ -37,7 +35,7 @@ void executeCmd(std::shared_ptr<Command> &command)
 /**
  * @brief Returns to previous state.
  */
-void undo()
+void CommandManager::undo()
 {
   if (!undoStack.empty())
   {
@@ -50,7 +48,7 @@ void undo()
 /**
  * @brief Forward one step in history.
  */
-void redo()
+void CommandManager::redo()
 {
   if (!redoStack.empty())
   {

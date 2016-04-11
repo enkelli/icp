@@ -18,6 +18,7 @@
 #include <limits>
 #include <string>
 
+#include "command_manager.h"
 #include "exception.h"
 #include "othello.h"
 #include "table.h"
@@ -32,6 +33,8 @@ void Othello::play()
   unsigned size = getInitSize();
               
   Table table(size, size);
+  CommandManager cmdManager;
+
   int player_index = 0;
   const std::vector<std::string> players{Table::CLI_BLACK_STONE, Table::CLI_WHITE_STONE};
 
@@ -74,18 +77,33 @@ void Othello::play()
 
       Table::Coords coords = std::make_pair(row, col);
 
-      try
+      if (player_index++ & 1)
       {
-        (player_index++ & 1) ?
-          table.putStone(coords, Table::Stone::WHITE) :
+        if (table.canPut(coords, Table::Stone::WHITE))
+        {
+          table.putStone(coords, Table::Stone::WHITE);
+        }
+        else
+        {
+          player_index--;
+          std::cout << "Cannot place stone at supplied location." << std::endl;
+        }
+
+      }
+      else
+      {
+        if (table.canPut(coords, Table::Stone::BLACK))
+        {
           table.putStone(coords, Table::Stone::BLACK);
+        }
+        else
+        {
+          player_index--;
+          std::cout << "Cannot place stone at supplied location." << std::endl;
+        }
+
       }
-      catch(const OthelloError& e)
-      {
-        std::cout << e.what() << std::endl;
-        player_index--;
-      }
-      
+    
       table.print();
       std::cout << std::endl; 
     }

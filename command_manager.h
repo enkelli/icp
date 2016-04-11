@@ -16,7 +16,8 @@
 #ifndef COMMAND_MANAGER_H
 #define COMMAND_MANAGER_H
 
-#include <stack.h>
+#include <memory>
+#include <stack>
 
 #include "command.h"
 
