@@ -29,7 +29,7 @@ class CommandManager
   public:
     CommandManager();
 
-    void executeCmd(std::shared_ptr<Command> &command);
+    void executeCmd(std::shared_ptr<Command> command);
     void undo();
     void redo();
 

@@ -25,7 +25,7 @@ CommandManager::CommandManager() = default;
  *
  * Executing new command deletes @c redo history.
  */
-void CommandManager::executeCmd(std::shared_ptr<Command> &command)
+void CommandManager::executeCmd(std::shared_ptr<Command> command)
 {
   redoStack = CmdStack();
   command->execute();

@@ -16,12 +16,14 @@
 #include <cctype>
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <string>
 
 #include "command_manager.h"
 #include "exception.h"
 #include "othello.h"
 #include "table.h"
+#include "table_move_command.h"
 
 Othello::Othello() = default;
 
@@ -32,7 +34,7 @@ void Othello::play()
 
   unsigned size = getInitSize();
               
-  Table table(size, size);
+  auto table = std::make_shared<Table>(size, size);
   CommandManager cmdManager;
 
   int player_index = 0;
@@ -40,7 +42,7 @@ void Othello::play()
 
   std::string input;
 
-  table.print();
+  table->print();
 
   while(1)        
   {               
@@ -56,11 +58,15 @@ void Othello::play()
     }
     else if (input == "u" || input == "undo")
     {
-      std::cout << "You wish to undo, but authors are too lazy." << std::endl;
+      cmdManager.undo();
+      table->print();
+      std::cout << std::endl; 
     }
     else if (input == "r" || input == "redo")
     {
-      std::cout << "You wish to redo, but authors are too lazy." << std::endl;
+      cmdManager.redo();
+      table->print();
+      std::cout << std::endl; 
     }
     else if (input == "x" || input == "exit")
     {
@@ -77,34 +83,36 @@ void Othello::play()
 
       Table::Coords coords = std::make_pair(row, col);
 
-      if (player_index++ & 1)
+      if (player_index & 1)
       {
-        if (table.canPut(coords, Table::Stone::WHITE))
+        if (table->canPut(coords, Table::Stone::WHITE))
         {
-          table.putStone(coords, Table::Stone::WHITE);
+          player_index++;
+          auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::WHITE);
+          cmdManager.executeCmd(moveCmd);
         }
         else
         {
-          player_index--;
           std::cout << "Cannot place stone at supplied location." << std::endl;
         }
 
       }
       else
       {
-        if (table.canPut(coords, Table::Stone::BLACK))
+        if (table->canPut(coords, Table::Stone::BLACK))
         {
-          table.putStone(coords, Table::Stone::BLACK);
+          player_index++;
+          auto moveCmd = std::make_shared<TableMoveCommand>(table, coords, Table::Stone::BLACK);
+          cmdManager.executeCmd(moveCmd);
         }
         else
         {
-          player_index--;
           std::cout << "Cannot place stone at supplied location." << std::endl;
         }
 
       }
     
-      table.print();
+      table->print();
       std::cout << std::endl; 
     }
     else

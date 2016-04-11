@@ -18,8 +18,9 @@
 /**
  * @brief Creates a new table move command.
  */
-TableMoveCommand(table, player, move):
-  table(table). player(player), move(move) {}
+TableMoveCommand::TableMoveCommand(
+  std::shared_ptr<Table> table, Table::Coords coords, Table::Stone stone):
+    table(table), board(table->getBoard()), coords(coords), stone(stone) {} 
 
 /**
  * @brief Executes move command.
@@ -27,18 +28,17 @@ TableMoveCommand(table, player, move):
  * It should be sure that command succeeds - stone can be placed on position,
  * otherwise empty command would be stored to history.
  */
-void execute()
+void TableMoveCommand::execute()
 {
-  map = table->getMap;
-  table->step(player, move);
+  table->putStone(coords, stone);
 }
 
 /**
  * @brief One step back in game.
  */
-void undo()
+void TableMoveCommand::undo()
 {
-  Table->revertStep(player, move);   
+  table->setBoard(board);
 }
 
 /**
@@ -46,7 +46,8 @@ void undo()
  *
  * Available only after undo.
  */
-void redo()
+void TableMoveCommand::redo()
 {
-  table->nextStep(player, move);
+  table->setBoard(board);
+  table->putStone(coords, stone);
 }

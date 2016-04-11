@@ -16,7 +16,10 @@
 #ifndef TABLE_MOVE_COMMAND_H
 #define TABLE_MOVE_COMMAND_H
 
+#include <memory>
+
 #include "command.h"
+#include "table.h"
 
 /**
  * @brief A representation of table move command.
@@ -24,19 +27,17 @@
 class TableMoveCommand: public Command
 {
   public:
-    TableMoveCommand(table, player, move);
-    //store table and player, perform move
+    TableMoveCommand(std::shared_ptr<Table> table, Table::Coords coords, Table::Stone stone);
 
     virtual void execute() override;
     virtual void undo() override;
-    virtual void redo override;
+    virtual void redo() override;
 
   private:
-    player player;
-    tableObject *table; //no need to whole table object, just board..??
-    Coords move;
-
-    tableMap map;
+    std::shared_ptr<Table> table;
+    Table::Board board;
+    Table::Coords coords;
+    Table::Stone stone;
 };
 
 #endif
