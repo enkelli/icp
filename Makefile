@@ -9,6 +9,7 @@ PROJ_CLI=$(PROJ)-cli
 PROJ_GUI=$(PROJ)-gui
 CXX=g++
 CFLAGS=-std=c++11 -Wall -Wextra -pedantic -O2
+DOXYGEN=doxygen
 
 SRC_FILES = $(wildcard *.cpp)
 HEADER_FILES = $(wildcard *.h)
@@ -26,10 +27,11 @@ main.o: main.cpp
 	$(CXX) $(CFLAGS) -c main.cpp
 
 doxygen:
-	@echo "Write some doc please, your code is such an non-readable shit."
+	$(DOXYGEN) doxyConf
 
 clean:
 	rm -f *.o *.h.gch $(PROJ)-cli $(PROJ)-gui
+	rm -rf doc/
 
 run:
 	./$(PROJ_CLI)
