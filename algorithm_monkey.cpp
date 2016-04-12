@@ -25,6 +25,11 @@
 #include "exception.h"
 #include "algorithm_monkey.h"
 
+/**
+ * @brief Returns coordinates of next AI move
+ *
+ * @exception Will throw OthelloAI if there are no possible moves for the algo
+ */
 Table::Coords AI_Monkey::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
 {
   std::vector<Table::Coords> availableCoords = table->getPossibleCoords(stone);

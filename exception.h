@@ -23,8 +23,16 @@
  */
 class OthelloError: public std::runtime_error
 {
-	public:
-		using std::runtime_error::runtime_error;
+  public:
+    using std::runtime_error::runtime_error;
 };
 
+/**
+ * @brief Exceptions relating to algorithmic actions
+ */
+class OthelloAI: public std::runtime_error
+{
+  public:
+    using std::runtime_error::runtime_error;
+};
 #endif
