@@ -95,6 +95,8 @@ class Table
     int getMoveCount() const;
     int getVecIndex(const Coords& coords) const;
 
+    std::vector<Coords> getPossibleCoords(Stone stone);
+
     void print() const;
 };
 

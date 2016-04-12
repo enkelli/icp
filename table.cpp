@@ -164,6 +164,27 @@ void Table::putStone(const Coords& coords, Stone stone)
   std::cout << "Placing stone at position: " << static_cast<char>(coords.second + 'a') << coords.first + 1 << std::endl;
 }
 
+/**
+ * @brief Returns a vector of coordinates where a stone of the given color can be placed. Vector will be empty if the stone cannot be placed anywhere on the board
+ */
+std::vector<Table::Coords> Table::getPossibleCoords(Stone stone)
+{
+  // This vector will hold coordinates which we can move to
+  std::vector<Coords> possibleCoords;
+
+  for(int i = 0; i < board.rows; i++)
+  {
+    for(int j = 0; j < board.cols; j++)
+    {
+      Coords c = std::make_pair(i, j);
+      if(canPutStone(c, stone))
+        possibleCoords.push_back(c);
+    }
+  }
+
+  return possibleCoords;
+}
+
 const Table::Board &Table::getBoard() const
 {
   return board;
