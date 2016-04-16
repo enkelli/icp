@@ -48,7 +48,11 @@ void Othello::play()
 
     if (games[currGame].table->getMoveCount() & 1)
     {
-      auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, algo->nextMove(games[currGame].table, Table::Stone::WHITE), Table::Stone::WHITE);
+      auto moveCmd = std::make_shared<TableMoveCommand>(
+          games[currGame].table,
+          algo->nextMove(games[currGame].table, Table::Stone::WHITE),
+          Table::Stone::WHITE
+        );
       games[currGame].cmdManager.executeCmd(moveCmd);
       games[currGame].table->print();
       std::cout << std::endl;

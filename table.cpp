@@ -43,7 +43,7 @@ Table::Table(int initRows, int initCols)
 {
   // Number of rows and cols must meet required minimum and must be even
   if(initRows < minRows || initCols < minCols || (initRows & 1) || (initCols & 1))
-    throw OthelloError("Initial row/col count is too small or odd");
+    throw OthelloError("Initial row/col count is too small or odd.");
 
   board.rows = initRows;
   board.cols = initCols;
@@ -165,7 +165,9 @@ void Table::putStone(const Coords& coords, Stone stone)
 }
 
 /**
- * @brief Returns a vector of coordinates where a stone of the given color can be placed. Vector will be empty if the stone cannot be placed anywhere on the board
+ * @brief Returns a vector of coordinates where a stone of the given color can be placed.
+ *
+ * Vector will be empty if the stone cannot be placed anywhere on the board.
  */
 std::vector<Table::Coords> Table::getPossibleCoords(Stone stone)
 {

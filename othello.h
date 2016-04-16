@@ -38,7 +38,7 @@ class Othello
     unsigned getInitSize() const;
 
   private:
-    /// Pointer to active game.
+    /// Index of active game.
     unsigned currGame;
 
     using Games = std::vector<Game>;

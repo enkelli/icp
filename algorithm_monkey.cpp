@@ -21,21 +21,21 @@
 #include <thread>
 #include <vector>
 
-#include "table.h"
-#include "exception.h"
 #include "algorithm_monkey.h"
+#include "exception.h"
+#include "table.h"
 
 /**
- * @brief Returns coordinates of next AI move
+ * @brief Returns coordinates of next @c AI move.
  *
- * @exception Will throw OthelloAI if there are no possible moves for the algo
+ * @throw OthelloAIError if there are no possible moves.
  */
 Table::Coords AI_Monkey::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
 {
   std::vector<Table::Coords> availableCoords = table->getPossibleCoords(stone);
   
   if(availableCoords.size() == 0)
-    throw OthelloAI("AI has no possible moves");
+    throw OthelloAIError("AI has no possible moves");
   
   // Get random index into available coordinates
   std::srand(std::time(0));
