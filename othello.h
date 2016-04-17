@@ -36,6 +36,7 @@ class Othello
     void closeCurrentGame();
     void printCliHelp() const;
     unsigned getInitSize() const;
+    bool chooseOpponentAI() const;
 
   private:
     /// Index of active game.

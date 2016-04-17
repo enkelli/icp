@@ -39,24 +39,27 @@ void Othello::play()
   std::string input;
 
   games[currGame].table->print();
+    
+  std::unique_ptr<AI_Monkey> algo(new AI_Monkey());
 
   while(1)        
   {               
     std::cout << std::endl << "On turn: " << players[games[currGame].table->getMoveCount() & 1]  << " " << std::endl;
 
-    Algorithm* algo = new AI_Monkey();
-
     if (games[currGame].table->getMoveCount() & 1)
     {
-      auto moveCmd = std::make_shared<TableMoveCommand>(
-          games[currGame].table,
-          algo->nextMove(games[currGame].table, Table::Stone::WHITE),
-          Table::Stone::WHITE
-        );
-      games[currGame].cmdManager.executeCmd(moveCmd);
-      games[currGame].table->print();
-      std::cout << std::endl;
-      continue;
+      if (games[currGame].AIPlayer)
+      {
+        auto moveCmd = std::make_shared<TableMoveCommand>(
+            games[currGame].table,
+            algo->nextMove(games[currGame].table, Table::Stone::WHITE),
+            Table::Stone::WHITE
+          );
+        games[currGame].cmdManager.executeCmd(moveCmd);
+        games[currGame].table->print();
+        std::cout << std::endl;
+        continue;
+      }
     }
 
     std::cout << ">>";
@@ -103,9 +106,12 @@ void Othello::play()
       col = static_cast<int>(c) - static_cast<int>('a');
 
       Table::Coords coords = std::make_pair(row, col);
-      if (games[currGame].table->canPutStone(coords, Table::Stone::BLACK))
+      Table::Stone currStone = games[currGame].table->getMoveCount() & 1 ?
+        Table::Stone::WHITE : Table::Stone::BLACK;
+
+      if (games[currGame].table->canPutStone(coords, currStone))
       {
-        auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, Table::Stone::BLACK);
+        auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, currStone);
         games[currGame].cmdManager.executeCmd(moveCmd);
       }
       else
@@ -116,7 +122,7 @@ void Othello::play()
     }
     else
     {
-      std::cout << "\nHey man, are you fucking kidding me? RTFM!! (enter {H|help})" << std::endl;
+      std::cout << "\nHey man, are you kidding me? RTFM!! (enter {H|help})" << std::endl;
     }
     games[currGame].table->print();
     std::cout << std::endl; 
@@ -129,10 +135,11 @@ void Othello::startNewGame()
   printCliHelp();
 
   unsigned size = getInitSize();
+  bool againstAI = chooseOpponentAI();
 
   auto table = std::make_shared<Table>(size, size);
   CommandManager cmdM;
-  games.emplace_back(table, cmdM, false);
+  games.emplace_back(table, cmdM, againstAI);
   currGame = games.size() - 1;
 }
 
@@ -151,6 +158,15 @@ void Othello::printCliHelp() const
   std::cout << "\t x | exit --> exit game" << std::endl;
   std::cout << "\t AN --> A is letter for column and N is number of row" << std::endl;
   std::cout << std::endl;
+}
+
+bool Othello::chooseOpponentAI() const
+{
+  std::cout << "Do you wanna play against computer? (y/n)" << std::endl;
+  std::cout << ">>";
+  std::string answer;
+  std::cin >> answer;
+  return tolower(answer[0]) == 'y';
 }
 
 unsigned Othello::getInitSize() const
