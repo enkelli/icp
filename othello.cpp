@@ -14,6 +14,7 @@
  */
 
 #include <cctype>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -94,8 +95,20 @@ void Othello::play()
     }
     else if (input == "n" || input == "new")
     {
-      std::cout << "Starting next game. Opened games: " << games.size() << std::endl;
+      std::cout << "Starting next game. Opened games: " << games.size() + 1 << std::endl;
       startNewGame();
+    }
+    else if (input == "switch")
+    {
+      std::string indexStr;
+      std::cin >> indexStr;
+      if (!isdigit(indexStr[0]))
+      {
+        continue;
+      }
+      unsigned index = std::stoi(indexStr); // first is int, don't care about rest
+      std::cout << "Switching to  game " << index << std::endl;
+      currGame = index - 1;
     }
     else if (input.size() > 1 && isalpha(input[0]) && isdigit(input[1]))
     {
@@ -146,7 +159,10 @@ void Othello::startNewGame()
 void Othello::closeCurrentGame()
 {
   games.erase(games.begin() + currGame);
-  currGame--;
+  if (currGame > 0)
+  {
+    currGame--;
+  }
 }
 
 void Othello::printCliHelp() const
@@ -155,6 +171,7 @@ void Othello::printCliHelp() const
   std::cout << "\t H | help --> print this help message" << std::endl;
   std::cout << "\t u | undo --> undo one step backward" << std::endl;
   std::cout << "\t r | redo --> redo one step forward" << std::endl;
+  std::cout << "\t n | new --> start next game" << std::endl;
   std::cout << "\t x | exit --> exit game" << std::endl;
   std::cout << "\t AN --> A is letter for column and N is number of row" << std::endl;
   std::cout << std::endl;
@@ -194,4 +211,13 @@ unsigned Othello::getInitSize() const
     std::cout << "Wrong size! 6, 8, 10 or 12" << std::endl;
   }
   return size;
+}
+
+void Othello::saveCurrentGame() const
+{
+  std::string fileName;
+  std::cout << "Enter file name:";
+  std::cin >> fileName;
+  
+  Table::Board board = games[currGame].table->getBoard();
 }
