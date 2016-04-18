@@ -29,12 +29,11 @@
 #include "exception.h"
 #include "game.h"
 #include "othello.h"
-#include "table.h"
 #include "table_move_command.h"
 
 Othello::Othello() = default;
 
-void Othello::play()
+void Othello::play_cli()
 {                     
   startNewGame();
 
@@ -54,12 +53,8 @@ void Othello::play()
     {
       if (games[currGame].AIPlayer)
       {
-        auto moveCmd = std::make_shared<TableMoveCommand>(
-            games[currGame].table,
-            algo->nextMove(games[currGame].table, Table::Stone::WHITE),
-            Table::Stone::WHITE
-          );
-        games[currGame].cmdManager.executeCmd(moveCmd);
+        Table::Coords coords = algo->nextMove(games[currGame].table, Table::Stone::WHITE);
+        putStoneIfPossible(coords, Table::Stone::WHITE);
         games[currGame].table->print();
         std::cout << std::endl;
         continue;
@@ -143,12 +138,7 @@ void Othello::play()
       Table::Stone currStone = games[currGame].table->getMoveCount() & 1 ?
         Table::Stone::WHITE : Table::Stone::BLACK;
 
-      if (games[currGame].table->canPutStone(coords, currStone))
-      {
-        auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, currStone);
-        games[currGame].cmdManager.executeCmd(moveCmd);
-      }
-      else
+      if (!putStoneIfPossible(coords, currStone))
       {
         std::cout << "Cannot place stone at supplied location." << std::endl;
       }
@@ -162,6 +152,22 @@ void Othello::play()
     games[currGame].table->print();
     std::cout << std::endl; 
   }
+}
+
+/**
+ * @brief Tries to put stone on supplied coordinates.
+ *
+ * @return Returns @c true if stone was put, @c false otherwise.
+ */
+bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
+{
+  if (games[currGame].table->canPutStone(coords, stone))
+  {
+    auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, stone);
+    games[currGame].cmdManager.executeCmd(moveCmd);
+    return true;
+  }
+  return false;  
 }
 
 void Othello::startNewGame()

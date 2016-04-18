@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "game.h"
+#include "table.h"
 
 /**
  * @brief A representation of Othello brain.
@@ -29,9 +30,10 @@ class Othello
   public:
     Othello();
 
-    void play();
+    void play_cli();
 
   private:
+    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
     void startNewGame();
     void closeCurrentGame();
     void printCliHelp() const;

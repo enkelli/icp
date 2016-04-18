@@ -18,6 +18,6 @@
 int main()
 {
   Othello othello;
-  othello.play();
+  othello.play_cli();
 }
 
