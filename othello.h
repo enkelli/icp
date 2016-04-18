@@ -37,7 +37,8 @@ class Othello
     void printCliHelp() const;
     unsigned getInitSize() const;
     bool chooseOpponentAI() const;
-    void saveCurrentGame() const;
+    void loadGame(const std::string &fileName);
+    void saveGame(const std::string &fileName) const;
 
   private:
     /// Index of active game.

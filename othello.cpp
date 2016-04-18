@@ -20,6 +20,9 @@
 #include <memory>
 #include <string>
 
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
 #include "algorithm.h"
 #include "algorithm_monkey.h"
 #include "command_manager.h"
@@ -83,6 +86,24 @@ void Othello::play()
       games[currGame].table->print();
       std::cout << std::endl; 
     }
+    else if (input == "s" || input == "save")
+    {
+      std::string fileName;
+      std::cout << "Enter file name: ";
+      std::cin >> fileName;
+      std::cout << "Game saved to: " << fileName << std::endl;
+  
+      saveGame(fileName);
+    }
+    else if (input == "load")
+    {
+      std::string fileName;
+      std::cout << "Enter file name: ";
+      std::cin >> fileName;
+  
+      loadGame(fileName);
+      std::cout << "Game loaded from: " << fileName << std::endl;
+    }
     else if (input == "x" || input == "exit")
     {
       closeCurrentGame();
@@ -137,6 +158,7 @@ void Othello::play()
     {
       std::cout << "\nHey man, are you kidding me? RTFM!! (enter {H|help})" << std::endl;
     }
+    std::cout << std::endl;
     games[currGame].table->print();
     std::cout << std::endl; 
   }
@@ -144,7 +166,7 @@ void Othello::play()
 
 void Othello::startNewGame()
 {
-  std::cout << "Welcome to the Othello." << std::endl;
+  std::cout << "\tWelcome to the Othello." << std::endl;
   printCliHelp();
 
   unsigned size = getInitSize();
@@ -171,7 +193,9 @@ void Othello::printCliHelp() const
   std::cout << "\t H | help --> print this help message" << std::endl;
   std::cout << "\t u | undo --> undo one step backward" << std::endl;
   std::cout << "\t r | redo --> redo one step forward" << std::endl;
-  std::cout << "\t n | new --> start next game" << std::endl;
+  std::cout << "\t n | new  --> start next game" << std::endl;
+  std::cout << "\t load     --> load saved game" << std::endl;
+  std::cout << "\t s | save --> save current game" << std::endl;
   std::cout << "\t x | exit --> exit game" << std::endl;
   std::cout << "\t AN --> A is letter for column and N is number of row" << std::endl;
   std::cout << std::endl;
@@ -213,11 +237,22 @@ unsigned Othello::getInitSize() const
   return size;
 }
 
-void Othello::saveCurrentGame() const
+void Othello::saveGame(const std::string &fileName) const
 {
-  std::string fileName;
-  std::cout << "Enter file name:";
-  std::cin >> fileName;
-  
   Table::Board board = games[currGame].table->getBoard();
+
+  std::ofstream ofs(fileName);
+  boost::archive::text_oarchive oa(ofs);
+  oa << board;
+}
+
+void Othello::loadGame(const std::string &fileName)
+{
+  Table::Board board;
+
+  std::ifstream ifs(fileName);
+  boost::archive::text_iarchive ia(ifs);
+  ia >> board;
+
+  games[currGame].table->setBoard(board);
 }

@@ -18,7 +18,7 @@ OBJ_FILES = $(patsubst %.cpp, %.o, $(SRC_FILES))
 all: $(PROJ_CLI)
 
 $(PROJ_CLI): $(OBJ_FILES)
-	$(CXX) $(CFLAGS) $^ -o $(PROJ_CLI)
+	$(CXX) $(CFLAGS) $^ -o $(PROJ_CLI) -lboost_serialization
 
 %.o: %.cpp %.h
 	$(CXX) $(CFLAGS) -c $< -o $@

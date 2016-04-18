@@ -16,8 +16,13 @@
 #ifndef TABLE_H
 #define TABLE_H
 
+#include <iostream>
 #include <string>
 #include <vector>
+
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/vector.hpp>
 
 /**
  * @brief A representation of Othello table.
@@ -30,7 +35,7 @@ class Table
     /// Representation of the white stone on the table.
     static const std::string CLI_WHITE_STONE;
 
-    enum class Stone
+    enum class Stone 
     {
       FREE,
       BLACK,
@@ -50,19 +55,32 @@ class Table
     
     struct _board
     {
-      /// Rows count.
-      int rows;
-      /// Columns count.
-      int cols;
-      /// Count of black stones on the table.
-      int blackStones;
-      /// Count of white stones on the table.
-      int whiteStones;
-      /// Count total moves made.
-      int moveCount;
+        /// Rows count.
+        int rows;
+        /// Columns count.
+        int cols;
+        /// Count of black stones on the table.
+        int blackStones;
+        /// Count of white stones on the table.
+        int whiteStones;
+        /// Count total moves made.
+        int moveCount;
 
-      /// Matrix representing table state.
-      std::vector<Stone> tableMatrix;
+        /// Matrix representing table state.
+        std::vector<Stone> tableMatrix;
+        
+      private:
+        /// @name BOOST serialization.
+        /// @{
+        friend std::ostream &operator<<(std::ostream &os, const struct _board &b);
+        friend class boost::serialization::access;
+
+        template<typename Archive>
+        void serialize(Archive &ar, const unsigned int /* file version */)
+        {
+          ar & rows & cols &blackStones & whiteStones & moveCount & tableMatrix;
+        }
+        /// @}
     };
 
     struct _board board;

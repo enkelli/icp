@@ -14,11 +14,19 @@
  */
 
 #include <iomanip>
-#include <iostream>
 #include <string>
 
 #include "exception.h"
 #include "table.h"
+
+std::ostream &operator<<(std::ostream &os, const Table::Board &b)
+{
+  for (const auto &it: b.tableMatrix)
+  {
+    os << static_cast<int>(it);
+  }
+  return os << b.rows << b.cols << b.blackStones << b.whiteStones << b.moveCount;
+}
 
 /**
  * @brief Sets CLI representation of black stone.
