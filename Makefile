@@ -23,8 +23,8 @@ $(PROJ_CLI): $(OBJ_FILES)
 %.o: %.cpp %.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-main.o: main.cpp
-	$(CXX) $(CFLAGS) -c main.cpp
+main_cli.o: main_cli.cpp
+	$(CXX) $(CFLAGS) -c main_cli.cpp
 
 doxygen:
 	$(DOXYGEN) doxyConf
