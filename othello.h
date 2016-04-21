@@ -43,6 +43,7 @@ class Othello
 
     void startNewGame(unsigned size, bool againstAI);
     void closeCurrentGame();
+    void resetCurrentGame();
     bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
 
     bool loadGame(const std::string &fileName);

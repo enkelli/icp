@@ -19,5 +19,5 @@
 /**
  * @brief Creates new game.
  */
-Game::Game(std::shared_ptr<Table> &table, CommandManager &cmdM, bool AI):
-  table(table), cmdManager(cmdM), AIPlayer(AI) {}
+Game::Game(const std::shared_ptr<Table> &table, bool AI):
+  table(table), AIPlayer(AI) {}

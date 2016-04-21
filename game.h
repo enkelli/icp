@@ -25,10 +25,13 @@ class Table;
  */
 struct Game
 {
-  Game(std::shared_ptr<Table> &table, CommandManager &cm, bool AI = false);
-  
+  Game(const std::shared_ptr<Table> &table, bool AI = false);
+
+  /// Table used in current game.
   std::shared_ptr<Table> table;
+  /// Command manager to save moves history.
   CommandManager cmdManager;
+  /// True if player plays against PC.
   bool AIPlayer;
 };
 

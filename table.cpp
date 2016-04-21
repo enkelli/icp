@@ -116,6 +116,16 @@ bool Table::canPutStone(const Coords& coords, Stone stone) const
     return true;
 }
 
+int Table::getRowsCount() const
+{
+  return board.rows;
+}
+
+int Table::getColsCount() const
+{
+  return board.cols;
+}
+
 /**
  * @brief Returns number of moves made.
  */

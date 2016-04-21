@@ -87,6 +87,10 @@ void Othello::playCli()
       games[currGame].table->print();
       std::cout << std::endl; 
     }
+    else if (input == "reset")
+    {
+      resetCurrentGame();
+    }
     else if (input == "s" || input == "save")
     {
       std::string fileName;
@@ -194,6 +198,7 @@ void Othello::printHelpCli() const
   std::cout << "\t H | help --> print this help message" << std::endl;
   std::cout << "\t u | undo --> undo one step backward" << std::endl;
   std::cout << "\t r | redo --> redo one step forward" << std::endl;
+  std::cout << "\t reset    --> resets current game to start state" << std::endl;
   std::cout << "\t n | new  --> start next game" << std::endl;
   std::cout << "\t load     --> load saved game" << std::endl;
   std::cout << "\t s | save --> save current game" << std::endl;
@@ -252,8 +257,7 @@ unsigned Othello::getInitSizeCli() const
 void Othello::startNewGame(unsigned size, bool againstAI)
 {  
   auto table = std::make_shared<Table>(size, size);
-  CommandManager cmdM;
-  games.emplace_back(table, cmdM, againstAI);
+  games.emplace_back(table, againstAI);
   currGame = games.size() - 1;
 }
 
@@ -267,6 +271,15 @@ void Othello::closeCurrentGame()
   {
     currGame--;
   }
+}
+
+void Othello::resetCurrentGame()
+{
+  int oldRows = games[currGame].table->getRowsCount();
+  int oldCols = games[currGame].table->getColsCount();
+  auto table = std::make_shared<Table>(oldRows, oldCols);
+
+  games[currGame] = Game(table, games[currGame].AIPlayer);
 }
 
 /**
