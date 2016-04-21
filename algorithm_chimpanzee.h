@@ -5,26 +5,26 @@
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief A monkey algorithm
- * @file algorithm_monkey.h
+ * @brief A chimpanzee algorithm
+ * @file algorithm_chimpanzee.h
  *
  * Unless otherwise stated, all code is licensed under a
  * GNU General Public License v2.0
  *
  */
  
-#ifndef ALGORITHM_MONKEY_H
-#define ALGORITHM_MONKEY_H
+#ifndef ALGORITHM_CHIMPANZEE_H
+#define ALGORITHM_CHIMPANZEE_H
 
 #include "algorithm.h"
 
 /**
  * @brief An abstract class for algorithm implementing Othello player.
  */
-class AlgorithmMonkey : public Algorithm
+class AlgorithmChimpanzee : public Algorithm
 {
   public:
-    AlgorithmMonkey() = default;
+    AlgorithmChimpanzee() = default;
 
     virtual Table::Coords nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const override;
 };
