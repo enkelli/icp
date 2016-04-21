@@ -3,3 +3,4 @@
 *.o
 hra2016-cli
 doc/
+boost/
