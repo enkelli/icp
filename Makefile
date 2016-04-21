@@ -11,7 +11,8 @@ CXX=g++
 CFLAGS=-std=c++11 -Wall -Wextra -pedantic -O2
 DOXYGEN=doxygen
 
-BOOST_LIB_PATH="./boost/lib/"
+BOOST_PATH="./boost"
+BOOST_LIB_PATH="$(BOOST_PATH)/lib"
 SRC_FILES = $(wildcard *.cpp)
 HEADER_FILES = $(wildcard *.h)
 OBJ_FILES = $(patsubst %.cpp, %.o, $(SRC_FILES))
@@ -22,10 +23,10 @@ $(PROJ_CLI): $(OBJ_FILES)
 	$(CXX) $(CFLAGS) $^ -L$(BOOST_LIB_PATH) -o $(PROJ_CLI) -lboost_serialization
 
 %.o: %.cpp %.h
-	$(CXX) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CFLAGS) -isystem$(BOOST_PATH) -c $< -o $@
 
 main_cli.o: main_cli.cpp
-	$(CXX) $(CFLAGS) -c main_cli.cpp
+	$(CXX) $(CFLAGS) -isystem$(BOOST_PATH) -c main_cli.cpp
 
 doxygen:
 	$(DOXYGEN) doxyConf
