@@ -45,8 +45,8 @@ class Othello
     void closeCurrentGame();
     bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
 
-    void loadGame(const std::string &fileName);
-    void saveGame(const std::string &fileName) const;
+    bool loadGame(const std::string &fileName);
+    bool saveGame(const std::string &fileName) const;
 
   private:
     /// Index of active game.

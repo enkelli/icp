@@ -92,9 +92,16 @@ void Othello::playCli()
       std::string fileName;
       std::cout << "Enter file name: ";
       std::cin >> fileName;
-      std::cout << "Game saved to: " << fileName << std::endl;
   
-      saveGame(fileName);
+      if (saveGame(fileName))
+      {     
+        std::cout << "Game saved to: " << fileName << std::endl;
+      }
+      else
+      {
+        std::cout << "ERROR: Cannot save game to: " << fileName << std::endl;
+      }
+
     }
     else if (input == "load")
     {
@@ -102,8 +109,15 @@ void Othello::playCli()
       std::cout << "Enter file name: ";
       std::cin >> fileName;
   
-      loadGame(fileName);
-      std::cout << "Game loaded from: " << fileName << std::endl;
+      if (loadGame(fileName))
+      {
+        std::cout << "Game loaded from: " << fileName << std::endl;
+      }
+      else
+      {
+        std::cout << "ERROR: Cannot load game from: " << fileName << std::endl;
+      }
+
     }
     else if (input == "x" || input == "exit")
     {
@@ -273,26 +287,47 @@ bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
 
 /**
  * @brief Loads table status from file and sets it on current table.
+ *
+ * @return True on successful load, @c false otherwise.
  */
-void Othello::loadGame(const std::string &fileName)
+bool Othello::loadGame(const std::string &fileName)
 {
   Table::Board board;
 
   std::ifstream ifs(fileName);
-  boost::archive::text_iarchive ia(ifs);
-  ia >> board;
+  try
+  {
+    boost::archive::text_iarchive ia(ifs);
+    ia >> board;
+  }
+  catch(boost::archive::archive_exception)
+  {
+    return false;
+  }
 
   games[currGame].table->setBoard(board);
+  return true;
 }
 
 /**
  * @brief Saves current table status to file.
+ *
+ * @return True on successful save, @c false otherwise.
  */
-void Othello::saveGame(const std::string &fileName) const
+bool Othello::saveGame(const std::string &fileName) const
 {
   Table::Board board = games[currGame].table->getBoard();
 
   std::ofstream ofs(fileName);
-  boost::archive::text_oarchive oa(ofs);
-  oa << board;
+  try
+  {
+    boost::archive::text_oarchive oa(ofs);
+    oa << board;
+  }
+  catch(boost::archive::archive_exception)
+  {
+    return false;
+  }
+
+  return true;
 }
