@@ -30,15 +30,21 @@ class Othello
   public:
     Othello();
 
-    void play_cli();
+    void playCli();
 
   private:
-    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
-    void startNewGame();
+    /// @name CLI interface
+    /// @{
+    void startNewGameCli();
+    void printHelpCli() const;
+    unsigned getInitSizeCli() const;
+    bool chooseOpponentAICli() const;
+    /// @}
+
+    void startNewGame(unsigned size, bool againstAI);
     void closeCurrentGame();
-    void printCliHelp() const;
-    unsigned getInitSize() const;
-    bool chooseOpponentAI() const;
+    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
+
     void loadGame(const std::string &fileName);
     void saveGame(const std::string &fileName) const;
 

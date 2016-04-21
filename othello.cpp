@@ -31,11 +31,17 @@
 #include "othello.h"
 #include "table_move_command.h"
 
+/**
+ * @brief Creates new Othello object.
+ */
 Othello::Othello() = default;
 
-void Othello::play_cli()
+/**
+ * @brief Main function that controls whole CLI gameplay.
+ */
+void Othello::playCli()
 {                     
-  startNewGame();
+  startNewGameCli();
 
   const std::vector<std::string> players{Table::CLI_BLACK_STONE, Table::CLI_WHITE_STONE};
 
@@ -66,7 +72,7 @@ void Othello::play_cli()
 
     if (input == "H" || input == "help")
     {
-      printCliHelp();
+      printHelpCli();
       continue;
     }
     else if (input == "u" || input == "undo")
@@ -112,7 +118,7 @@ void Othello::play_cli()
     else if (input == "n" || input == "new")
     {
       std::cout << "Starting next game. Opened games: " << games.size() + 1 << std::endl;
-      startNewGame();
+      startNewGameCli();
     }
     else if (input == "switch")
     {
@@ -155,45 +161,20 @@ void Othello::play_cli()
 }
 
 /**
- * @brief Tries to put stone on supplied coordinates.
- *
- * @return Returns @c true if stone was put, @c false otherwise.
+ * @brief Asks user about parameters for new game and start new game.
  */
-bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
-{
-  if (games[currGame].table->canPutStone(coords, stone))
-  {
-    auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, stone);
-    games[currGame].cmdManager.executeCmd(moveCmd);
-    return true;
-  }
-  return false;  
-}
-
-void Othello::startNewGame()
+void Othello::startNewGameCli()
 {
   std::cout << "\tWelcome to the Othello." << std::endl;
-  printCliHelp();
+  printHelpCli();
 
-  unsigned size = getInitSize();
-  bool againstAI = chooseOpponentAI();
+  unsigned size = getInitSizeCli();
+  bool againstAI = chooseOpponentAICli();
 
-  auto table = std::make_shared<Table>(size, size);
-  CommandManager cmdM;
-  games.emplace_back(table, cmdM, againstAI);
-  currGame = games.size() - 1;
+  startNewGame(size, againstAI);
 }
 
-void Othello::closeCurrentGame()
-{
-  games.erase(games.begin() + currGame);
-  if (currGame > 0)
-  {
-    currGame--;
-  }
-}
-
-void Othello::printCliHelp() const
+void Othello::printHelpCli() const
 {
   std::cout << "Game controls:" << std::endl;
   std::cout << "\t H | help --> print this help message" << std::endl;
@@ -207,7 +188,12 @@ void Othello::printCliHelp() const
   std::cout << std::endl;
 }
 
-bool Othello::chooseOpponentAI() const
+/**
+ * @brief Asks user whether wants to play against pc
+ *
+ * @return True if wants to play against PC, @c false otherwise.
+ */
+bool Othello::chooseOpponentAICli() const
 {
   std::cout << "Do you wanna play against computer? (y/n)" << std::endl;
   std::cout << ">>";
@@ -216,7 +202,10 @@ bool Othello::chooseOpponentAI() const
   return tolower(answer[0]) == 'y';
 }
 
-unsigned Othello::getInitSize() const
+/**
+ * @brief Asks user for table size.
+ */
+unsigned Othello::getInitSizeCli() const
 {
   unsigned size;
   while(true)
@@ -243,15 +232,48 @@ unsigned Othello::getInitSize() const
   return size;
 }
 
-void Othello::saveGame(const std::string &fileName) const
-{
-  Table::Board board = games[currGame].table->getBoard();
-
-  std::ofstream ofs(fileName);
-  boost::archive::text_oarchive oa(ofs);
-  oa << board;
+/**
+ * @brief Starts new game alongside currently opened games.
+ */
+void Othello::startNewGame(unsigned size, bool againstAI)
+{  
+  auto table = std::make_shared<Table>(size, size);
+  CommandManager cmdM;
+  games.emplace_back(table, cmdM, againstAI);
+  currGame = games.size() - 1;
 }
 
+/**
+ * @brief Ends current game and previous one becomes active.
+ */
+void Othello::closeCurrentGame()
+{
+  games.erase(games.begin() + currGame);
+  if (currGame > 0)
+  {
+    currGame--;
+  }
+}
+
+/**
+ * @brief Tries to put stone on supplied coordinates.
+ *
+ * @return Returns @c true if stone was put, @c false otherwise.
+ */
+bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
+{
+  if (games[currGame].table->canPutStone(coords, stone))
+  {
+    auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, stone);
+    games[currGame].cmdManager.executeCmd(moveCmd);
+    return true;
+  }
+  return false;  
+}
+
+/**
+ * @brief Loads table status from file and sets it on current table.
+ */
 void Othello::loadGame(const std::string &fileName)
 {
   Table::Board board;
@@ -261,4 +283,16 @@ void Othello::loadGame(const std::string &fileName)
   ia >> board;
 
   games[currGame].table->setBoard(board);
+}
+
+/**
+ * @brief Saves current table status to file.
+ */
+void Othello::saveGame(const std::string &fileName) const
+{
+  Table::Board board = games[currGame].table->getBoard();
+
+  std::ofstream ofs(fileName);
+  boost::archive::text_oarchive oa(ofs);
+  oa << board;
 }
