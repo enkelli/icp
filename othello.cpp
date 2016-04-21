@@ -49,7 +49,7 @@ void Othello::playCli()
 
   games[currGame].table->print();
     
-  std::unique_ptr<AI_Monkey> algo(new AI_Monkey());
+  std::unique_ptr<AlgorithmMonkey> algo(new AlgorithmMonkey());
 
   while(1)        
   {               

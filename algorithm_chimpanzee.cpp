@@ -5,8 +5,8 @@
  * @author Plaskon Pavol, xplask00@stud.fit.vutbr.cz
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
- * @brief Artificial intelligence which is as smart as a monkey.
- * @file algorithm_monkey.cpp
+ * @brief Artificial intelligence which is as smart as a chimpanzee.
+ * @file algorithm_chimpanzee.cpp
  *
  * Unless otherwise stated, all code is licensed under a
  * GNU General Public License v2.0
@@ -21,7 +21,7 @@
 #include <thread>
 #include <vector>
 
-#include "algorithm_monkey.h"
+#include "algorithm_chimpanzee.h"
 #include "exception.h"
 #include "table.h"
 
@@ -30,7 +30,7 @@
  *
  * @throw OthelloAIError if there are no possible moves.
  */
-Table::Coords AlgorithmMonkey::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
+Table::Coords AlgorithmChimpanzee::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
 {
   std::vector<Table::Coords> availableCoords = table->getPossibleCoords(stone);
   
@@ -45,7 +45,7 @@ Table::Coords AlgorithmMonkey::nextMove(const std::shared_ptr<Table> table, Tabl
   std::srand(std::time(0));
   int sleep = (std::rand() & 2047) + 200;
   
-  std::cout << "The monkey is thinking..." << std::endl;
+  std::cout << "The chimpanzee is thinking..." << std::endl;
   std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
 
   return availableCoords[index];

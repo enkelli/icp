@@ -6,7 +6,7 @@
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
  * @brief Implementation of command manager.
- * @file command_manager.cpp
+ * @file game.cpp
  *
  * Unless otherwise stated, all code is licensed under a
  * GNU General Public License v2.0
