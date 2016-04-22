@@ -47,9 +47,6 @@ void AIPlayer::setStrategy(AIPlayerType playerType)
 
 /**
  * @brief Returns coordinates of next PC's move.
- *
- * @param table Playing table.
- * @param stone PC's stone.
  */
 Table::Coords AIPlayer::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
 {
