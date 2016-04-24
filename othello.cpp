@@ -48,8 +48,6 @@ void Othello::playCli()
   std::string input;
 
   games[currGame].table->print();
-    
-  std::unique_ptr<AlgorithmMonkey> algo(new AlgorithmMonkey());
 
   while(1)        
   {               
@@ -57,9 +55,9 @@ void Othello::playCli()
 
     if (games[currGame].table->getMoveCount() & 1)
     {
-      if (games[currGame].AIPlayer)
+      if (games[currGame].againstAI)
       {
-        Table::Coords coords = algo->nextMove(games[currGame].table, Table::Stone::WHITE);
+        Table::Coords coords = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
         putStoneIfPossible(coords, Table::Stone::WHITE);
         games[currGame].table->print();
         std::cout << std::endl;
@@ -188,8 +186,13 @@ void Othello::startNewGameCli()
 
   unsigned size = getInitSizeCli();
   bool againstAI = chooseOpponentAICli();
+  AIPlayer PC;
+  if (againstAI)
+  {
+    PC.setStrategy(chooseAIOpponentCli());
+  }
 
-  startNewGame(size, againstAI);
+  startNewGame(size, againstAI, PC);
 }
 
 void Othello::printHelpCli() const
@@ -251,13 +254,37 @@ unsigned Othello::getInitSizeCli() const
   return size;
 }
 
+AIPlayer::AIPlayerType Othello::chooseAIOpponentCli() const
+{
+  while (true)
+  {
+    std::cout << "Choose your opponent: Monkey(1), Chimpanzee(2)" << std::endl;
+    std::cout << ">>";
+    std::string res;
+   
+    std::cin >> res;
+    if (res == "1" || res == "Monkey")
+    {
+      return AIPlayer::AIPlayerType::Monkey;
+    }
+    else if (res == "2" || res == "Chimpanzee")
+    {
+      return AIPlayer::AIPlayerType::Chimpanzee;
+    }
+    else
+    {
+      std::cout << "Sorry man, I don't have a " << res << std::endl; 
+    }
+  }
+}
+
 /**
  * @brief Starts new game alongside currently opened games.
  */
-void Othello::startNewGame(unsigned size, bool againstAI)
+void Othello::startNewGame(unsigned size, bool againstAI, AIPlayer PC)
 {  
   auto table = std::make_shared<Table>(size, size);
-  games.emplace_back(table, againstAI);
+  games.emplace_back(table, againstAI, PC);
   currGame = games.size() - 1;
 }
 
@@ -279,7 +306,7 @@ void Othello::resetCurrentGame()
   int oldCols = games[currGame].table->getColsCount();
   auto table = std::make_shared<Table>(oldRows, oldCols);
 
-  games[currGame] = Game(table, games[currGame].AIPlayer);
+  games[currGame] = Game(table, games[currGame].againstAI, games[currGame].PC);
 }
 
 /**

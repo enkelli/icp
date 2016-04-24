@@ -19,6 +19,7 @@
 #include <string>
 #include <vector>
 
+#include "AI_player.h"
 #include "game.h"
 #include "table.h"
 
@@ -39,9 +40,10 @@ class Othello
     void printHelpCli() const;
     unsigned getInitSizeCli() const;
     bool chooseOpponentAICli() const;
+    AIPlayer::AIPlayerType chooseAIOpponentCli() const;
     /// @}
 
-    void startNewGame(unsigned size, bool againstAI);
+    void startNewGame(unsigned size, bool againstAI, AIPlayer PC = AIPlayer());
     void closeCurrentGame();
     void resetCurrentGame();
     bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);

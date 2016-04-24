@@ -14,6 +14,7 @@
  */
 
 #include "AI_player.h"
+#include "algorithm.h"
 #include "algorithm_monkey.h"
 #include "algorithm_chimpanzee.h"
 
@@ -26,29 +27,40 @@ AIPlayer::AIPlayer(AIPlayerType playerType)
 }
 
 /**
+ * @brief Copy constructor.
+ */
+AIPlayer::AIPlayer(const AIPlayer &player)
+{
+  setStrategy(player.playerType);
+}
+ 
+/**
  * @brief Sets new algorithm for PC player.
  *
  * @param playerType Should by one of @c enum @c AIPlayerType.
  */
-void AIPlayer::setStrategy(AIPlayerType playerType)
+void AIPlayer::setStrategy(AIPlayerType newType)
 {
-  switch(playerType)
+  switch(newType)
   {
     case (AIPlayerType::Monkey):
-      algorithm = std::unique_ptr<Algorithm>(new AlgorithmMonkey());
+      playerType = AIPlayerType::Monkey;
+      algorithm = std::make_shared<AlgorithmMonkey>();
       break;
     case (AIPlayerType::Chimpanzee):
-      algorithm = std::unique_ptr<Algorithm>(new AlgorithmChimpanzee());
+      playerType = AIPlayerType::Chimpanzee;
+      algorithm = std::make_shared<AlgorithmChimpanzee>();
       break;
     default:
-      algorithm = std::unique_ptr<Algorithm>(new AlgorithmMonkey());
+      playerType = AIPlayerType::Monkey;
+      algorithm = std::make_shared<AlgorithmMonkey>();
   }
 }
 
 /**
  * @brief Returns coordinates of next PC's move.
  */
-Table::Coords AIPlayer::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
+Table::Coords AIPlayer::nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const
 {
   return algorithm->nextMove(table, stone);
 }

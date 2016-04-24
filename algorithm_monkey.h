@@ -26,7 +26,7 @@ class AlgorithmMonkey : public Algorithm
   public:
     AlgorithmMonkey() = default;
 
-    virtual Table::Coords nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const override;
+    virtual Table::Coords nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const override;
 };
 
 #endif

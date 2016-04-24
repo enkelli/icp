@@ -16,6 +16,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "AI_player.h"
 #include "command_manager.h"
 
 class Table;
@@ -25,14 +26,17 @@ class Table;
  */
 struct Game
 {
-  Game(const std::shared_ptr<Table> &table, bool AI = false);
+  Game(const std::shared_ptr<Table> &table,
+       bool againstAI = false, AIPlayer player = AIPlayer());
 
   /// Table used in current game.
   std::shared_ptr<Table> table;
   /// Command manager to save moves history.
   CommandManager cmdManager;
   /// True if player plays against PC.
-  bool AIPlayer;
+  bool againstAI;
+  /// Factory with algorithm that knows how to play game.
+  AIPlayer PC;
 };
 
 #endif

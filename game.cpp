@@ -13,11 +13,12 @@
  *
  */
 
+#include "algorithm.h"
 #include "game.h"
 #include "table.h"
 
 /**
  * @brief Creates new game.
  */
-Game::Game(const std::shared_ptr<Table> &table, bool AI):
-  table(table), AIPlayer(AI) {}
+Game::Game(const std::shared_ptr<Table> &table, bool againstAI, AIPlayer PC):
+  table(table), againstAI(againstAI), PC(PC) {}

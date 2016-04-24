@@ -36,15 +36,17 @@ class AIPlayer
     };
 
   public:
-    AIPlayer() = default;
-    AIPlayer(AIPlayerType playerType);
+    AIPlayer(AIPlayerType playerType = AIPlayerType::Monkey);
+    AIPlayer(const AIPlayer &player);
 
     void setStrategy(AIPlayerType playerType);
-    Table::Coords nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const;
+    Table::Coords nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const;
 
-  private:
+  //private:
+  public:
+    AIPlayerType playerType;
     /// Concrete algorithm used by PC.
-    std::unique_ptr<Algorithm> algorithm;
+    std::shared_ptr<Algorithm> algorithm;
 };
 
 #endif

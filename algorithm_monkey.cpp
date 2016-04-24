@@ -30,7 +30,7 @@
  *
  * @throw OthelloAIError if there are no possible moves.
  */
-Table::Coords AlgorithmMonkey::nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const
+Table::Coords AlgorithmMonkey::nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const
 {
   std::vector<Table::Coords> availableCoords = table->getPossibleCoords(stone);
   

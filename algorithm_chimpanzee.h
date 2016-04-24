@@ -26,7 +26,7 @@ class AlgorithmChimpanzee : public Algorithm
   public:
     AlgorithmChimpanzee() = default;
 
-    virtual Table::Coords nextMove(const std::shared_ptr<Table> table, Table::Stone stone) const override;
+    virtual Table::Coords nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const override;
 };
 
 #endif
