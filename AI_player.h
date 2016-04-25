@@ -40,10 +40,11 @@ class AIPlayer
     AIPlayer(const AIPlayer &player);
 
     void setStrategy(AIPlayerType playerType);
+    AIPlayerType getPlayerType() const;
     Table::Coords nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const;
 
-  //private:
-  public:
+  private:
+    /// Type of algorithm.
     AIPlayerType playerType;
     /// Concrete algorithm used by PC.
     std::shared_ptr<Algorithm> algorithm;

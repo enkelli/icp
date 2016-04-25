@@ -333,12 +333,14 @@ bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
 bool Othello::loadGame(const std::string &fileName)
 {
   Table::Board board;
+  bool againstAI;
+  AIPlayer::AIPlayerType playerType;
 
   std::ifstream ifs(fileName);
   try
   {
     boost::archive::text_iarchive ia(ifs);
-    ia >> board;
+    ia >> board >> againstAI >> playerType;
   }
   catch(boost::archive::archive_exception)
   {
@@ -346,6 +348,8 @@ bool Othello::loadGame(const std::string &fileName)
   }
 
   games[currGame].table->setBoard(board);
+  games[currGame].againstAI = againstAI;
+  games[currGame].PC.setStrategy(playerType);
   return true;
 }
 
@@ -357,12 +361,15 @@ bool Othello::loadGame(const std::string &fileName)
 bool Othello::saveGame(const std::string &fileName) const
 {
   Table::Board board = games[currGame].table->getBoard();
+  bool againstAI = games[currGame].againstAI;
+  AIPlayer::AIPlayerType playerType = games[currGame].PC.getPlayerType();
 
   std::ofstream ofs(fileName);
+
   try
   {
     boost::archive::text_oarchive oa(ofs);
-    oa << board;
+    oa << board << againstAI << playerType;
   }
   catch(boost::archive::archive_exception)
   {

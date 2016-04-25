@@ -58,6 +58,14 @@ void AIPlayer::setStrategy(AIPlayerType newType)
 }
 
 /**
+ * @brief Returns current type of algorithm used by PC player.
+ */
+AIPlayer::AIPlayerType AIPlayer::getPlayerType() const
+{
+  return playerType;
+}
+
+/**
  * @brief Returns coordinates of next PC's move.
  */
 Table::Coords AIPlayer::nextMove(const std::shared_ptr<Table> &table, Table::Stone stone) const
