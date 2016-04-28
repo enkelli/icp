@@ -1,6 +1,11 @@
 # Compiled object files
-*.h.gch
-*.o
+src/*.h.gch
+src/*.o
+src/Makefile
+src/moc_mainwindow.h
+src/ui_mainwindow.h
+src/qrc_resources.cpp
 hra2016-cli
+hra2016-gui
 doc/
 boost/

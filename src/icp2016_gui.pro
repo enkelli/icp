@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = icp2016_gui
+TARGET = hra2016-gui
 TEMPLATE = app
 
 
