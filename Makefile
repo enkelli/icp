@@ -47,7 +47,7 @@ $(SRC_PATH)/main_cli.o: $(SRC_PATH)/main_cli.cpp
 	$(CXX) $(CFLAGS) $(INC_PATH) -c $^ -o $@
 
 
-$(PROJ_GUI):
+$(PROJ_GUI): $(OBJ_FILES_CLI)
 	@cd $(SRC_PATH) && $(QMAKE) && make
 	@mv $(SRC_PATH)/$(PROJ_GUI) .
 

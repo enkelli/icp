@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = hra2016-gui
 TEMPLATE = app
 
+LIBS += -L boost/lib -lboost_serialization
+QMAKE_CXXFLAGS += -std=c++11 -isystem boost
 
 SOURCES += main.cpp\
         mainwindow.cpp
