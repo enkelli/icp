@@ -33,6 +33,15 @@ class Othello
 
     void playCli();
 
+  public:
+    void startNewGame(unsigned size, bool againstAI, AIPlayer PC = AIPlayer());
+    void closeCurrentGame();
+    void resetCurrentGame();
+    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
+
+    bool loadGame(const std::string &fileName);
+    bool saveGame(const std::string &fileName) const;
+
   private:
     /// @name CLI interface
     /// @{
@@ -42,14 +51,6 @@ class Othello
     bool chooseOpponentAICli() const;
     AIPlayer::AIPlayerType chooseAIOpponentCli() const;
     /// @}
-
-    void startNewGame(unsigned size, bool againstAI, AIPlayer PC = AIPlayer());
-    void closeCurrentGame();
-    void resetCurrentGame();
-    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
-
-    bool loadGame(const std::string &fileName);
-    bool saveGame(const std::string &fileName) const;
 
   private:
     /// Index of active game.
