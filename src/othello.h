@@ -34,18 +34,23 @@ class Othello
     void playCli();
 
   public:
+    /// @name Games handling
+    /// @{
     void startNewGame(unsigned size, bool againstAI, AIPlayer PC = AIPlayer());
+    void startNextGame(unsigned size, bool againstAI, AIPlayer PC = AIPlayer());
     void closeCurrentGame();
     void resetCurrentGame();
-    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
-
     bool loadGame(const std::string &fileName);
     bool saveGame(const std::string &fileName) const;
+    /// @}
+
+    bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
 
   private:
     /// @name CLI interface
     /// @{
     void startNewGameCli();
+    void startNextGameCli();
     void printHelpCli() const;
     unsigned getInitSizeCli() const;
     bool chooseOpponentAICli() const;

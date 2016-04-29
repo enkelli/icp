@@ -131,10 +131,15 @@ void Othello::playCli()
       }
       std::cout << "\tClosing game " << currGame + 2 << std::endl << std::endl;
     }
-    else if (input == "n" || input == "new")
+    else if (input == "new")
+    {
+      std::cout << "Starting new game...\n" << std::endl;
+      startNewGameCli();
+    }
+    else if (input == "next")
     {
       std::cout << "Starting next game. Opened games: " << games.size() + 1 << std::endl;
-      startNewGameCli();
+      startNextGameCli();
     }
     else if (input == "switch")
     {
@@ -177,11 +182,13 @@ void Othello::playCli()
 }
 
 /**
- * @brief Asks user about parameters for new game and start new game.
+ * @brief Asks user about parameters for new game and replaces current game with new one.
  */
 void Othello::startNewGameCli()
 {
-  std::cout << "\tWelcome to the Othello." << std::endl;
+  std::cout << "====================================================================" << std::endl;
+  std::cout << "                       Welcome to the Othello." << std::endl;
+  std::cout << "====================================================================" << std::endl;
   printHelpCli();
 
   unsigned size = getInitSizeCli();
@@ -195,18 +202,38 @@ void Othello::startNewGameCli()
   startNewGame(size, againstAI, PC);
 }
 
+/**
+ * @brief Asks user about parameters for next new game and start next new game.
+ */
+void Othello::startNextGameCli()
+{
+  std::cout << "\tWelcome to the Othello." << std::endl;
+  printHelpCli();
+
+  unsigned size = getInitSizeCli();
+  bool againstAI = chooseOpponentAICli();
+  AIPlayer PC;
+  if (againstAI)
+  {
+    PC.setStrategy(chooseAIOpponentCli());
+  }
+
+  startNextGame(size, againstAI, PC);
+}
+
 void Othello::printHelpCli() const
 {
   std::cout << "Game controls:" << std::endl;
   std::cout << "\t H | help --> print this help message" << std::endl;
-  std::cout << "\t u | undo --> undo one step backward" << std::endl;
-  std::cout << "\t r | redo --> redo one step forward" << std::endl;
-  std::cout << "\t reset    --> resets current game to start state" << std::endl;
-  std::cout << "\t n | new  --> start next game" << std::endl;
-  std::cout << "\t load     --> load saved game" << std::endl;
-  std::cout << "\t s | save --> save current game" << std::endl;
   std::cout << "\t x | exit --> exit game" << std::endl;
-  std::cout << "\t AN --> A is letter for column and N is number of row" << std::endl;
+  std::cout << "\t r | redo --> redo one step forward" << std::endl;
+  std::cout << "\t u | undo --> undo one step backward" << std::endl;
+  std::cout << "\t s | save --> save current game" << std::endl;
+  std::cout << "\t load     --> load saved game" << std::endl;
+  std::cout << "\t reset    --> resets current game to start state" << std::endl;
+  std::cout << "\t new      --> start new game" << std::endl;
+  std::cout << "\t next     --> start next game" << std::endl;
+  std::cout << "\t AN       --> A is letter for column and N is number of row" << std::endl;
   std::cout << std::endl;
 }
 
@@ -279,9 +306,25 @@ AIPlayer::AIPlayerType Othello::chooseAIOpponentCli() const
 }
 
 /**
- * @brief Starts new game alongside currently opened games.
+ * @brief Starts new game, closes currently opened game.
  */
 void Othello::startNewGame(unsigned size, bool againstAI, AIPlayer PC)
+{  
+  auto table = std::make_shared<Table>(size, size);
+  if (games.size() > 0)
+  {
+    games[currGame] = Game(table, againstAI, PC);
+  }
+  else
+  {
+    games.emplace_back(table, againstAI, PC);
+  }
+}
+
+/**
+ * @brief Starts next new game alongside currently opened games.
+ */
+void Othello::startNextGame(unsigned size, bool againstAI, AIPlayer PC)
 {  
   auto table = std::make_shared<Table>(size, size);
   games.emplace_back(table, againstAI, PC);
