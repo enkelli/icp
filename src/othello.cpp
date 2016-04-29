@@ -41,7 +41,15 @@ Othello::Othello() = default;
  */
 void Othello::playCli()
 {                     
-  startNewGameCli();
+  try
+  {
+    startNewGameCli();
+  }
+  catch (const OthelloError &e)
+  {
+    std::cout << e.what() << std::endl;
+    return;
+  }
 
   const std::vector<std::string> players{Table::CLI_BLACK_STONE, Table::CLI_WHITE_STONE};
 
@@ -49,8 +57,13 @@ void Othello::playCli()
 
   games[currGame].table->print();
 
+  unsigned openedGames;
   while(1)        
-  {               
+  {
+    if ((openedGames = getOpenedGamesCount()) > 1)
+    {
+      std::cout << "Opened games: " << openedGames << std::endl;
+    }    
     std::cout << std::endl << "On turn: " << players[games[currGame].table->getMoveCount() & 1]  << " " << std::endl;
 
     if (games[currGame].table->getMoveCount() & 1)
@@ -121,7 +134,7 @@ void Othello::playCli()
       }
 
     }
-    else if (input == "x" || input == "exit")
+    else if (input == "X" || input == "exit")
     {
       closeCurrentGame();
       if (games.empty())
@@ -134,12 +147,32 @@ void Othello::playCli()
     else if (input == "new")
     {
       std::cout << "Starting new game...\n" << std::endl;
-      startNewGameCli();
+      try
+      {
+        startNewGameCli();
+      }
+      catch (const OthelloError &e)
+      {
+        std::cout << e.what() << std::endl;
+        return;
+      }
     }
     else if (input == "next")
     {
       std::cout << "Starting next game. Opened games: " << games.size() + 1 << std::endl;
-      startNextGameCli();
+      try
+      {
+        startNextGameCli();
+
+      }
+      catch (const OthelloError &e)
+      {
+        std::cout << e.what() << std::endl;
+        if (getOpenedGamesCount() == 0)
+        {
+          return;
+        }
+      }
     }
     else if (input == "switch")
     {
@@ -207,7 +240,9 @@ void Othello::startNewGameCli()
  */
 void Othello::startNextGameCli()
 {
-  std::cout << "\tWelcome to the Othello." << std::endl;
+  std::cout << "====================================================================" << std::endl;
+  std::cout << "                       Welcome to the Othello." << std::endl;
+  std::cout << "====================================================================" << std::endl;
   printHelpCli();
 
   unsigned size = getInitSizeCli();
@@ -225,7 +260,7 @@ void Othello::printHelpCli() const
 {
   std::cout << "Game controls:" << std::endl;
   std::cout << "\t H | help --> print this help message" << std::endl;
-  std::cout << "\t x | exit --> exit game" << std::endl;
+  std::cout << "\t X | exit --> exit game" << std::endl;
   std::cout << "\t r | redo --> redo one step forward" << std::endl;
   std::cout << "\t u | undo --> undo one step backward" << std::endl;
   std::cout << "\t s | save --> save current game" << std::endl;
@@ -248,6 +283,11 @@ bool Othello::chooseOpponentAICli() const
   std::cout << ">>";
   std::string answer;
   std::cin >> answer;
+  if (answer == "X")
+  {
+      throw OthelloError("Unexpected end.");
+  }
+
   return tolower(answer[0]) == 'y';
 }
 
@@ -257,21 +297,19 @@ bool Othello::chooseOpponentAICli() const
 unsigned Othello::getInitSizeCli() const
 {
   unsigned size;
+  std::string input;
   while(true)
   {
     std::cout << "Enter size of board - 6, 8, 10 or 12!" << std::endl;
     std::cout << ">>";
-    std::cin >> size;
-    std::cout << std::endl;
+    std::cin >> input;
 
-    if (std::cin.fail())
+    if (input == "X")
     {
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      std::cout << "Oh, I don't understand your language, try arabic numerals." << std::endl;
-      continue;
+      throw OthelloError("Unexpected end.");
     }
 
+    size = std::stoi(input);
     if (size == 6 || size == 8 || size == 10 || size == 12)
     {
       break;
@@ -281,6 +319,9 @@ unsigned Othello::getInitSizeCli() const
   return size;
 }
 
+/**
+ * @brief Asks user for PC algorithm type.
+ */
 AIPlayer::AIPlayerType Othello::chooseAIOpponentCli() const
 {
   while (true)
@@ -343,6 +384,9 @@ void Othello::closeCurrentGame()
   }
 }
 
+/**
+ * @brief Resets current game to its initial state.
+ */
 void Othello::resetCurrentGame()
 {
   int oldRows = games[currGame].table->getRowsCount();
@@ -420,4 +464,12 @@ bool Othello::saveGame(const std::string &fileName) const
   }
 
   return true;
+}
+
+/**
+ * @brief Returns count of all currently opened games.
+ */
+unsigned Othello::getOpenedGamesCount() const
+{
+  return games.size();
 }
