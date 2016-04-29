@@ -88,9 +88,15 @@ int Table::getVecIndex(const Coords& coords) const
 
 /**
  * @brief Determines if given stone can be placed at given coordinates.
+ *        @c Stone::FREE can be put anywhere.
  */
 bool Table::canPutStone(const Coords& coords, Stone stone) const
 {
+  if (stone == Stone::FREE)
+  {
+    return true;
+  }
+
   // Check if row and col are valid
   if(coords.first < 0 || coords.first >= board.rows || coords.second < 0 || coords.second >= board.cols)
     return false;
@@ -126,6 +132,16 @@ int Table::getColsCount() const
   return board.cols;
 }
 
+int Table::getBlackStonesCount() const
+{
+  return board.blackStones;
+}
+
+int Table::getWhiteStonesCount() const
+{
+  return board.whiteStones;
+}
+
 /**
  * @brief Returns number of moves made.
  */
@@ -146,13 +162,22 @@ void Table::clearCache() const
 
 /**
  * @brief Will attempt to place stone at given coordinates.
+ *        @c Stone::FREE stone can be put anywhere, also move is counted. 
  *
  * @exception Will throw OthelloError if stone cannot be placed.
  */
 void Table::putStone(const Coords& coords, Stone stone)
 {
+  if (stone == Stone::FREE)
+  {
+    board.moveCount++;
+    return;
+  }
+
   if(!canPutStone(coords, stone))
+  {
     throw OthelloError("Cannot place stone at supplied location");
+  }
 
   // Modify stone counters
   int flipVecSize = stoneFlipCache.size();
@@ -203,6 +228,26 @@ std::vector<Table::Coords> Table::getPossibleCoords(Stone stone)
   }
 
   return possibleCoords;
+}
+
+/**
+ * @brief Returns true if it is possible to put stone on any location.
+ */
+bool Table::isMoveWithStonePossible(Stone stone) const
+{
+  for(int i = 0; i < board.rows; i++)
+  {
+    for(int j = 0; j < board.cols; j++)
+    {
+      Coords c = std::make_pair(i, j);
+      if(canPutStone(c, stone))
+      {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 const Table::Board &Table::getBoard() const

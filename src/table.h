@@ -39,7 +39,7 @@ class Table
     {
       FREE,
       BLACK,
-      WHITE
+      WHITE,
     };
    
     /// Definition of coordinates.
@@ -104,6 +104,7 @@ class Table
     Table(); 
     Table(int initRows, int initCols);
 
+    bool isMoveWithStonePossible(Stone stone) const;
     bool canPutStone(const Coords& coords, Stone stone) const;
     void putStone(const Coords& coords, Stone stone);
 
@@ -112,6 +113,8 @@ class Table
 
     int getRowsCount() const;
     int getColsCount() const;
+    int getBlackStonesCount() const;
+    int getWhiteStonesCount() const;
     int getMoveCount() const;
     int getVecIndex(const Coords& coords) const;
 

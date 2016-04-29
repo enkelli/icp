@@ -65,6 +65,45 @@ void Othello::playCli()
       std::cout << "Opened games: " << openedGames << std::endl;
     }    
     std::cout << std::endl << "On turn: " << players[games[currGame].table->getMoveCount() & 1]  << " " << std::endl;
+      
+    Table::Stone currStone = games[currGame].table->getMoveCount() & 1 ?
+                               Table::Stone::WHITE : Table::Stone::BLACK;
+
+    if (!games[currGame].table->isMoveWithStonePossible(currStone))
+    {
+      Table::Stone nxtStone = (currStone == Table::Stone::BLACK) ? Table::Stone::WHITE : Table::Stone::BLACK;
+      if (!games[currGame].table->isMoveWithStonePossible(nxtStone))
+      {
+        std::string winner = (games[currGame].table->getWhiteStonesCount() > games[currGame].table->getBlackStonesCount()) ?
+                             players[1] : players[0];
+        std::cout << "================================================================\n";
+        std::cout << "                    " << winner;
+        std::cout << " WINS!" << std::endl;
+        std::cout << ">>";
+        char c;
+        if (std::cin >> c)
+        {
+          try
+          {
+            startNewGameCli();
+          }
+          catch (const OthelloError &e)
+          {
+            std::cout << e.what() << std::endl;
+            return;
+          }
+          continue; 
+        }
+      }
+      else
+      {
+        std::cout << "There's no possible move for player ";
+        std::cout << players[games[currGame].table->getMoveCount() & 1] << std::endl;
+        std::cout << "Passing this turn" << std::endl;
+        putStoneIfPossible({0, 0}, Table::Stone::FREE);
+        continue;
+      }
+    }
 
     if (games[currGame].table->getMoveCount() & 1)
     {
@@ -195,8 +234,6 @@ void Othello::playCli()
       col = static_cast<int>(c) - static_cast<int>('a');
 
       Table::Coords coords = std::make_pair(row, col);
-      Table::Stone currStone = games[currGame].table->getMoveCount() & 1 ?
-        Table::Stone::WHITE : Table::Stone::BLACK;
 
       if (!putStoneIfPossible(coords, currStone))
       {
@@ -309,10 +346,13 @@ unsigned Othello::getInitSizeCli() const
       throw OthelloError("Unexpected end.");
     }
 
-    size = std::stoi(input);
-    if (size == 6 || size == 8 || size == 10 || size == 12)
+    if (isdigit(input[0]))
     {
-      break;
+      size = std::stoi(input);
+      if (size == 6 || size == 8 || size == 10 || size == 12)
+      {
+        break;
+      }
     }
     std::cout << "Wrong size! 6, 8, 10 or 12" << std::endl;
   }
