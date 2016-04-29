@@ -20,7 +20,10 @@ SRC_PATH = ./src
 BOOST_PATH = $(SRC_PATH)/boost
 BOOST_LIB_PATH = $(BOOST_PATH)/lib
 
-GUI_SRC_FILES = $(SRC_PATH)/main.cpp $(SRC_PATH)/mainwindow.cpp $(SRC_PATH)/qrc_resources.cpp 
+GUI_SRC_FILES = $(SRC_PATH)/main.cpp \
+								$(SRC_PATH)/mainwindow.cpp\
+							 	$(SRC_PATH)/moc_mainwindow.cpp \
+								$(SRC_PATH)/qrc_resources.cpp 
 GUI_HEADER_FILES = $(SRC_PATH)/mainwindow.h $(SRC_PATH)/ui_mainwindow.h
 SRC_FILES = $(wildcard $(SRC_PATH)/*.cpp)
 SRC_FILES_CLI = $(filter-out $(GUI_SRC_FILES), $(SRC_FILES))
@@ -45,7 +48,6 @@ $(PROJ_CLI): $(OBJ_FILES_CLI)
 
 $(SRC_PATH)/main_cli.o: $(SRC_PATH)/main_cli.cpp
 	$(CXX) $(CFLAGS) $(INC_PATH) -c $^ -o $@
-
 
 $(PROJ_GUI): $(OBJ_FILES_CLI)
 	@cd $(SRC_PATH) && $(QMAKE) && make
