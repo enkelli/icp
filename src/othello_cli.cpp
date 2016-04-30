@@ -317,7 +317,7 @@ bool OthelloCli::chooseOpponentAICli() const
   std::cout << ">>";
   std::string answer;
   std::cin >> answer;
-  if (answer == "X")
+  if (answer == "X" || answer == "exit")
   {
       throw OthelloError("Unexpected end.");
   }
@@ -338,7 +338,7 @@ unsigned OthelloCli::getInitSizeCli() const
     std::cout << ">>";
     std::cin >> input;
 
-    if (input == "X")
+    if (input == "X" || input == "exit")
     {
       throw OthelloError("Unexpected end.");
     }
