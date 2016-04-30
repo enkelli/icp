@@ -30,8 +30,7 @@ class Othello
 {
   public:
     Othello();
-
-    void playCli();
+    virtual ~Othello();
 
   public:
     /// @name Games handling
@@ -43,6 +42,7 @@ class Othello
     bool loadGame(const std::string &fileName);
     bool saveGame(const std::string &fileName) const;
     unsigned getOpenedGamesCount() const;
+    void switchToGame(unsigned index);
     /// @}
 
     /// @name Gameplay controls
@@ -52,18 +52,7 @@ class Othello
     void redoMove();
     /// @}
 
-  private:
-    /// @name CLI interface
-    /// @{
-    void startNewGameCli();
-    void startNextGameCli();
-    void printHelpCli() const;
-    unsigned getInitSizeCli() const;
-    bool chooseOpponentAICli() const;
-    AIPlayer::AIPlayerType chooseAIOpponentCli() const;
-    /// @}
-
-  private:
+  protected:
     /// Index of active game.
     unsigned currGame;
 

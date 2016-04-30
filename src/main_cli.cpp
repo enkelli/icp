@@ -13,11 +13,11 @@
  *
  */
 
-#include "othello.h"
+#include "othello_cli.h"
 
 int main()
 {
-  Othello othello;
+  OthelloCli othello;
   othello.playCli();
 }
 
