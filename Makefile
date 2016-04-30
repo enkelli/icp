@@ -57,7 +57,7 @@ $(PROJ_GUI): $(OBJ_FILES_CLI)
 # Other stuff
 #
 doxygen:
-	$(DOXYGEN) doxyConf
+	$(DOXYGEN) $(SRC_PATH)/doxyConf
 
 clean:
 	-@cd $(SRC_PATH) && make clean
