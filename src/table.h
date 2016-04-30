@@ -35,24 +35,24 @@ class Table
     /// Representation of the white stone on the table.
     static const std::string CLI_WHITE_STONE;
 
-    enum class Stone 
+    enum class Stone
     {
       FREE,
       BLACK,
       WHITE,
     };
-   
+
     /// Definition of coordinates.
     using Coords = std::pair<int, int>;
 
-  private: 
+  private:
     void fillCacheVector(const Coords& coords, Stone stone) const;
     void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone) const;
     void clearCache() const;
     void recountScores();
 
   private:
-    
+
     struct _board
     {
         /// Rows count.
@@ -68,7 +68,7 @@ class Table
 
         /// Matrix representing table state.
         std::vector<Stone> tableMatrix;
-        
+
       private:
         /// @name BOOST serialization.
         /// @{
@@ -101,7 +101,7 @@ class Table
     using Board = struct _board;
 
   public:
-    Table(); 
+    Table();
     Table(int initRows, int initCols);
 
     bool isMoveWithStonePossible(Stone stone) const;

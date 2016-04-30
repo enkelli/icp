@@ -20,7 +20,7 @@
  */
 TableMoveCommand::TableMoveCommand(
   std::shared_ptr<Table> table, Table::Coords coords, Table::Stone stone):
-    table(table), board(table->getBoard()), coords(coords), stone(stone) {} 
+    table(table), board(table->getBoard()), coords(coords), stone(stone) {}
 
 /**
  * @brief Executes move command.

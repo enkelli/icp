@@ -41,7 +41,7 @@ void CommandManager::undo()
   {
     undoStack.top()->undo();
     redoStack.push(undoStack.top());
-    undoStack.pop();        
+    undoStack.pop();
   }
 }
 

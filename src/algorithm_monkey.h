@@ -12,7 +12,7 @@
  * GNU General Public License v2.0
  *
  */
- 
+
 #ifndef ALGORITHM_MONKEY_H
 #define ALGORITHM_MONKEY_H
 

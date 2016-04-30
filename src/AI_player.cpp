@@ -33,7 +33,7 @@ AIPlayer::AIPlayer(const AIPlayer &player)
 {
   setStrategy(player.playerType);
 }
- 
+
 /**
  * @brief Sets new algorithm for PC player.
  *

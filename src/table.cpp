@@ -64,7 +64,7 @@ Table::Table(int initRows, int initCols)
   // Place initial stones on board.tableMatrix
   int firstCtrRow = (board.rows >> 1) - 1;
   int firstCtrCol = (board.cols >> 1) - 1;
-  
+
   std::vector<Coords> ctrWhite { std::make_pair(firstCtrRow, firstCtrCol), std::make_pair(firstCtrRow + 1, firstCtrCol + 1) };
   std::vector<Coords> ctrBlack { std::make_pair(firstCtrRow + 1, firstCtrCol), std::make_pair(firstCtrRow, firstCtrCol + 1) };
 
@@ -162,7 +162,7 @@ void Table::clearCache() const
 
 /**
  * @brief Will attempt to place stone at given coordinates.
- *        @c Stone::FREE stone can be put anywhere, also move is counted. 
+ *        @c Stone::FREE stone can be put anywhere, also move is counted.
  *
  * @exception Will throw OthelloError if stone cannot be placed.
  */
@@ -254,7 +254,7 @@ const Table::Board &Table::getBoard() const
 {
   return board;
 }
- 
+
 void Table::setBoard(const Board &board)
 {
   clearCache();
@@ -382,7 +382,7 @@ void Table::print() const
     if(i == (board.rows >> 1) - 1)
       std::cout << "\tScore(" << CLI_WHITE_STONE << "): " << board.whiteStones;
     if(i == (board.rows >> 1))
-      std::cout << "\tScore(" << CLI_BLACK_STONE << "): " << board.blackStones; 
+      std::cout << "\tScore(" << CLI_BLACK_STONE << "): " << board.blackStones;
 
     std::cout << std::endl;
   }
