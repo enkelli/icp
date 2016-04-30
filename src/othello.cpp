@@ -40,7 +40,7 @@ Othello::Othello() = default;
  * @brief Main function that controls whole CLI gameplay.
  */
 void Othello::playCli()
-{                     
+{
   try
   {
     startNewGameCli();
@@ -58,14 +58,14 @@ void Othello::playCli()
   games[currGame].table->print();
 
   unsigned openedGames;
-  while(1)        
+  while(1)
   {
     if ((openedGames = getOpenedGamesCount()) > 1)
     {
       std::cout << "Opened games: " << openedGames << std::endl;
-    }    
+    }
     std::cout << std::endl << "On turn: " << players[games[currGame].table->getMoveCount() & 1]  << " " << std::endl;
-      
+
     Table::Stone currStone = games[currGame].table->getMoveCount() & 1 ?
                                Table::Stone::WHITE : Table::Stone::BLACK;
 
@@ -92,7 +92,7 @@ void Othello::playCli()
             std::cout << e.what() << std::endl;
             return;
           }
-          continue; 
+          continue;
         }
       }
       else
@@ -127,15 +127,15 @@ void Othello::playCli()
     }
     else if (input == "u" || input == "undo")
     {
-      games[currGame].cmdManager.undo();
+      undoMove();
       games[currGame].table->print();
-      std::cout << std::endl; 
+      std::cout << std::endl;
     }
     else if (input == "r" || input == "redo")
     {
-      games[currGame].cmdManager.redo();
+      redoMove();
       games[currGame].table->print();
-      std::cout << std::endl; 
+      std::cout << std::endl;
     }
     else if (input == "reset")
     {
@@ -146,9 +146,9 @@ void Othello::playCli()
       std::string fileName;
       std::cout << "Enter file name: ";
       std::cin >> fileName;
-  
+
       if (saveGame(fileName))
-      {     
+      {
         std::cout << "Game saved to: " << fileName << std::endl;
       }
       else
@@ -162,7 +162,7 @@ void Othello::playCli()
       std::string fileName;
       std::cout << "Enter file name: ";
       std::cin >> fileName;
-  
+
       if (loadGame(fileName))
       {
         std::cout << "Game loaded from: " << fileName << std::endl;
@@ -247,7 +247,7 @@ void Othello::playCli()
     }
     std::cout << std::endl;
     games[currGame].table->print();
-    std::cout << std::endl; 
+    std::cout << std::endl;
   }
 }
 
@@ -369,7 +369,7 @@ AIPlayer::AIPlayerType Othello::chooseAIOpponentCli() const
     std::cout << "Choose your opponent: Monkey(1), Chimpanzee(2)" << std::endl;
     std::cout << ">>";
     std::string res;
-   
+
     std::cin >> res;
     if (res == "1" || res == "Monkey")
     {
@@ -381,7 +381,7 @@ AIPlayer::AIPlayerType Othello::chooseAIOpponentCli() const
     }
     else
     {
-      std::cout << "Sorry man, I don't have a " << res << std::endl; 
+      std::cout << "Sorry man, I don't have a " << res << std::endl;
     }
   }
 }
@@ -390,7 +390,7 @@ AIPlayer::AIPlayerType Othello::chooseAIOpponentCli() const
  * @brief Starts new game, closes currently opened game.
  */
 void Othello::startNewGame(unsigned size, bool againstAI, AIPlayer PC)
-{  
+{
   auto table = std::make_shared<Table>(size, size);
   if (games.size() > 0)
   {
@@ -406,7 +406,7 @@ void Othello::startNewGame(unsigned size, bool againstAI, AIPlayer PC)
  * @brief Starts next new game alongside currently opened games.
  */
 void Othello::startNextGame(unsigned size, bool againstAI, AIPlayer PC)
-{  
+{
   auto table = std::make_shared<Table>(size, size);
   games.emplace_back(table, againstAI, PC);
   currGame = games.size() - 1;
@@ -449,7 +449,33 @@ bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
     games[currGame].cmdManager.executeCmd(moveCmd);
     return true;
   }
-  return false;  
+  return false;
+}
+
+/**
+ * @brief Performs undo on current game. If playing against PC, then undo 2 moves.
+ */
+void Othello::undoMove()
+{
+  games[currGame].cmdManager.undo();
+
+  if (games[currGame].againstAI)
+  {
+    games[currGame].cmdManager.undo();
+  }
+}
+
+/**
+ * @brief Performs redo on current game. If playing against PC, then redo 2 moves.
+ */
+void Othello::redoMove()
+{
+  games[currGame].cmdManager.redo();
+
+  if (games[currGame].againstAI)
+  {
+    games[currGame].cmdManager.redo();
+  }
 }
 
 /**

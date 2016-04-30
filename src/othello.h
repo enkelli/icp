@@ -45,7 +45,12 @@ class Othello
     unsigned getOpenedGamesCount() const;
     /// @}
 
+    /// @name Gameplay controls
+    /// @{
     bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
+    void undoMove();
+    void redoMove();
+    /// @}
 
   private:
     /// @name CLI interface
