@@ -19,7 +19,7 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <QString>
-#include <QtConcurrentRun>
+#include <QtConcurrent/QtConcurrent>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
