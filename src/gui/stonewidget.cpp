@@ -33,17 +33,17 @@ StoneWidget::StoneWidget(QWidget *parent)
 
 StoneWidget::~StoneWidget() {}
 
-void StoneWidget::mousePressEvent(QMouseEvent * event)
+void StoneWidget::mousePressEvent(QMouseEvent *)
 {
     emit clicked(this);
 }
 
-void StoneWidget::leaveEvent(QEvent *event)
+void StoneWidget::leaveEvent(QEvent *)
 {
     emit left(this);
 }
 
-void StoneWidget::enterEvent(QEvent *event)
+void StoneWidget::enterEvent(QEvent *)
 {
     emit entered(this);
 }

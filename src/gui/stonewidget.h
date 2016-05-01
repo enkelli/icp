@@ -44,9 +44,9 @@ signals:
     void left(StoneWidget *w);
 
 private:
-    void mousePressEvent(QMouseEvent *event);
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
+    void mousePressEvent(QMouseEvent *);
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
 };
 
 #endif // STONEWIDGET_H
