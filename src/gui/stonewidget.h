@@ -6,7 +6,7 @@
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
  * @brief GUI main window file.
- * @file mainwindow.h
+ * @file stonewidget.h
  *
  * Unless otherwise stated, all code is licensed under a
  * GNU General Public License v2.0
@@ -16,10 +16,10 @@
 #ifndef STONEWIDGET_H
 #define STONEWIDGET_H
 
-#include <QtCore>
-#include <QWidget>
 #include <QLabel>
+#include <QtCore>
 #include <QtGui>
+#include <QWidget>
 
 class StoneWidget : public QLabel
 {

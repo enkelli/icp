@@ -6,7 +6,7 @@
  * @author Postolka Matej, xposto02@stud.fit.vutbr.cz
  *
  * @brief GUI main window file.
- * @file mainwindow.h
+ * @file stonewidget.cpp
  *
  * Unless otherwise stated, all code is licensed under a
  * GNU General Public License v2.0

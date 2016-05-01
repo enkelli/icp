@@ -116,9 +116,17 @@ void MainWindow::redrawGrid()
             StoneWidget *stoneWidget = pieces[i*cols + j];
 
             if(stone == Table::Stone::BLACK)
+            {
                 stoneWidget->setPixmap(pixmapBlack);
+            }
             else if(stone == Table::Stone::WHITE)
+            {
                 stoneWidget->setPixmap(pixmapWhite);
+            }
+            else
+            {
+                stoneWidget->clear();
+            }
         }
     }
 }
@@ -198,4 +206,16 @@ void MainWindow::slotEntered(StoneWidget *w)
 
         w->setPalette(palette);
     }
+}
+
+void MainWindow::on_actionUndo_triggered()
+{
+    undoMove();
+    redrawGrid();
+}
+
+void MainWindow::on_actionRedo_triggered()
+{
+    redoMove();
+    redrawGrid();
 }
