@@ -111,8 +111,8 @@ class Table
     const Board &getBoard() const;
     void setBoard(const Board &board);
 
-    int getRowsCount() const;
-    int getColsCount() const;
+    int getRowCount() const;
+    int getColCount() const;
     int getBlackStonesCount() const;
     int getWhiteStonesCount() const;
     int getMoveCount() const;

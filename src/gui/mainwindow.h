@@ -16,22 +16,38 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+#include <vector>
+
 #include <QMainWindow>
 #include <QtGui>
 #include <QtCore>
 #include <QLabel>
 
+#include "stonewidget.h"
+
+#include "table.h"
+#include "othello.h"
+
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, Othello
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void drawTable();
+
+private:
+    void cleanGrid();
+    void initializeGrid();
+    void redrawGrid();
+    void aiMove(StoneWidget *w);
 
 private slots:
     void on_actionSave_triggered();
@@ -40,9 +56,19 @@ private slots:
 
     void on_actionExit_triggered();
 
+public slots:
+    void slotClicked(StoneWidget *w);
+    void slotEntered(StoneWidget *w);
+    void slotLeft(StoneWidget *w);
+
 private:
     Ui::MainWindow *ui;
 
+    std::vector<StoneWidget*> pieces;
+    QPixmap pixmapBlack;
+    QPixmap pixmapWhite;
+
+    bool aiLock;
 };
 
 #endif // MAINWINDOW_H

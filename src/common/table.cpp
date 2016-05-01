@@ -122,12 +122,12 @@ bool Table::canPutStone(const Coords& coords, Stone stone) const
     return true;
 }
 
-int Table::getRowsCount() const
+int Table::getRowCount() const
 {
   return board.rows;
 }
 
-int Table::getColsCount() const
+int Table::getColCount() const
 {
   return board.cols;
 }

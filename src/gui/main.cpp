@@ -13,14 +13,21 @@
  *
  */
 
-#include "mainwindow.h"
+#include <memory>
+#include <iostream>
+
 #include <QApplication>
+
+#include "mainwindow.h"
+
+#include "othello.h"
+#include "table.h"
+#include "game.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-
 
     w.show();
 

@@ -2,7 +2,7 @@
 # Course ICP @ FIT VUT Brno, 2016
 # ICP 2016 Project - Othello
 #
-.PHONY: all clean run pack
+.PHONY: all cli gui clean run pack
 
 #
 # Env
@@ -16,42 +16,47 @@ CXX = g++
 CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2
 DOXYGEN = doxygen
 
-SRC_PATH = ./src
+SRC_PATH = $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))/src
+COMMON_PATH = $(SRC_PATH)/common
+CLI_PATH = $(SRC_PATH)/cli
+GUI_PATH = $(SRC_PATH)/gui
+
 BOOST_PATH = $(SRC_PATH)/boost
 BOOST_LIB_PATH = $(BOOST_PATH)/lib
 
-GUI_SRC_FILES = $(SRC_PATH)/main.cpp \
-								$(SRC_PATH)/mainwindow.cpp\
-							 	$(SRC_PATH)/moc_mainwindow.cpp \
-								$(SRC_PATH)/qrc_resources.cpp 
-GUI_HEADER_FILES = $(SRC_PATH)/mainwindow.h $(SRC_PATH)/ui_mainwindow.h
-SRC_FILES = $(wildcard $(SRC_PATH)/*.cpp)
-SRC_FILES_CLI = $(filter-out $(GUI_SRC_FILES), $(SRC_FILES))
-HEADER_FILES = $(wildcard $(SRC_PATH)/*.h)
-HEADER_FILES_CLI = $(filter-out $(GUI_HEADER_FILES), $(HEADER_FILES))
-OBJ_FILES_CLI = $(patsubst %.cpp, %.o, $(SRC_FILES_CLI))
+COMMON_SRC_FILES = $(wildcard $(COMMON_PATH)/*.cpp)
+COMMON_HEADER_FILES = $(wildcard $(COMMON_PATH)/*.h)
+COMMON_OBJ_FILES = $(patsubst %.cpp, %.o, $(COMMON_SRC_FILES))
 
-INC_PATH = -isystem$(BOOST_PATH)
+CLI_SRC_FILES = $(wildcard $(CLI_PATH)/*.cpp)
+CLI_HEADER_FILES = $(wildcard $(CLI_PATH)/*.h)
+CLI_OBJ_FILES = $(patsubst %.cpp, %.o, $(CLI_SRC_FILES))
+
+GUI_SRC_FILES = $(wildcard $(GUI_PATH)/*.cpp)
+GUI_HEADER_FILES = $(wildcard $(GUI_PATH)/*.h)
+GUI_OBJ_FILES = $(patsubst %.cpp, %.o, $(GUI_SRC_FILES))
+
+INC_PATH = -Isystem$(BOOST_PATH) -I$(COMMON_PATH)
 LIB_PATH = -L$(BOOST_LIB_PATH)
-LINK_LIB = -lboost_serialization
+LINK_LIB = -Lboost_serialization
 
 #
 # Compilation
 #
 all: $(PROJ_CLI) $(PROJ_GUI)
 
-$(PROJ_CLI): $(OBJ_FILES_CLI)
+cli: $(PROJ_CLI)
+
+gui: $(PROJ_GUI)
+
+$(PROJ_CLI): $(COMMON_OBJ_FILES) $(CLI_OBJ_FILES)
 	$(CXX) $(CFLAGS) $^ $(LIB_PATH) -o $(PROJ_CLI) $(LINK_LIB)
 
 %.o: %.cpp %.h
 	$(CXX) $(CFLAGS) $(INC_PATH) -c $< -o $@
 
-$(SRC_PATH)/main_cli.o: $(SRC_PATH)/main_cli.cpp
-	$(CXX) $(CFLAGS) $(INC_PATH) -c $^ -o $@
-
-$(PROJ_GUI): $(OBJ_FILES_CLI)
-	@cd $(SRC_PATH) && $(QMAKE) && make
-	@mv $(SRC_PATH)/$(PROJ_GUI) .
+$(PROJ_GUI): $(COMMON_OBJ_FILES)
+	@cd $(GUI_PATH) && $(QMAKE) && make
 
 #
 # Other stuff

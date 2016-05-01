@@ -32,7 +32,7 @@
 /**
  * @brief Creates new Othello object.
  */
-Othello::Othello() = default;
+Othello::Othello() : currGame{0} {}
 
 /**
  * @brief Destructs Othello object.
@@ -82,8 +82,8 @@ void Othello::closeCurrentGame()
  */
 void Othello::resetCurrentGame()
 {
-  int oldRows = games[currGame].table->getRowsCount();
-  int oldCols = games[currGame].table->getColsCount();
+  int oldRows = games[currGame].table->getRowCount();
+  int oldCols = games[currGame].table->getColCount();
   auto table = std::make_shared<Table>(oldRows, oldCols);
 
   games[currGame] = Game(table, games[currGame].againstAI, games[currGame].PC);
@@ -104,6 +104,7 @@ bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
   }
   return false;
 }
+
 
 /**
  * @brief Performs undo on current game. If playing against PC, then undo 2 moves.
