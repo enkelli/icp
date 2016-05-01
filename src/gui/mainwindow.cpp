@@ -230,3 +230,9 @@ void MainWindow::on_actionRedo_triggered()
     redoMove();
     redrawGrid();
 }
+
+void MainWindow::on_actionReset_triggered()
+{
+    resetCurrentGame();
+    redrawGrid();
+}

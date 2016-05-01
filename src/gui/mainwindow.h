@@ -60,6 +60,8 @@ private slots:
 
     void on_actionRedo_triggered();
 
+    void on_actionReset_triggered();
+
 public slots:
     void slotClicked(StoneWidget *w);
     void slotEntered(StoneWidget *w);

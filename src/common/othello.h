@@ -41,7 +41,6 @@ class Othello
     void resetCurrentGame();
     bool loadGame(const std::string &fileName);
     bool saveGame(const std::string &fileName) const;
-    unsigned getOpenedGamesCount() const;
     void switchToGame(unsigned index);
     /// @}
 
@@ -51,6 +50,9 @@ class Othello
     void undoMove();
     void redoMove();
     /// @}
+
+  protected:
+    unsigned getOpenedGamesCount() const;
 
   protected:
     /// Index of active game.
