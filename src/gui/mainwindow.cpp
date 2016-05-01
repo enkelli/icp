@@ -136,11 +136,14 @@ QString getPathToExamples()
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save game"), getPathToExamples());
+    saveGame(fileName.toStdString());
 }
 
 void MainWindow::on_actionLoad_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load game"), getPathToExamples());
+    loadGame(fileName.toStdString());
+    redrawGrid();
 }
 
 void MainWindow::on_actionExit_triggered()

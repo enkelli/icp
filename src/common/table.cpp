@@ -42,7 +42,7 @@ const std::string Table::CLI_WHITE_STONE = "☺";
  * @brief Creates new board.tableMatrix with default size.
  */
 Table::Table():
-  Table(defaultRows, defaultCols) {}
+  Table(DEFAULT_ROWS, DEFAULT_COLS) {}
 
 /**
  * @brief Creates new board.tableMatrix.
@@ -50,7 +50,7 @@ Table::Table():
 Table::Table(int initRows, int initCols)
 {
   // Number of rows and cols must meet required minimum and must be even
-  if(initRows < minRows || initCols < minCols || (initRows & 1) || (initCols & 1))
+  if(initRows < MIN_ROWS || initCols < MIN_COLS || (initRows & 1) || (initCols & 1))
     throw OthelloError("Initial row/col count is too small or odd.");
 
   board.rows = initRows;

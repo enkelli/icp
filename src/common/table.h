@@ -35,6 +35,14 @@ class Table
     /// Representation of the white stone on the table.
     static const std::string CLI_WHITE_STONE;
 
+    /// @name Table constants.
+    /// @{
+    static const int MIN_ROWS = 4;
+    static const int MIN_COLS = 4;
+    static const int DEFAULT_ROWS = 8;
+    static const int DEFAULT_COLS = 8;
+    /// @}
+
     enum class Stone
     {
       FREE,
@@ -88,14 +96,6 @@ class Table
     mutable std::vector<Coords> stoneFlipCache;
     mutable Coords cachedCoords;
     mutable Stone cachedStone;
-
-    /// @name Table constants.
-    /// @{
-    static const int minRows = 4;
-    static const int minCols = 4;
-    static const int defaultRows = 8;
-    static const int defaultCols = 8;
-    /// @}
 
   public:
     using Board = struct _board;

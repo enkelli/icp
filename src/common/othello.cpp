@@ -139,6 +139,12 @@ void Othello::redoMove()
  */
 bool Othello::loadGame(const std::string &fileName)
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    startNewGame(Table::DEFAULT_ROWS, false);
+    currGame = 0;
+  }
+
   Table::Board board;
   bool againstAI;
   AIPlayer::AIPlayerType playerType;
@@ -167,6 +173,11 @@ bool Othello::loadGame(const std::string &fileName)
  */
 bool Othello::saveGame(const std::string &fileName) const
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    return true;
+  }
+
   Table::Board board = games[currGame].table->getBoard();
   bool againstAI = games[currGame].againstAI;
   AIPlayer::AIPlayerType playerType = games[currGame].PC.getPlayerType();
