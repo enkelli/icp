@@ -25,6 +25,7 @@
 #include "ui_mainwindow.h"
 #include "stonewidget.h"
 
+#include "exception.h"
 #include "table.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -163,9 +164,19 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::aiMove(StoneWidget *w)
 {
     aiLock = true;
+    auto stone = Table::Stone::WHITE;
+    Table::Coords nc;
 
-    Table::Coords nc = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
-    putStoneIfPossible(nc, Table::Stone::WHITE);
+    try
+    {
+      nc = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
+    }
+    catch (const OthelloError &e)
+    {
+      stone = Table::Stone::FREE;
+    }
+
+    putStoneIfPossible(nc, stone);
     redrawGrid();
 
     // Clear locked widget background
