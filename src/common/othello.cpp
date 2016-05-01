@@ -70,6 +70,11 @@ void Othello::startNextGame(unsigned size, bool againstAI, AIPlayer PC)
  */
 void Othello::closeCurrentGame()
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    return;
+  }
+
   games.erase(games.begin() + currGame);
   if (currGame > 0)
   {
@@ -82,6 +87,11 @@ void Othello::closeCurrentGame()
  */
 void Othello::resetCurrentGame()
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    return;
+  }
+
   int oldRows = games[currGame].table->getRowCount();
   int oldCols = games[currGame].table->getColCount();
   auto table = std::make_shared<Table>(oldRows, oldCols);
@@ -96,6 +106,11 @@ void Othello::resetCurrentGame()
  */
 bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    return false;
+  }
+
   if (games[currGame].table->canPutStone(coords, stone))
   {
     auto moveCmd = std::make_shared<TableMoveCommand>(games[currGame].table, coords, stone);
@@ -111,6 +126,11 @@ bool Othello::putStoneIfPossible(Table::Coords coords, Table::Stone stone)
  */
 void Othello::undoMove()
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    return;
+  }
+
   games[currGame].cmdManager.undo();
 
   if (games[currGame].againstAI)
@@ -124,6 +144,11 @@ void Othello::undoMove()
  */
 void Othello::redoMove()
 {
+  if (getOpenedGamesCount() == 0)
+  {
+    return;
+  }
+
   games[currGame].cmdManager.redo();
 
   if (games[currGame].againstAI)
