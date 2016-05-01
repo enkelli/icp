@@ -16,7 +16,7 @@ CXX = g++
 CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2
 DOXYGEN = doxygen
 
-SRC_PATH = $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))/src
+SRC_PATH = $(shell pwd)/src
 COMMON_PATH = $(SRC_PATH)/common
 CLI_PATH = $(SRC_PATH)/cli
 GUI_PATH = $(SRC_PATH)/gui
@@ -36,9 +36,9 @@ GUI_SRC_FILES = $(wildcard $(GUI_PATH)/*.cpp)
 GUI_HEADER_FILES = $(wildcard $(GUI_PATH)/*.h)
 GUI_OBJ_FILES = $(patsubst %.cpp, %.o, $(GUI_SRC_FILES))
 
-INC_PATH = -Isystem$(BOOST_PATH) -I$(COMMON_PATH)
+INC_PATH = -isystem$(BOOST_PATH) -I$(COMMON_PATH)
 LIB_PATH = -L$(BOOST_LIB_PATH)
-LINK_LIB = -Lboost_serialization
+LINK_LIB = -lboost_serialization
 
 #
 # Compilation
@@ -51,6 +51,9 @@ gui: $(PROJ_GUI)
 
 $(PROJ_CLI): $(COMMON_OBJ_FILES) $(CLI_OBJ_FILES)
 	$(CXX) $(CFLAGS) $^ $(LIB_PATH) -o $(PROJ_CLI) $(LINK_LIB)
+
+$(CLI_PATH)/main.o: $(CLI_PATH)/main.cpp
+	$(CXX) $(CFLAGS) $(INC_PATH) -c $< -o $@
 
 %.o: %.cpp %.h
 	$(CXX) $(CFLAGS) $(INC_PATH) -c $< -o $@
