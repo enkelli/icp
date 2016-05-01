@@ -52,14 +52,16 @@ gui: $(PROJ_GUI)
 $(PROJ_CLI): $(COMMON_OBJ_FILES) $(CLI_OBJ_FILES)
 	$(CXX) $(CFLAGS) $^ $(LIB_PATH) -o $(PROJ_CLI) $(LINK_LIB)
 
+$(PROJ_GUI): $(COMMON_OBJ_FILES)
+	@cd $(GUI_PATH) && $(QMAKE) && make
+	@mv $(GUI_PATH)/$(PROJ_GUI) .
+
 $(CLI_PATH)/main.o: $(CLI_PATH)/main.cpp
 	$(CXX) $(CFLAGS) $(INC_PATH) -c $< -o $@
 
 %.o: %.cpp %.h
 	$(CXX) $(CFLAGS) $(INC_PATH) -c $< -o $@
 
-$(PROJ_GUI): $(COMMON_OBJ_FILES)
-	@cd $(GUI_PATH) && $(QMAKE) && make
 
 #
 # Other stuff
@@ -68,8 +70,8 @@ doxygen:
 	$(DOXYGEN) $(SRC_PATH)/doxyConf
 
 clean:
-	-@cd $(SRC_PATH) && make clean
-	rm -f $(SRC_PATH)/*.o $(SRC_PATH)/*.h.gch $(SRC_PATH)/Makefile $(PROJ)-cli $(PROJ)-gui
+	-@cd $(GUI_PATH) && make clean
+	rm -f $(CLI_PATH)/*.o $(PROJ_CLI) $(PROJ_GUI)
 	rm -rf doc/
 
 pack:

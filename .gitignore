@@ -1,11 +1,12 @@
 # Compiled object files
-src/*.h.gch
-src/*.o
-src/Makefile
-src/moc_mainwindow.h
-src/moc_mainwindow.cpp
-src/ui_mainwindow.h
-src/qrc_resources.cpp
+src/common/*.h.gch
+src/cli/*.h.gch
+src/common/*.o
+src/cli/*.o
+src/gui/*.o
+src/gui/Makefile
+src/gui/moc_mainwindow.h
+src/gui/moc_mainwindow.cpp
 hra2016-cli
 hra2016-gui
 doc/

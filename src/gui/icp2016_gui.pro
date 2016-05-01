@@ -13,9 +13,9 @@ TEMPLATE = app
 
 LIBS += -L boost/lib -lboost_serialization
 
-INCLUDEPATH += ../
+INCLUDEPATH += ../common
 
-OBJECTS += ../AI_player.o ../algorithm_chimpanzee.o ../algorithm_monkey.o ../command_manager.o ../game.o ../othello.o ../table_move_command.o ../table.o
+OBJECTS += ../common/*.o
 
 QMAKE_CXXFLAGS += -std=c++11 -isystem boost -g
 
