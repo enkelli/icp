@@ -48,6 +48,7 @@ private:
     void initializeGrid();
     void redrawGrid();
     void aiMove(StoneWidget *w);
+    void updateScore();
 
 private slots:
     void on_actionSave_triggered();

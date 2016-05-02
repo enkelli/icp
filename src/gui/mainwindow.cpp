@@ -130,6 +130,8 @@ void MainWindow::redrawGrid()
             }
         }
     }
+
+    updateScore();
 }
 
 MainWindow::~MainWindow()
@@ -183,6 +185,12 @@ void MainWindow::aiMove(StoneWidget *w)
     w->setAutoFillBackground(false);
 
     aiLock = false;
+}
+
+void MainWindow::updateScore()
+{
+    ui->scoreBlack->display(games[currGame].table->getBlackStonesCount());
+    ui->scoreWhite->display(games[currGame].table->getWhiteStonesCount());
 }
 
 void MainWindow::slotClicked(StoneWidget *w)
