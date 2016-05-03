@@ -14,7 +14,8 @@ src/gui/ui_welcomedialog.h
 src/gui/moc_welcomedialog.cpp
 src/gui/moc_welcomedialog.h
 hra2016-cli
-hra2016-gui
+hra2016
 doc/
 boost/
 examples/
+*.tar.gz

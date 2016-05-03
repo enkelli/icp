@@ -8,7 +8,7 @@ QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = hra2016-gui
+TARGET = hra2016
 TEMPLATE = app
 
 LIBS += -L ../boost/lib -lboost_serialization
