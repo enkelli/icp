@@ -10,7 +10,7 @@
 
 PROJ = hra2016
 PROJ_CLI = $(PROJ)-cli
-PROJ_GUI = $(PROJ)-gui
+PROJ_GUI = $(PROJ)
 QMAKE = qmake # more specific path??? check task
 CXX = g++
 CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2
@@ -75,7 +75,7 @@ clean:
 	rm -rf doc/
 
 pack:
-	tar -zcvf xplask00-xposto02.tar.gz $(SRC_PATH) Makefile
+	tar -zcvf xplask00-xposto02.tar.gz src/ examples/ README.txt Makefile
 
 run:
-	./$(PROJ_CLI)
+	(./$(PROJ-GUI) &) ./$(PROJ_CLI)
