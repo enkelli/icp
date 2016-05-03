@@ -163,9 +163,10 @@ void MainWindow::on_actionExit_triggered()
     qApp->exit();
 }
 
-void MainWindow::aiMove(StoneWidget *w)
+void MainWindow::aiMove()
 {
     aiLock = true;
+
     auto stone = Table::Stone::WHITE;
     Table::Coords nc;
 
@@ -179,10 +180,6 @@ void MainWindow::aiMove(StoneWidget *w)
     }
 
     putStoneIfPossible(nc, stone);
-    redrawGrid();
-
-    // Clear locked widget background
-    w->setAutoFillBackground(false);
 
     aiLock = false;
 }
@@ -201,7 +198,15 @@ void MainWindow::slotClicked(StoneWidget *w)
     {
         putStoneIfPossible(c, Table::Stone::BLACK);
         redrawGrid();
-        QFuture<void> future = QtConcurrent::run(this, &MainWindow::aiMove, w);
+
+        QFuture<void> future = QtConcurrent::run(this, &MainWindow::aiMove);
+
+        // This will wait for AI to finish but not the current redraw operation
+        while(future.isRunning())
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+        redrawGrid();
+        w->setAutoFillBackground(false);
     }
 }
 
