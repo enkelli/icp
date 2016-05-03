@@ -21,12 +21,15 @@ QMAKE_CXXFLAGS += -std=c++11 -isystem ../boost
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    stonewidget.cpp
+    stonewidget.cpp \
+    welcomedialog.cpp
 
 HEADERS  += mainwindow.h \
-    stonewidget.h
+    stonewidget.h \
+    welcomedialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    welcomedialog.ui
 
 RESOURCES += \
     resources.qrc

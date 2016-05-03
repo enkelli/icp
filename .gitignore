@@ -10,6 +10,9 @@ src/gui/moc_mainwindow.cpp
 src/gui/moc_stonewidget.cpp
 src/gui/qrc_resources.cpp
 src/gui/ui_mainwindow.h
+src/gui/ui_welcomedialog.h
+src/gui/moc_welcomedialog.cpp
+src/gui/moc_welcomedialog.h
 hra2016-cli
 hra2016-gui
 doc/

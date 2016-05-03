@@ -24,6 +24,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "stonewidget.h"
+#include "welcomedialog.h"
 
 #include "exception.h"
 #include "table.h"
@@ -39,11 +40,13 @@ MainWindow::MainWindow(QWidget *parent) :
     pixmapBlack = QPixmap(":img/black.png");
     pixmapWhite = QPixmap(":img/white.png");
 
-    aiLock = false;
+    playerLock = true;
+}
 
-    startNewGame(12, true);
-
-    initializeGrid();
+MainWindow::~MainWindow()
+{
+    cleanGrid();
+    delete ui;
 }
 
 void MainWindow::cleanGrid()
@@ -134,11 +137,6 @@ void MainWindow::redrawGrid()
     updateScore();
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
 QString getPathToExamples()
 {
     return QDir::cleanPath(qApp->applicationDirPath() + QDir::separator() + "examples");
@@ -154,18 +152,26 @@ void MainWindow::on_actionLoad_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load game"), getPathToExamples());
     loadGame(fileName.toStdString());
-    redrawGrid();
+    initializeGrid();
+    playerLock = false;
 }
 
 void MainWindow::on_actionExit_triggered()
 {
-    cleanGrid();
     qApp->exit();
+}
+
+bool MainWindow::currentGameValid()
+{
+    if(currGame < games.size())
+        return true;
+    else
+        return false;
 }
 
 void MainWindow::aiMove()
 {
-    aiLock = true;
+    playerLock = true;
 
     auto stone = Table::Stone::WHITE;
     Table::Coords nc;
@@ -181,7 +187,7 @@ void MainWindow::aiMove()
 
     putStoneIfPossible(nc, stone);
 
-    aiLock = false;
+    playerLock = false;
 }
 
 void MainWindow::updateScore()
@@ -194,7 +200,7 @@ void MainWindow::slotClicked(StoneWidget *w)
 {
     Table::Coords c = std::make_pair(w->getRow(), w->getCol());
 
-    if(games[currGame].table->canPutStone(c, Table::Stone::BLACK) && !aiLock)
+    if(games[currGame].table->canPutStone(c, Table::Stone::BLACK) && !playerLock)
     {
         putStoneIfPossible(c, Table::Stone::BLACK);
         redrawGrid();
@@ -212,13 +218,13 @@ void MainWindow::slotClicked(StoneWidget *w)
 
 void MainWindow::slotLeft(StoneWidget *w)
 {
-    if(!aiLock)
+    if(!playerLock)
         w->setAutoFillBackground(false);
 }
 
 void MainWindow::slotEntered(StoneWidget *w)
 {
-    if(!aiLock)
+    if(!playerLock)
     {
         w->setAutoFillBackground(true);
         QPalette palette = w->palette();
@@ -232,20 +238,61 @@ void MainWindow::slotEntered(StoneWidget *w)
     }
 }
 
+void MainWindow::showWelcomeDialog()
+{
+    WelcomeDialog w(this);
+
+    if(w.exec() == QDialog::Accepted)
+    {
+        int tableSize = w.getTableSize();
+        WelcomeDialog::Algo algo = w.getAlgo();
+
+        switch(algo)
+        {
+        case WelcomeDialog::Algo::CHIMPANZEE:
+            startNewGame(tableSize, true, AIPlayer(AIPlayer::AIPlayerType::Chimpanzee));
+        case WelcomeDialog::Algo::MONKEY:
+            startNewGame(tableSize, true, AIPlayer(AIPlayer::AIPlayerType::Monkey));
+        default:
+            startNewGame(tableSize, false);
+        }
+
+        initializeGrid();
+
+        playerLock = false;
+
+        return;
+    }
+}
+
 void MainWindow::on_actionUndo_triggered()
 {
-    undoMove();
-    redrawGrid();
+    if(currentGameValid())
+    {
+        undoMove();
+        redrawGrid();
+    }
 }
 
 void MainWindow::on_actionRedo_triggered()
 {
-    redoMove();
-    redrawGrid();
+    if(currentGameValid())
+    {
+        redoMove();
+        redrawGrid();
+    }
 }
 
 void MainWindow::on_actionReset_triggered()
 {
-    resetCurrentGame();
-    redrawGrid();
+    if(currentGameValid())
+    {
+        resetCurrentGame();
+        redrawGrid();
+    }
+}
+
+void MainWindow::on_actionNew_Game_triggered()
+{
+    showWelcomeDialog();
 }

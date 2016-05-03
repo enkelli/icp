@@ -107,7 +107,7 @@
      <x>0</x>
      <y>0</y>
      <width>958</width>
-     <height>19</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -115,6 +115,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="separator"/>
+    <addaction name="actionNew_Game"/>
     <addaction name="actionReset"/>
     <addaction name="separator"/>
     <addaction name="actionUndo"/>
@@ -197,6 +198,14 @@
   <action name="actionReset">
    <property name="text">
     <string>Reset</string>
+   </property>
+  </action>
+  <action name="actionNew_Game">
+   <property name="text">
+    <string>New Game</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
  </widget>

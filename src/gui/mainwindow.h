@@ -49,6 +49,8 @@ private:
     void redrawGrid();
     void aiMove();
     void updateScore();
+    void showWelcomeDialog();
+    bool currentGameValid();
 
 private slots:
     void on_actionSave_triggered();
@@ -63,6 +65,8 @@ private slots:
 
     void on_actionReset_triggered();
 
+    void on_actionNew_Game_triggered();
+
 public slots:
     void slotClicked(StoneWidget *w);
     void slotEntered(StoneWidget *w);
@@ -75,7 +79,7 @@ private:
     QPixmap pixmapBlack;
     QPixmap pixmapWhite;
 
-    bool aiLock;
+    bool playerLock;
 };
 
 #endif // MAINWINDOW_H
