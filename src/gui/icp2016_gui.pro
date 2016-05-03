@@ -17,7 +17,7 @@ INCLUDEPATH += ../common
 
 OBJECTS += ../common/*.o
 
-QMAKE_CXXFLAGS += -std=c++11 -static -isystem ../boost
+QMAKE_CXXFLAGS += -std=c++11 -isystem ../boost
 
 SOURCES += main.cpp\
         mainwindow.cpp \

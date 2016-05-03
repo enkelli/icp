@@ -13,7 +13,7 @@ PROJ_CLI = $(PROJ)-cli
 PROJ_GUI = $(PROJ)-gui
 QMAKE = qmake # more specific path??? check task
 CXX = g++
-CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2 -static
+CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2
 DOXYGEN = doxygen
 
 SRC_PATH = $(shell pwd)/src
