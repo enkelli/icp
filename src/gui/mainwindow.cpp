@@ -17,6 +17,7 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QPixmap>
 #include <QString>
 #include <QtConcurrentRun>
@@ -134,14 +135,7 @@ void MainWindow::redrawGrid()
         }
     }
 
-    if ((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
-    {
-        ui->labelOnTurnStone->setPixmap(pixmapWhite);
-    }
-    else
-    {
-        ui->labelOnTurnStone->setPixmap(pixmapBlack);
-    }
+    updateOnTurnIndicator();
     updateScore();
 }
 
@@ -166,7 +160,14 @@ void MainWindow::on_actionLoad_triggered()
 
 void MainWindow::on_actionExit_triggered()
 {
-    qApp->exit();
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Othello", "Quit game?",
+                                  QMessageBox::Yes|QMessageBox::No);
+
+    if (reply == QMessageBox::Yes)
+    {
+        qApp->exit();
+    }
 }
 
 bool MainWindow::currentGameValid()
@@ -193,6 +194,18 @@ void MainWindow::aiMove()
     putStoneIfPossible(nc, stone);
 
     playerLock = false;
+}
+
+void MainWindow::updateOnTurnIndicator()
+{
+    if ((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
+    {
+        ui->labelOnTurnStone->setPixmap(pixmapWhite);
+    }
+    else
+    {
+        ui->labelOnTurnStone->setPixmap(pixmapBlack);
+    }
 }
 
 void MainWindow::updateScore()

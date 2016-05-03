@@ -48,6 +48,7 @@ private:
     void initializeGrid();
     void redrawGrid();
     void aiMove();
+    void updateOnTurnIndicator();
     void updateScore();
     void showWelcomeDialog();
     bool currentGameValid();
