@@ -15,6 +15,7 @@ QMAKE = qmake # more specific path??? check task
 CXX = g++
 CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2
 DOXYGEN = doxygen
+PACK_ZIP = xposto02-xplask00.zip
 
 SRC_PATH = $(shell pwd)/src
 COMMON_PATH = $(SRC_PATH)/common
@@ -73,9 +74,10 @@ clean:
 	-@cd $(GUI_PATH) && make clean
 	rm -f $(CLI_PATH)/*.o $(PROJ_CLI) $(PROJ_GUI)
 	rm -rf doc/
+	rm -r $(PACK_ZIP)
 
 pack:
-	tar -zcvf xplask00-xposto02.tar.gz src/ examples/ README.txt Makefile
+	zip -r $(PACK_ZIP) src/ examples/ README.txt Makefile
 
 run:
 	(./$(PROJ_GUI) &) && ./$(PROJ_CLI)
