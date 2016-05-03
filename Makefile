@@ -74,7 +74,7 @@ clean:
 	-@cd $(GUI_PATH) && make clean
 	rm -f $(CLI_PATH)/*.o $(PROJ_CLI) $(PROJ_GUI)
 	rm -rf doc/
-	rm -r $(PACK_ZIP)
+	rm -f $(PACK_ZIP)
 
 pack:
 	zip -r $(PACK_ZIP) src/ examples/ README.txt Makefile
