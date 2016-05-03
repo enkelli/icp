@@ -17,6 +17,7 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QPixmap>
 #include <QString>
 #include <QtConcurrentRun>
@@ -134,6 +135,7 @@ void MainWindow::redrawGrid()
         }
     }
 
+    updateOnTurnIndicator();
     updateScore();
 }
 
@@ -160,15 +162,19 @@ void MainWindow::on_actionLoad_triggered()
 
 void MainWindow::on_actionExit_triggered()
 {
-    qApp->exit();
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Othello", "Quit game?",
+                                  QMessageBox::Yes|QMessageBox::No);
+
+    if (reply == QMessageBox::Yes)
+    {
+        qApp->exit();
+    }
 }
 
 bool MainWindow::currentGameValid()
 {
-    if(currGame < games.size())
-        return true;
-    else
-        return false;
+    return (currGame < getOpenedGamesCount());
 }
 
 Table::Stone MainWindow::getCurrentStone()
@@ -200,6 +206,18 @@ void MainWindow::aiMove()
     playerLock = false;
 }
 
+void MainWindow::updateOnTurnIndicator()
+{
+    if ((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
+    {
+        ui->labelOnTurnStone->setPixmap(pixmapWhite);
+    }
+    else
+    {
+        ui->labelOnTurnStone->setPixmap(pixmapBlack);
+    }
+}
+
 void MainWindow::updateScore()
 {
     ui->scoreBlack->display(games[currGame].table->getBlackStonesCount());
@@ -211,9 +229,8 @@ void MainWindow::slotClicked(StoneWidget *w)
     Table::Coords coords = std::make_pair(w->getRow(), w->getCol());
     Table::Stone stone = getCurrentStone();
 
-    if(games[currGame].table->canPutStone(coords, stone) && !playerLock)
+    if(putStoneIfPossible(coords, stone) && !playerLock)
     {
-        putStoneIfPossible(coords, stone);
         redrawGrid();
 
         if(games[currGame].againstAI)

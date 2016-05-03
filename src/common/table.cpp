@@ -202,9 +202,6 @@ void Table::putStone(const Coords& coords, Stone stone)
 
   // Increment move count
   board.moveCount++;
-
-  // Tell where we are putting stone
-  std::cout << "Placing stone at position: " << static_cast<char>(coords.second + 'a') << coords.first + 1 << std::endl;
 }
 
 /**

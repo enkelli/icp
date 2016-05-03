@@ -108,6 +108,8 @@ void OthelloCli::playCli()
       {
         Table::Coords coords = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
         putStoneIfPossible(coords, Table::Stone::WHITE);
+        // Tell where we are putting stone
+        std::cout << "Placing stone at position: " << static_cast<char>(coords.second + 'a') << coords.first + 1 << std::endl;
         games[currGame].table->print();
         std::cout << std::endl;
         continue;
@@ -236,7 +238,11 @@ void OthelloCli::playCli()
       {
         std::cout << "Cannot place stone at supplied location." << std::endl;
       }
-
+      else
+      {
+        // Tell where we are putting stone
+        std::cout << "Placing stone at position: " << static_cast<char>(coords.second + 'a') << coords.first + 1 << std::endl;
+      }
     }
     else
     {

@@ -13,6 +13,7 @@ src/gui/ui_mainwindow.h
 src/gui/ui_welcomedialog.h
 src/gui/moc_welcomedialog.cpp
 src/gui/moc_welcomedialog.h
+src/gui/icp2016_gui.pro.user
 hra2016-cli
 hra2016
 doc/

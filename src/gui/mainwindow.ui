@@ -40,8 +40,8 @@
    <widget class="QLCDNumber" name="scoreBlack">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>160</y>
+      <x>740</x>
+      <y>220</y>
       <width>51</width>
       <height>31</height>
      </rect>
@@ -50,8 +50,8 @@
    <widget class="QLCDNumber" name="scoreWhite">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>220</y>
+      <x>740</x>
+      <y>280</y>
       <width>51</width>
       <height>31</height>
      </rect>
@@ -68,11 +68,11 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="labelBlackStone">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>150</y>
+      <x>820</x>
+      <y>220</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -84,11 +84,11 @@
      <pixmap resource="resources.qrc">:/img/black.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="labelWhiteStone">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>210</y>
+      <x>820</x>
+      <y>280</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -100,6 +100,41 @@
      <pixmap resource="resources.qrc">:/img/white.png</pixmap>
     </property>
    </widget>
+   <widget class="QLabel" name="labelOnTurn">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>60</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TeX Gyre Bonum Math</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>On turn</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelOnTurnStone">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>60</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/img/black.png</pixmap>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -107,7 +142,7 @@
      <x>0</x>
      <y>0</y>
      <width>958</width>
-     <height>25</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">

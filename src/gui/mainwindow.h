@@ -48,6 +48,7 @@ private:
     void initializeGrid();
     void redrawGrid();
     void aiMove();
+    void updateOnTurnIndicator();
     void updateScore();
     void showWelcomeDialog();
     bool currentGameValid();
@@ -80,6 +81,7 @@ private:
     QPixmap pixmapBlack;
     QPixmap pixmapWhite;
 
+    Table::Stone firstPlayerStone = Table::Stone::BLACK;
     bool playerLock;
 };
 
