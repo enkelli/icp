@@ -47,7 +47,7 @@
     <string>Welcome to Othello!</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -66,6 +66,9 @@
     </item>
     <item row="0" column="1">
      <widget class="QComboBox" name="sizeSelect">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
       <item>
        <property name="text">
         <string>6 by 6</string>
