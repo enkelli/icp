@@ -78,4 +78,4 @@ pack:
 	tar -zcvf xplask00-xposto02.tar.gz src/ examples/ README.txt Makefile
 
 run:
-	(./$(PROJ-GUI) &) ./$(PROJ_CLI)
+	(./$(PROJ_GUI) &) && ./$(PROJ_CLI)
