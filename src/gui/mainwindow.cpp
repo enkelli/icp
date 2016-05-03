@@ -134,6 +134,14 @@ void MainWindow::redrawGrid()
         }
     }
 
+    if ((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
+    {
+        ui->labelOnTurnStone->setPixmap(pixmapWhite);
+    }
+    else
+    {
+        ui->labelOnTurnStone->setPixmap(pixmapBlack);
+    }
     updateScore();
 }
 
@@ -163,10 +171,7 @@ void MainWindow::on_actionExit_triggered()
 
 bool MainWindow::currentGameValid()
 {
-    if(currGame < games.size())
-        return true;
-    else
-        return false;
+    return (currGame < getOpenedGamesCount());
 }
 
 void MainWindow::aiMove()
@@ -200,9 +205,8 @@ void MainWindow::slotClicked(StoneWidget *w)
 {
     Table::Coords c = std::make_pair(w->getRow(), w->getCol());
 
-    if(games[currGame].table->canPutStone(c, Table::Stone::BLACK) && !playerLock)
+    if(putStoneIfPossible(c, Table::Stone::BLACK) && !playerLock)
     {
-        putStoneIfPossible(c, Table::Stone::BLACK);
         redrawGrid();
 
         QFuture<void> future = QtConcurrent::run(this, &MainWindow::aiMove);

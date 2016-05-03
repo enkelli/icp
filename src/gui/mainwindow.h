@@ -79,6 +79,7 @@ private:
     QPixmap pixmapBlack;
     QPixmap pixmapWhite;
 
+    Table::Stone firstPlayerStone = Table::Stone::BLACK;
     bool playerLock;
 };
 
