@@ -151,9 +151,11 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::on_actionLoad_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load game"), getPathToExamples());
-    loadGame(fileName.toStdString());
-    initializeGrid();
-    playerLock = false;
+    if(loadGame(fileName.toStdString()))
+    {
+        initializeGrid();
+        playerLock = false;
+    }
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -167,6 +169,14 @@ bool MainWindow::currentGameValid()
         return true;
     else
         return false;
+}
+
+Table::Stone MainWindow::getCurrentStone()
+{
+    if(games[currGame].table->getMoveCount() & 1)
+        return Table::Stone::WHITE;
+    else
+        return Table::Stone::BLACK;
 }
 
 void MainWindow::aiMove()
@@ -198,21 +208,25 @@ void MainWindow::updateScore()
 
 void MainWindow::slotClicked(StoneWidget *w)
 {
-    Table::Coords c = std::make_pair(w->getRow(), w->getCol());
+    Table::Coords coords = std::make_pair(w->getRow(), w->getCol());
+    Table::Stone stone = getCurrentStone();
 
-    if(games[currGame].table->canPutStone(c, Table::Stone::BLACK) && !playerLock)
+    if(games[currGame].table->canPutStone(coords, stone) && !playerLock)
     {
-        putStoneIfPossible(c, Table::Stone::BLACK);
+        putStoneIfPossible(coords, stone);
         redrawGrid();
 
-        QFuture<void> future = QtConcurrent::run(this, &MainWindow::aiMove);
+        if(games[currGame].againstAI)
+        {
+            QFuture<void> future = QtConcurrent::run(this, &MainWindow::aiMove);
 
-        // This will wait for AI to finish but not the current redraw operation
-        while(future.isRunning())
-            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+            // This will wait for AI to finish but not block the current redraw operation
+            while(future.isRunning())
+                QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 
-        redrawGrid();
-        w->setAutoFillBackground(false);
+            redrawGrid();
+            w->setAutoFillBackground(false);
+        }
     }
 }
 
@@ -229,7 +243,7 @@ void MainWindow::slotEntered(StoneWidget *w)
         w->setAutoFillBackground(true);
         QPalette palette = w->palette();
 
-        if(games[currGame].table->canPutStone(std::make_pair(w->getRow(), w->getCol()), Table::Stone::BLACK))
+        if(games[currGame].table->canPutStone(std::make_pair(w->getRow(), w->getCol()), getCurrentStone()))
             palette.setColor(QPalette::Window, QColor(81, 207, 114, 50));
         else
             palette.setColor(QPalette::Window, QColor(207, 79, 79, 50));
@@ -251,8 +265,10 @@ void MainWindow::showWelcomeDialog()
         {
         case WelcomeDialog::Algo::CHIMPANZEE:
             startNewGame(tableSize, true, AIPlayer(AIPlayer::AIPlayerType::Chimpanzee));
+            break;
         case WelcomeDialog::Algo::MONKEY:
             startNewGame(tableSize, true, AIPlayer(AIPlayer::AIPlayerType::Monkey));
+            break;
         default:
             startNewGame(tableSize, false);
         }

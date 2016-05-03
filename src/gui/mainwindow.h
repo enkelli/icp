@@ -51,6 +51,7 @@ private:
     void updateScore();
     void showWelcomeDialog();
     bool currentGameValid();
+    Table::Stone getCurrentStone();
 
 private slots:
     void on_actionSave_triggered();
