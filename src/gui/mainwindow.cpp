@@ -160,18 +160,6 @@ void MainWindow::on_actionLoad_triggered()
     }
 }
 
-void MainWindow::on_actionExit_triggered()
-{
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Othello", "Quit game?",
-                                  QMessageBox::Yes|QMessageBox::No);
-
-    if (reply == QMessageBox::Yes)
-    {
-        qApp->exit();
-    }
-}
-
 bool MainWindow::currentGameValid()
 {
     return (currGame < getOpenedGamesCount());
@@ -328,4 +316,25 @@ void MainWindow::on_actionReset_triggered()
 void MainWindow::on_actionNew_Game_triggered()
 {
     showWelcomeDialog();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Othello", "Quit game?",
+                                  QMessageBox::Yes|QMessageBox::No);
+
+    if (reply == QMessageBox::Yes)
+    {
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
 }
