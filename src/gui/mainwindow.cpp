@@ -81,16 +81,16 @@ void MainWindow::initializeGrid()
 
             const char *css = "border-style: solid; border-width: 0 1px 1px 0";
 
-            // Last column, last row
-            if(i == rows - 1 && j == cols - 1)
-                css = "border-style: none;";
-            // Last column not in the last row
-            else if(j == cols - 1)
-                css = "border-style: solid; border-width: 0 0 1px 0";
-            // Last row
-            else if(i == rows - 1)
-                css = "border-style: solid; border-width: 0 1px 0 0";
-
+            // First row, first column
+            if(i == 0 && j == 0)
+                css = "border-style: solid; border-width: 1px 1px 1px 1px";
+            // First row
+            else if(i == 0)
+                css = "border-style: solid; border-width: 1px 1px 1px 0";
+            // First column
+            else if(j == 0)
+                css = "border-style: solid; border-width: 0 1px 1px 1px";
+            
             stoneWidget->setStyleSheet(css);
 
             if(stone == Table::Stone::BLACK)
