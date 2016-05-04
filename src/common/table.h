@@ -73,6 +73,8 @@ class Table
         int whiteStones;
         /// Count total moves made.
         int moveCount;
+        /// Count of "fake" moves made (when a player should move but cannot)
+        int fakeMoves;
 
         /// Matrix representing table state.
         std::vector<Stone> tableMatrix;
@@ -116,6 +118,8 @@ class Table
     int getBlackStonesCount() const;
     int getWhiteStonesCount() const;
     int getMoveCount() const;
+    void incFakeMoveCount();
+    int getFakeMoveCount() const;
     int getVecIndex(const Coords& coords) const;
 
     std::vector<Coords> getPossibleCoords(Stone stone);

@@ -56,6 +56,7 @@ Table::Table(int initRows, int initCols)
   board.rows = initRows;
   board.cols = initCols;
   board.moveCount = 0;
+  board.fakeMoves = 0;
   board.tableMatrix.resize(board.rows * board.cols);
 
   for(Stone& s : board.tableMatrix)
@@ -148,6 +149,22 @@ int Table::getWhiteStonesCount() const
 int Table::getMoveCount() const
 {
   return board.moveCount;
+}
+
+/**
+ * @brief Return fake moves made
+ */
+int Table::getFakeMoveCount() const
+{
+  return board.fakeMoves;
+}
+
+/**
+ * @brief Increment fake move count
+ */
+void Table::incFakeMoveCount()
+{
+  (board.fakeMoves)++;
 }
 
 /**

@@ -178,7 +178,7 @@ bool MainWindow::currentGameValid()
 
 Table::Stone MainWindow::getCurrentStone()
 {
-    if(games[currGame].table->getMoveCount() & 1)
+    if(((games[currGame].table->getMoveCount() + games[currGame].table->getFakeMoveCount()) & 1) && firstPlayerStone == Table::Stone::BLACK)
         return Table::Stone::WHITE;
     else
         return Table::Stone::BLACK;
@@ -191,8 +191,8 @@ void MainWindow::gameOver()
 
     if(reply == QMessageBox::Ok)
     {
-        resetCurrentGame();
-        redrawGrid();
+        //resetCurrentGame();
+        //redrawGrid();
     }
 }
 
@@ -223,7 +223,7 @@ void MainWindow::aiMove()
 
 void MainWindow::updateOnTurnIndicator()
 {
-    if ((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
+    if (getCurrentStone() == Table::Stone::WHITE)
     {
         ui->labelOnTurnStone->setPixmap(pixmapWhite);
     }
@@ -259,8 +259,19 @@ void MainWindow::slotClicked(StoneWidget *w)
             redrawGrid();
             w->setAutoFillBackground(false);
         }
+        else
+        {
+            // If the next player cannot move, invert the active stone color
+            stone = getCurrentStone();
+            if(!games[currGame].table->isMoveWithStonePossible(stone))
+            {
+                games[currGame].table->incFakeMoveCount();
+                updateOnTurnIndicator();
+            }
+        }
 
-        if(!games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK) && !games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK))
+        // No more moves are possible -> game over
+        if(!games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK) && !games[currGame].table->isMoveWithStonePossible(Table::Stone::WHITE))
             gameOver();
     }
 }
