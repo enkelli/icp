@@ -19,6 +19,7 @@
 #include <memory>
 #include <vector>
 
+#include <QCloseEvent>
 #include <QMainWindow>
 #include <QtGui>
 #include <QtCore>
@@ -61,8 +62,6 @@ public slots:
 
     void on_actionLoad_triggered();
 
-    void on_actionExit_triggered();
-
     void on_actionUndo_triggered();
 
     void on_actionRedo_triggered();
@@ -70,6 +69,10 @@ public slots:
     void on_actionReset_triggered();
 
     void on_actionNew_Game_triggered();
+
+    void on_actionExit_triggered();
+
+    void closeEvent(QCloseEvent *event);
 
 public slots:
     void slotClicked(StoneWidget *w);
