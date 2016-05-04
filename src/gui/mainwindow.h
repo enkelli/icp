@@ -56,6 +56,7 @@ private:
     bool currentGameValid();
     Table::Stone getCurrentStone();
     void showWelcomeDialog();
+    void gameOver();
 
 public slots:
     void on_actionSave_triggered();

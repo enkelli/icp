@@ -184,6 +184,18 @@ Table::Stone MainWindow::getCurrentStone()
         return Table::Stone::BLACK;
 }
 
+void MainWindow::gameOver()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::information(this, "Othello", "Game over", QMessageBox::Ok);
+
+    if(reply == QMessageBox::Ok)
+    {
+        resetCurrentGame();
+        redrawGrid();
+    }
+}
+
 void MainWindow::aiMove()
 {
     playerLock = true;
@@ -191,16 +203,20 @@ void MainWindow::aiMove()
     auto stone = Table::Stone::WHITE;
     Table::Coords nc;
 
-    try
+    do
     {
-      nc = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
-    }
-    catch (const OthelloError &e)
-    {
-      stone = Table::Stone::FREE;
-    }
+        try
+        {
+            nc = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
+        }
+        catch (const OthelloError&)
+        {
+            stone = Table::Stone::FREE;
+        }
 
-    putStoneIfPossible(nc, stone);
+        putStoneIfPossible(nc, stone);
+    }
+    while(!games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK) && games[currGame].table->isMoveWithStonePossible(Table::Stone::WHITE));
 
     playerLock = false;
 }
@@ -243,6 +259,9 @@ void MainWindow::slotClicked(StoneWidget *w)
             redrawGrid();
             w->setAutoFillBackground(false);
         }
+
+        if(!games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK) && !games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK))
+            gameOver();
     }
 }
 
