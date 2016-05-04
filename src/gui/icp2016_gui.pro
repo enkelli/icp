@@ -22,13 +22,16 @@ QMAKE_CXXFLAGS += -std=c++11 -isystem ../boost
 SOURCES += main.cpp\
         mainwindow.cpp \
     stonewidget.cpp \
+    newgamedialog.cpp \
     welcomedialog.cpp
 
 HEADERS  += mainwindow.h \
     stonewidget.h \
+    newgamedialog.h \
     welcomedialog.h
 
 FORMS    += mainwindow.ui \
+    newgamedialog.ui \
     welcomedialog.ui
 
 RESOURCES += \

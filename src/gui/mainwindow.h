@@ -23,6 +23,7 @@
 #include <QtGui>
 #include <QtCore>
 #include <QLabel>
+#include <QColor>
 
 #include "stonewidget.h"
 
@@ -50,11 +51,12 @@ private:
     void aiMove();
     void updateOnTurnIndicator();
     void updateScore();
-    void showWelcomeDialog();
+    void showNewGameDialog();
     bool currentGameValid();
     Table::Stone getCurrentStone();
+    void showWelcomeDialog();
 
-private slots:
+public slots:
     void on_actionSave_triggered();
 
     void on_actionLoad_triggered();
@@ -73,8 +75,12 @@ public slots:
     void slotClicked(StoneWidget *w);
     void slotEntered(StoneWidget *w);
     void slotLeft(StoneWidget *w);
+    void slotImmediateExit();
 
 private:
+    QColor redBg;
+    QColor greenBg;
+
     Ui::MainWindow *ui;
 
     std::vector<StoneWidget*> pieces;

@@ -6,6 +6,12 @@ WelcomeDialog::WelcomeDialog(QWidget *parent) :
     ui(new Ui::WelcomeDialog)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
+    connect(this, SIGNAL(newGameClick()), parentWidget(), SLOT(on_actionNew_Game_triggered()));
+    connect(this, SIGNAL(loadGameClick()), parentWidget(), SLOT(on_actionLoad_triggered()));
+    connect(this, SIGNAL(exitClick()), parentWidget(), SLOT(slotImmediateExit()));
 }
 
 WelcomeDialog::~WelcomeDialog()
@@ -13,32 +19,20 @@ WelcomeDialog::~WelcomeDialog()
     delete ui;
 }
 
-int WelcomeDialog::getTableSize()
+void WelcomeDialog::on_newButton_clicked()
 {
-    switch(ui->sizeSelect->currentIndex())
-    {
-    case 0:
-        return 6;
-    case 1:
-        return 8;
-    case 2:
-        return 10;
-    case 3:
-        return 12;
-    default:
-        return 8;
-    }
+    emit newGameClick();
+    close();
 }
 
-WelcomeDialog::Algo WelcomeDialog::getAlgo()
+void WelcomeDialog::on_loadButton_clicked()
 {
-    switch(ui->opponentSelect->currentIndex())
-    {
-    case 0:
-        return Algo::MONKEY;
-    case 1:
-        return Algo::CHIMPANZEE;
-    default:
-        return Algo::PLAYER;
-    }
+    emit loadGameClick();
+    close();
+}
+
+void WelcomeDialog::on_exitButton_clicked()
+{
+    emit exitClick();
+    close();
 }

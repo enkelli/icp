@@ -25,6 +25,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "stonewidget.h"
+#include "newgamedialog.h"
 #include "welcomedialog.h"
 
 #include "exception.h"
@@ -41,7 +42,12 @@ MainWindow::MainWindow(QWidget *parent) :
     pixmapBlack = QPixmap(":img/black.png");
     pixmapWhite = QPixmap(":img/white.png");
 
+    redBg = QColor(207, 79, 79, 50);
+    greenBg =  QColor(81, 207, 114, 50);
+
     playerLock = true;
+
+    showWelcomeDialog();
 }
 
 MainWindow::~MainWindow()
@@ -172,6 +178,11 @@ void MainWindow::on_actionExit_triggered()
     }
 }
 
+void MainWindow::slotImmediateExit()
+{
+    QTimer::singleShot(0, this, SLOT(close()));
+}
+
 bool MainWindow::currentGameValid()
 {
     return (currGame < getOpenedGamesCount());
@@ -261,29 +272,29 @@ void MainWindow::slotEntered(StoneWidget *w)
         QPalette palette = w->palette();
 
         if(games[currGame].table->canPutStone(std::make_pair(w->getRow(), w->getCol()), getCurrentStone()))
-            palette.setColor(QPalette::Window, QColor(81, 207, 114, 50));
+            palette.setColor(QPalette::Window, greenBg);
         else
-            palette.setColor(QPalette::Window, QColor(207, 79, 79, 50));
+            palette.setColor(QPalette::Window, redBg);
 
         w->setPalette(palette);
     }
 }
 
-void MainWindow::showWelcomeDialog()
+void MainWindow::showNewGameDialog()
 {
-    WelcomeDialog w(this);
+    NewGameDialog w(this);
 
     if(w.exec() == QDialog::Accepted)
     {
         int tableSize = w.getTableSize();
-        WelcomeDialog::Algo algo = w.getAlgo();
+        NewGameDialog::Algo algo = w.getAlgo();
 
         switch(algo)
         {
-        case WelcomeDialog::Algo::CHIMPANZEE:
+        case NewGameDialog::Algo::CHIMPANZEE:
             startNewGame(tableSize, true, AIPlayer(AIPlayer::AIPlayerType::Chimpanzee));
             break;
-        case WelcomeDialog::Algo::MONKEY:
+        case NewGameDialog::Algo::MONKEY:
             startNewGame(tableSize, true, AIPlayer(AIPlayer::AIPlayerType::Monkey));
             break;
         default:
@@ -296,6 +307,12 @@ void MainWindow::showWelcomeDialog()
 
         return;
     }
+}
+
+void MainWindow::showWelcomeDialog()
+{
+    WelcomeDialog w(this);
+    w.exec();
 }
 
 void MainWindow::on_actionUndo_triggered()
@@ -327,5 +344,5 @@ void MainWindow::on_actionReset_triggered()
 
 void MainWindow::on_actionNew_Game_triggered()
 {
-    showWelcomeDialog();
+    showNewGameDialog();
 }
