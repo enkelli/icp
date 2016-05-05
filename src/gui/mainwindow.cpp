@@ -46,7 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
     greenBg =  QColor(81, 207, 114, 50);
 
     playerLock = true;
-
+    
+    show();
+    
     showWelcomeDialog();
 }
 
@@ -178,7 +180,7 @@ bool MainWindow::currentGameValid()
 
 Table::Stone MainWindow::getCurrentStone()
 {
-    if(((games[currGame].table->getMoveCount() + games[currGame].table->getFakeMoveCount()) & 1) && firstPlayerStone == Table::Stone::BLACK)
+    if((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
         return Table::Stone::WHITE;
     else
         return Table::Stone::BLACK;
@@ -265,7 +267,7 @@ void MainWindow::slotClicked(StoneWidget *w)
             stone = getCurrentStone();
             if(!games[currGame].table->isMoveWithStonePossible(stone))
             {
-                games[currGame].table->incFakeMoveCount();
+                putStoneIfPossible({1,2}, Table::Stone::FREE);
                 updateOnTurnIndicator();
             }
         }
