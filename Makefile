@@ -11,7 +11,7 @@
 PROJ = hra2016
 PROJ_CLI = $(PROJ)-cli
 PROJ_GUI = $(PROJ)
-QMAKE = qmake # more specific path??? check task
+QMAKE = qmake
 CXX = g++
 CFLAGS = -std=c++11 -Wall -Wextra -pedantic -O2
 DOXYGEN = doxygen
