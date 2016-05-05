@@ -46,6 +46,8 @@ class Othello
 
     /// @name Gameplay controls
     /// @{
+    Table::Stone getCurrentMoveStone() const;
+    Table::Stone getNextMoveStone() const;
     bool putStoneIfPossible(Table::Coords coords, Table::Stone stone);
     void undoMove();
     void redoMove();

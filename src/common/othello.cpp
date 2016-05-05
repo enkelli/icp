@@ -245,3 +245,28 @@ void Othello::switchToGame(unsigned index)
     currGame = index - 1;
   }
 }
+
+/**
+ * @brief Returns stone of the current move (move to be performed in following step).
+ * Black goes always first. At the beginning, count of moves is 0.
+ */
+Table::Stone Othello::getCurrentMoveStone() const
+{
+  if (games[currGame].table->getMoveCount() & 1)
+  {
+    return Table::Stone::WHITE;
+  }
+  return Table::Stone::BLACK;
+}
+
+/**
+ * @brief Returns stone of the move after this one.
+ */
+Table::Stone Othello::getNextMoveStone() const
+{
+  if (getCurrentMoveStone() == Table::Stone::BLACK)
+  {
+    return Table::Stone::WHITE;
+  }
+  return Table::Stone::BLACK;
+}

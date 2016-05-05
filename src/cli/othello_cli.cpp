@@ -63,12 +63,11 @@ void OthelloCli::playCli()
     }
     std::cout << std::endl << "On turn: " << players[games[currGame].table->getMoveCount() & 1]  << " " << std::endl;
 
-    Table::Stone currStone = games[currGame].table->getMoveCount() & 1 ?
-                               Table::Stone::WHITE : Table::Stone::BLACK;
+    Table::Stone currStone = getCurrentMoveStone();
 
     if (!games[currGame].table->isMoveWithStonePossible(currStone))
     {
-      Table::Stone nxtStone = (currStone == Table::Stone::BLACK) ? Table::Stone::WHITE : Table::Stone::BLACK;
+      Table::Stone nxtStone = getNextMoveStone();
       if (!games[currGame].table->isMoveWithStonePossible(nxtStone))
       {
         std::string winner = (games[currGame].table->getWhiteStonesCount() > games[currGame].table->getBlackStonesCount()) ?
@@ -102,7 +101,8 @@ void OthelloCli::playCli()
       }
     }
 
-    if (games[currGame].table->getMoveCount() & 1)
+    // AI is always white! Player may be happy, he always starts as first.
+    if (getCurrentMoveStone() == Table::Stone::WHITE)
     {
       if (games[currGame].againstAI)
       {

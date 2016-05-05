@@ -54,7 +54,6 @@ private:
     void updateScore();
     void showNewGameDialog();
     bool currentGameValid();
-    Table::Stone getCurrentStone();
     void showWelcomeDialog();
     void gameOver();
 

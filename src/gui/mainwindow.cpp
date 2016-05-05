@@ -47,9 +47,9 @@ MainWindow::MainWindow(QWidget *parent) :
     greenBg =  QColor(81, 207, 114, 50);
 
     playerLock = true;
-    
+
     show();
-    
+
     showWelcomeDialog();
 }
 
@@ -99,7 +99,7 @@ void MainWindow::initializeGrid()
             // First column
             else if(j == 0)
                 css = "border-style: solid; border-width: 0 1px 1px 1px";
-            
+
             stoneWidget->setStyleSheet(css);
 
             if(stone == Table::Stone::BLACK)
@@ -182,14 +182,6 @@ bool MainWindow::currentGameValid()
     return (currGame < getOpenedGamesCount());
 }
 
-Table::Stone MainWindow::getCurrentStone()
-{
-    if((games[currGame].table->getMoveCount() & 1) && firstPlayerStone == Table::Stone::BLACK)
-        return Table::Stone::WHITE;
-    else
-        return Table::Stone::BLACK;
-}
-
 void MainWindow::gameOver()
 {
     QMessageBox::StandardButton reply;
@@ -229,7 +221,7 @@ void MainWindow::aiMove()
 
 void MainWindow::updateOnTurnIndicator()
 {
-    if (getCurrentStone() == Table::Stone::WHITE)
+    if (getCurrentMoveStone() == Table::Stone::WHITE)
     {
         ui->labelOnTurnStone->setPixmap(pixmapWhite);
     }
@@ -248,7 +240,7 @@ void MainWindow::updateScore()
 void MainWindow::slotClicked(StoneWidget *w)
 {
     Table::Coords coords = std::make_pair(w->getRow(), w->getCol());
-    Table::Stone stone = getCurrentStone();
+    Table::Stone stone = getCurrentMoveStone();
 
     if(putStoneIfPossible(coords, stone) && !playerLock)
     {
@@ -268,7 +260,7 @@ void MainWindow::slotClicked(StoneWidget *w)
         else
         {
             // If the next player cannot move, invert the active stone color
-            stone = getCurrentStone();
+            stone = getCurrentMoveStone();
             if(!games[currGame].table->isMoveWithStonePossible(stone))
             {
                 putStoneIfPossible({1,2}, Table::Stone::FREE);
@@ -295,7 +287,7 @@ void MainWindow::slotEntered(StoneWidget *w)
         w->setAutoFillBackground(true);
         QPalette palette = w->palette();
 
-        if(games[currGame].table->canPutStone(std::make_pair(w->getRow(), w->getCol()), getCurrentStone()))
+        if(games[currGame].table->canPutStone(std::make_pair(w->getRow(), w->getCol()), getCurrentMoveStone()))
             palette.setColor(QPalette::Window, greenBg);
         else
             palette.setColor(QPalette::Window, redBg);
