@@ -27,6 +27,7 @@
 #include "stonewidget.h"
 #include "newgamedialog.h"
 #include "welcomedialog.h"
+#include "aboutdialog.h"
 
 #include "exception.h"
 #include "table.h"
@@ -109,6 +110,9 @@ void MainWindow::initializeGrid()
             ui->gridLayout->addWidget(stoneWidget, i, j);
         }
     }
+
+    updateOnTurnIndicator();
+    updateScore();
 }
 
 void MainWindow::redrawGrid()
@@ -386,4 +390,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         event->ignore();
     }
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    AboutDialog d(this);
+    d.exec();
 }

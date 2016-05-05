@@ -81,6 +81,9 @@ public slots:
     void slotLeft(StoneWidget *w);
     void slotImmediateExit();
 
+private slots:
+    void on_actionAbout_triggered();
+
 private:
     QColor redBg;
     QColor greenBg;

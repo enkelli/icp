@@ -57,7 +57,6 @@ class Table
     void fillCacheVector(const Coords& coords, Stone stone) const;
     void turnStonesByVector(int x, int y, const Coords& startCoords, Stone ownStone) const;
     void clearCache() const;
-    void recountScores();
 
   private:
 
@@ -73,8 +72,6 @@ class Table
         int whiteStones;
         /// Count total moves made.
         int moveCount;
-        /// Count of "fake" moves made (when a player should move but cannot)
-        int fakeMoves;
 
         /// Matrix representing table state.
         std::vector<Stone> tableMatrix;
@@ -118,10 +115,9 @@ class Table
     int getBlackStonesCount() const;
     int getWhiteStonesCount() const;
     int getMoveCount() const;
-    void incFakeMoveCount();
-    int getFakeMoveCount() const;
     int getVecIndex(const Coords& coords) const;
-
+    void recountScores();
+    
     std::vector<Coords> getPossibleCoords(Stone stone);
 
     void print() const;

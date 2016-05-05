@@ -23,16 +23,19 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     stonewidget.cpp \
     newgamedialog.cpp \
-    welcomedialog.cpp
+    welcomedialog.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
     stonewidget.h \
     newgamedialog.h \
-    welcomedialog.h
+    welcomedialog.h \
+    aboutdialog.h
 
 FORMS    += mainwindow.ui \
     newgamedialog.ui \
-    welcomedialog.ui
+    welcomedialog.ui \
+    aboutdialog.ui
 
 RESOURCES += \
     resources.qrc

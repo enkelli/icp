@@ -186,8 +186,10 @@ bool Othello::loadGame(const std::string &fileName)
   }
 
   games[currGame].table->setBoard(board);
+  games[currGame].cmdManager = CommandManager();
   games[currGame].againstAI = againstAI;
   games[currGame].PC.setStrategy(playerType);
+  games[currGame].table->recountScores();
   return true;
 }
 
