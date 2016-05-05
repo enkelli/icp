@@ -79,5 +79,5 @@ clean:
 pack:
 	zip -r $(PACK_ZIP) src/ examples/ README.txt Makefile
 
-run:
+run: all
 	(./$(PROJ_GUI) &) && ./$(PROJ_CLI)
