@@ -70,7 +70,8 @@ void OthelloCli::playCli()
       Table::Stone nxtStone = getNextMoveStone();
       if (!games[currGame].table->isMoveWithStonePossible(nxtStone))
       {
-        std::string winner = (games[currGame].table->getWhiteStonesCount() > games[currGame].table->getBlackStonesCount()) ?
+        std::string winner = (games[currGame].table->getWhiteStonesCount() ==  games[currGame].table->getBlackStonesCount()) ?
+                             "No one" : (games[currGame].table->getWhiteStonesCount() >  games[currGame].table->getBlackStonesCount()) ?
                              players[1] : players[0];
         std::cout << "================================================================\n";
         std::cout << "                    " << winner;
