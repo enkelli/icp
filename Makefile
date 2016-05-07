@@ -76,7 +76,7 @@ clean:
 	rm -rf doc/
 	rm -f $(PACK_ZIP)
 
-pack:
+pack: clean
 	zip -r $(PACK_ZIP) src/ examples/ README.txt Makefile
 
 run: all
