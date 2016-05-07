@@ -17,9 +17,10 @@
 #define COMMAND_MANAGER_H
 
 #include <memory>
-#include <stack>
+#include <vector>
 
 #include "command.h"
+#include "table.h"
 
 /**
  * @brief Command manager for undo-redo actions in Othello game.
@@ -33,8 +34,13 @@ class CommandManager
     void undo();
     void redo();
 
+    /// Undo serialization
+    std::vector<Table::Coords> getUndoCoords() const;
+    /// Redo serialization
+    std::vector<Table::Coords> getRedoCoords() const;
+
   private:
-    using CmdStack = std::stack<std::shared_ptr<Command>>;
+    using CmdStack = std::vector<std::shared_ptr<Command>>;
     /// Stack for previous move commands.
     CmdStack undoStack;
     /// Stack for forward move commands.

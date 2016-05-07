@@ -173,12 +173,14 @@ bool Othello::loadGame(const std::string &fileName)
   Table::Board board;
   bool againstAI;
   AIPlayer::AIPlayerType playerType;
+  std::vector<Table::Coords> undoCoords;
+  std::vector<Table::Coords> redoCoords;
 
   std::ifstream ifs(fileName);
   try
   {
     boost::archive::text_iarchive ia(ifs);
-    ia >> board >> againstAI >> playerType;
+    ia >> board >> againstAI >> playerType >> undoCoords >> redoCoords;
   }
   catch(boost::archive::archive_exception)
   {
@@ -189,7 +191,20 @@ bool Othello::loadGame(const std::string &fileName)
   games[currGame].cmdManager = CommandManager();
   games[currGame].againstAI = againstAI;
   games[currGame].PC.setStrategy(playerType);
-  games[currGame].table->recountScores();
+  resetCurrentGame();
+
+  for (const auto &u: undoCoords)
+  {
+    putStoneIfPossible(u, getCurrentMoveStone()); 
+  }
+  for (const auto &u: redoCoords)
+  {
+    putStoneIfPossible(u, getCurrentMoveStone()); 
+  }
+  for (int i = redoCoords.size(); i > 0; --i)
+  {
+    games[currGame].cmdManager.undo();
+  }
   return true;
 }
 
@@ -208,13 +223,15 @@ bool Othello::saveGame(const std::string &fileName) const
   Table::Board board = games[currGame].table->getBoard();
   bool againstAI = games[currGame].againstAI;
   AIPlayer::AIPlayerType playerType = games[currGame].PC.getPlayerType();
+  auto undoCoords = games[currGame].cmdManager.getUndoCoords();
+  auto redoCoords = games[currGame].cmdManager.getRedoCoords();
 
   std::ofstream ofs(fileName);
 
   try
   {
     boost::archive::text_oarchive oa(ofs);
-    oa << board << againstAI << playerType;
+    oa << board << againstAI << playerType << undoCoords << redoCoords;
   }
   catch(boost::archive::archive_exception)
   {

@@ -51,3 +51,13 @@ void TableMoveCommand::redo()
   table->setBoard(board);
   table->putStone(coords, stone);
 }
+
+bool TableMoveCommand::isTableMoveCommand() const
+{
+  return true;
+}
+
+Table::Coords TableMoveCommand::getCoords() const
+{
+  return coords;
+}

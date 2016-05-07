@@ -14,6 +14,7 @@
  */
 
 #include "command_manager.h"
+#include "table_move_command.h"
 
 /**
  * @brief Creates new CommandManager.
@@ -29,7 +30,7 @@ void CommandManager::executeCmd(std::shared_ptr<Command> command)
 {
   redoStack = CmdStack();
   command->execute();
-  undoStack.push(command);
+  undoStack.emplace_back(command);
 }
 
 /**
@@ -39,9 +40,9 @@ void CommandManager::undo()
 {
   if (!undoStack.empty())
   {
-    undoStack.top()->undo();
-    redoStack.push(undoStack.top());
-    undoStack.pop();
+    undoStack.back()->undo();
+    redoStack.emplace_back(undoStack.back());
+    undoStack.pop_back();
   }
 }
 
@@ -52,8 +53,40 @@ void CommandManager::redo()
 {
   if (!redoStack.empty())
   {
-    redoStack.top()->redo();
-    undoStack.push(redoStack.top());
-    redoStack.pop();
+    redoStack.back()->redo();
+    undoStack.emplace_back(redoStack.back());
+    redoStack.pop_back();
   }
+}
+
+/**
+ * @brief Returns coords stored for @c undo operations.
+ */
+std::vector<Table::Coords> CommandManager::getUndoCoords() const
+{
+  std::vector<Table::Coords> coords;
+  for (auto c: undoStack)
+  {
+    if (c->isTableMoveCommand())
+    {
+      coords.emplace_back((std::static_pointer_cast<TableMoveCommand>(c))->getCoords());
+    }
+  }
+  return coords;
+}
+
+/**
+ * @brief Returns coords stored for @c redo operations.
+ */
+std::vector<Table::Coords> CommandManager::getRedoCoords() const
+{
+  std::vector<Table::Coords> coords;
+  for (auto c: redoStack)
+  {
+    if (c->isTableMoveCommand())
+    {
+      coords.emplace_back((std::static_pointer_cast<TableMoveCommand>(c))->getCoords());
+    }
+  }
+  return coords;
 }

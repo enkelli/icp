@@ -33,6 +33,10 @@ class TableMoveCommand: public Command
     virtual void undo() override;
     virtual void redo() override;
 
+    /// serialization
+    virtual bool isTableMoveCommand() const;
+    Table::Coords getCoords() const;
+
   private:
     /// Table that holds game.
     std::shared_ptr<Table> table;
