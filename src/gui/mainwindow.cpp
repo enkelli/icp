@@ -346,6 +346,9 @@ void MainWindow::on_actionRedo_triggered()
     {
         redoMove();
         redrawGrid();
+        // No more moves are possible -> game over
+        if(!games[currGame].table->isMoveWithStonePossible(Table::Stone::BLACK) && !games[currGame].table->isMoveWithStonePossible(Table::Stone::WHITE))
+            gameOver();
     }
 }
 
