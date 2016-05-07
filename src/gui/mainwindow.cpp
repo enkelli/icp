@@ -32,6 +32,9 @@
 #include "exception.h"
 #include "table.h"
 
+/**
+ * @brief Creates new window.
+ */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -53,12 +56,18 @@ MainWindow::MainWindow(QWidget *parent) :
     showWelcomeDialog();
 }
 
+/**
+ * @brief Destructs window.
+ */
 MainWindow::~MainWindow()
 {
     cleanGrid();
     delete ui;
 }
 
+/**
+ * @brief Cleans stone widgets on heap.
+ */
 void MainWindow::cleanGrid()
 {
     for(StoneWidget* p : pieces)
@@ -67,6 +76,9 @@ void MainWindow::cleanGrid()
     pieces.clear();
 }
 
+/**
+ * @brief Creates new stone widgets.
+ */
 void MainWindow::initializeGrid()
 {
     cleanGrid();
@@ -115,6 +127,9 @@ void MainWindow::initializeGrid()
     updateScore();
 }
 
+/**
+ * @brief Update grid after new stone was placed etc.
+ */
 void MainWindow::redrawGrid()
 {
 
@@ -151,17 +166,26 @@ void MainWindow::redrawGrid()
     updateScore();
 }
 
+/**
+ * @brief Returns path to folder with saved files.
+ */
 QString getPathToExamples()
 {
     return QDir::cleanPath(qApp->applicationDirPath() + QDir::separator() + "examples");
 }
 
+/**
+ * @brief Save current game.
+ */
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save game"), getPathToExamples());
     saveGame(fileName.toStdString());
 }
 
+/**
+ * @brief Load game from file.
+ */
 void MainWindow::on_actionLoad_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load game"), getPathToExamples());
@@ -172,16 +196,25 @@ void MainWindow::on_actionLoad_triggered()
     }
 }
 
+/**
+ * @brief Close game.
+ */
 void MainWindow::slotImmediateExit()
 {
     QTimer::singleShot(0, this, SLOT(close()));
 }
 
+/**
+ * @brief Checks if currGame 'pointer' is valid.
+ */
 bool MainWindow::currentGameValid()
 {
     return (currGame < getOpenedGamesCount());
 }
 
+/**
+ * @brief Calls message box with game over message.
+ */
 void MainWindow::gameOver()
 {
     QMessageBox::StandardButton reply;
@@ -194,18 +227,21 @@ void MainWindow::gameOver()
     }
 }
 
+/**
+ * @brief Calls AI algorithm to perform next move.
+ */
 void MainWindow::aiMove()
 {
     playerLock = true;
 
-    auto stone = Table::Stone::WHITE;
+    auto stone = getCurrentMoveStone();
     Table::Coords nc;
 
     do
     {
         try
         {
-            nc = games[currGame].PC.nextMove(games[currGame].table, Table::Stone::WHITE);
+            nc = games[currGame].PC.nextMove(games[currGame].table, stone);
         }
         catch (const OthelloError&)
         {
@@ -219,6 +255,9 @@ void MainWindow::aiMove()
     playerLock = false;
 }
 
+/**
+ * @brief Updates gui stone for next player.
+ */
 void MainWindow::updateOnTurnIndicator()
 {
     if (getCurrentMoveStone() == Table::Stone::WHITE)
@@ -231,12 +270,18 @@ void MainWindow::updateOnTurnIndicator()
     }
 }
 
+/**
+ * @brief Updates gui scoreboard.
+ */
 void MainWindow::updateScore()
 {
     ui->scoreBlack->display(games[currGame].table->getBlackStonesCount());
     ui->scoreWhite->display(games[currGame].table->getWhiteStonesCount());
 }
 
+/**
+ * @brief Slot for click on square.
+ */
 void MainWindow::slotClicked(StoneWidget *w)
 {
     Table::Coords coords = std::make_pair(w->getRow(), w->getCol());
@@ -274,12 +319,18 @@ void MainWindow::slotClicked(StoneWidget *w)
     }
 }
 
+/**
+ * @brief Mouse moved out of square.
+ */
 void MainWindow::slotLeft(StoneWidget *w)
 {
     if(!playerLock)
         w->setAutoFillBackground(false);
 }
 
+/**
+ * @brief Mouse moved inside square.
+ */
 void MainWindow::slotEntered(StoneWidget *w)
 {
     if(!playerLock)
@@ -296,6 +347,9 @@ void MainWindow::slotEntered(StoneWidget *w)
     }
 }
 
+/**
+ * @brief Dialog for new game.
+ */
 void MainWindow::showNewGameDialog()
 {
     NewGameDialog w(this);
@@ -325,12 +379,18 @@ void MainWindow::showNewGameDialog()
     }
 }
 
+/**
+ * @brief Dialog shown at the beginning.
+ */
 void MainWindow::showWelcomeDialog()
 {
     WelcomeDialog w(this);
     w.exec();
 }
 
+/**
+ * @brief Perform undo action.
+ */
 void MainWindow::on_actionUndo_triggered()
 {
     if(currentGameValid())
@@ -340,6 +400,9 @@ void MainWindow::on_actionUndo_triggered()
     }
 }
 
+/**
+ * @brief Perform redo action.
+ */
 void MainWindow::on_actionRedo_triggered()
 {
     if(currentGameValid())
@@ -352,6 +415,9 @@ void MainWindow::on_actionRedo_triggered()
     }
 }
 
+/**
+ * @brief Reset current game to initial state.
+ */
 void MainWindow::on_actionReset_triggered()
 {
     if(currentGameValid())
@@ -361,16 +427,25 @@ void MainWindow::on_actionReset_triggered()
     }
 }
 
+/**
+ * @brief Start new game.
+ */
 void MainWindow::on_actionNew_Game_triggered()
 {
     showNewGameDialog();
 }
 
+/**
+ * @brief Call exit.
+ */
 void MainWindow::on_actionExit_triggered()
 {
     this->close();
 }
 
+/**
+ * @brief Override close function to ask user whether he really wants to exit.
+ */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     QMessageBox::StandardButton reply;
@@ -387,6 +462,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+/**
+ * @brief Show 'about this program' dialog.
+ */
 void MainWindow::on_actionAbout_triggered()
 {
     AboutDialog d(this);
