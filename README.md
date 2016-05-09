@@ -22,14 +22,14 @@ both versions.
 The CLI version has the following dependencies which must be satisfied if you
 want the program to compile successfully:
 
-*libboost-serialization
+* libboost-serialization
 
 Try `apt-get install libboost-serialization1.55-dev` on Debian based systems
 
 The GUI version has the following dependencies:
 
-*libboost-serialization
-*Qt 5.5.1
+* libboost-serialization
+* Qt 5.5.1
 
 See http://qt.io for more information on how to install the Qt development
 libraries.
